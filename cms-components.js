@@ -2,6 +2,46 @@
 
 var cmsComponents = angular.module('cmsComponents', []);
 
+cmsComponents.provider('$render', function () {
+  function interpolate (string, data) {
+    return _.template(string, {
+      interpolate: /#{([\s\S]+?)}/g
+    })(data);
+  }
+
+  return {
+    templateDirective: function templateDirective (directive) {
+      return function () {
+        return interpolate('<#{directive}></#{directive}>', {
+          directive: directive
+        });
+      }
+    },
+    renderToRoot: function toRoot(options) {
+      options.views = {
+        'cmsLayoutViewport@': {
+          templateUrl: options.templateUrl,
+          controller: options.controller,
+          templateProvider: options.templateProvider
+        }
+      };
+
+      delete options.templateUrl;
+      delete options.controller;
+      delete options.templateProvider;
+
+      return options;
+    },
+    $get: function () {
+      return {
+        // angular-ui-router has a painful api to render child
+        // views into their parent's root, rather than nest the html
+        // this provides some small sugar around it
+      }
+    }
+  }
+});
+
 cmsComponents.provider('$loadPathTemplateCache', function () {
   var templates = {};
   var loadPaths = [];
