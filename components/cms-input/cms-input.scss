@@ -1,0 +1,49 @@
+@import 'sass-toolkit/utils/flexbox';
+@import 'colors';
+
+cms-input {
+  display: block;
+  margin-bottom:2em;
+  & > label {
+    @include flexbox;
+    @include flex-direction(column);
+    .cms-input-title {
+      text-transform: uppercase;
+      font-weight: normal;
+      margin-bottom:.2em;
+    }
+    .input-group-addon {
+      outline:0;
+    }
+
+    .cms-input-control {
+      display: inline-block;
+      & > input[type], textarea {
+        width: 100%;
+      }
+
+      & > input[type=checkbox] {
+        width: 1.5em;
+        border: none;
+        box-shadow: none;
+        margin-right: 1em;
+      }
+    }
+  }
+
+  span.invalid {
+    background: white;
+    border: 2px solid red;
+    color: red;
+    padding: 0.25em;
+  }
+
+  &[type=checkbox] {
+    & .cms-input-control {
+      @include flexbox;
+    }
+  }
+  &[type=select] > label > span > input {
+    display: none;
+  }
+}

@@ -1,0 +1,18 @@
+@import 'directive';
+
+cms-container {
+  display: block;
+  padding-top: 3em;
+  width: 100%;
+
+  & > ng-transclude {
+    @include flexbox;
+    @include flex-direction(column);
+
+    & > *, cms-row {
+      margin-bottom: 0em;
+      display: block;
+    }
+  }
+}
+

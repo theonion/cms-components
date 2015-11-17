@@ -1,0 +1,64 @@
+@import 'directive';
+
+@mixin triangle-pointer ($size) {
+  content: "";
+  background: black;
+  width: $size;
+  height: $size;
+  position: absolute;
+  display: block;
+  transform: rotate(45deg);
+  z-index: 0;
+}
+
+cms-flyout {
+  position: relative;
+  z-index: 1;
+}
+
+cms-flyout-panel {
+  display: none;
+  position: relative;
+
+  & > a {
+    z-index: 1;
+    white-space: nowrap;
+    color: white;
+    font-weight: bold;
+    padding: .5em;
+
+    &:hover {
+      color: $button-blue;
+    }
+  }
+
+  background: black;
+  padding: 1em;
+  position: absolute;
+  top: 0;
+
+  cms-flyout.cms-flyout-active & {
+    @include flexbox;
+    @include flex-direction(column);
+  }
+
+  cms-flyout[direction='right'] & {
+    right: -158px;
+    top: -21px;
+    &::before {
+      @include triangle-pointer(2em);
+      left: -1em;
+      top: 1.8em;
+    }
+  }
+
+  cms-flyout[direction='down'] & {
+    top: 120%;
+    right: 0px;
+    &::before {
+      @include triangle-pointer(2em);
+      right: 2.4em;
+      top: -1em;
+    }
+  }
+}

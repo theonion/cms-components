@@ -1,0 +1,53 @@
+@import 'sass-toolkit/utils/flexbox';
+@import 'base';
+
+cms-table {
+  width: 100%;
+  display: block;
+
+  .cms-table-blank-slate {
+    padding:1em;
+  }
+  [cms-table-cell] {
+    white-space: nowrap;
+  }
+
+  .cms-table-table {
+    border: $light-border;
+    background: $white;
+  }
+
+  .cms-table-row {
+    @include flexbox;
+    @include justify-content(space-between);
+    background-color: $lt-gray;
+
+    &.cms-table-header .cms-table-cell {
+      padding: 0.5 0.8;
+      color: $button-blue;
+      font-weight: bold;
+    }
+
+    &:nth-child(odd) {
+      background-color: white;
+    }
+  }
+
+  .cms-table-cell {
+    @include flex-grow(1);
+    width: 0px;
+    text-overflow: ellipsis;
+    whitespace: nowrap;
+    overflow: hidden;
+    padding: 0.8em;
+    font-size:.9em;
+
+    &:not(:last-child) {
+      border-right: $light-border;
+    }
+
+    &[type=text] {
+      @include flex-grow(3);
+    }
+  }
+}

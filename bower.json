@@ -1,0 +1,12 @@
+{
+  "name": "onionstudios-components",
+  "homepage": "https://github.com/theonion/onionstudios-components",
+  "authors": [
+    "Onion Product Team <webtech@theonion.com>"
+  ],
+  "description": "Parking onionstudios components.",
+  "main": [],
+  "moduleType": [],
+  "license": "MIT",
+  "private": true
+}

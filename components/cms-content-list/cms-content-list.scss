@@ -1,0 +1,23 @@
+@import 'directive';
+
+cms-content-list {
+  display: block;
+  max-width: 950px;
+  padding: 0 15px;
+  min-width: 300px;
+  margin: 0 auto;
+
+  .cms-content-list-label {
+    font-size: 2em;
+    margin-bottom:1em;
+  }
+
+  .cms-content-list-create {
+    margin-right: auto !important;
+    button {
+        padding:.5em 1em;
+        font-size:12px;
+        margin-top:.2em;
+    }
+  }
+}

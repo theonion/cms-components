@@ -1,0 +1,25 @@
+@import 'directive';
+
+cms-filter-set {
+  @include endcap(2em);
+  background: white;
+  display: inline-block;
+  border: $light-border;
+  padding: .75em .4em;
+
+  cms-filter-item {
+    @include endcap(2em);
+    padding: 0.5em 1.5em;
+    cursor: pointer;
+    color:$md-gray;
+
+    &:not(:last-child) {
+      margin-right: 0em;
+    }
+
+    &.active {
+      background-color: $md-gray;
+      color: white;
+    }
+  }
+}

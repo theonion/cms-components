@@ -1,0 +1,28 @@
+@import 'sass-toolkit/utils/flexbox';
+@import 'colors';
+
+$legend-text-size: 1em;
+cms-legend {
+  hr {
+    border-color: $most-shaded !important;
+    margin-top: $legend-text-size * 0.6;
+    opacity: 0.8;
+  }
+
+  .cms-legend-text {
+    @include flex-grow(1);
+    font-size: $legend-text-size;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+    background: url(../static/furley-bg.png);
+    margin-bottom:2em;
+    text-align: center;
+  }
+
+  cms-row {
+    @include align-items(baseline);
+  }
+}
