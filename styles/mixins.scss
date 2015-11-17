@@ -1,0 +1,54 @@
+@import 'sass-toolkit/utils/flexbox';
+
+@mixin ease($property: all, $time: 200ms) {
+  -webkit-transition: $property $time cubic-bezier(0.250, 0.250, 0.840, 0.325);
+  -moz-transition: $property $time cubic-bezier(0.250, 0.250, 0.840, 0.325);
+  -ms-transition: $property $time cubic-bezier(0.250, 0.250, 0.840, 0.325);
+  -o-transition: $property $time cubic-bezier(0.250, 0.250, 0.840, 0.325);
+  transition: $property $time cubic-bezier(0.250, 0.250, 0.840, 0.325);
+}
+
+@mixin spin {
+  -webkit-animation: spin 1s infinite linear;
+  -moz-animation: spin 1s infinite linear;
+  -ms-animation: spin 1s infinite linear;
+  -o-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+}
+
+@mixin center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  line-height: $size;
+  border-radius: 50%;
+}
+
+@mixin endcap($size) {
+  padding: ($size / 2) $size;
+  border-radius: $size + 5;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin edit-form {
+  display: block;
+  width: 100%;
+  height: 100%;
+  @include flexbox;
+  @include flex-direction(column);
+
+  & > .container {
+    padding-top: 1em;
+    overflow-y: scroll;
+  }
+}
