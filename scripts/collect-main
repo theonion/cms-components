@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
-main = Dir.glob("components/**/*.*").inspect
-File.open("package.json", "r+") do |file|
-  file.each_line do |line|
-    line.gsub! /(.)*?(main:)(.*)?,/, "$1$2 #{main},"
-  end
-  file.write
+require 'json'
+
+main = Dir.glob("cms-components.js") + Dir.glob("components/**/*.js")
+data = JSON.parse(open("bower.json").read)
+data["main"] = main
+File.open("bower.json", "w") do |file|
+  file.write(JSON.pretty_generate(data))
 end

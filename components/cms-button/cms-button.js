@@ -4,7 +4,7 @@ angular.module('cmsComponents')
   .directive('cmsButton', function () {
 
     return {
-      templateUrl: 'shared/cms-button/cms-button.html',
+      templateUrl: 'components/cms-button/cms-button.html',
       restrict: 'EA',
       transclude: true,
       scope: {

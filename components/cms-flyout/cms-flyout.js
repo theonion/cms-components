@@ -3,7 +3,7 @@
 angular.module('cmsComponents')
   .directive('cmsFlyout', function () {
     return {
-      templateUrl: 'shared/cms-flyout/cms-flyout.html',
+      templateUrl: 'components/cms-flyout/cms-flyout.html',
       restrict: 'E',
       transclude: true,
 

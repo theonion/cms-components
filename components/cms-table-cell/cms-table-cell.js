@@ -3,7 +3,7 @@
 angular.module('cmsComponents')
   .directive('cmsTableCell', function ($compile) {
     return {
-      templateUrl: 'shared/cms-table-cell/cms-table-cell.html',
+      templateUrl: 'components/cms-table-cell/cms-table-cell.html',
       restrict: 'A',
       scope: {
         column: '=',

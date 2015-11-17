@@ -3,7 +3,7 @@
 angular.module('cmsComponents')
   .directive('cmsInput', function () {
     return {
-      templateUrl: 'shared/cms-input/cms-input.html',
+      templateUrl: 'components/cms-input/cms-input.html',
       restrict: 'E',
       scope: {
         title: '@',

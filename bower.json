@@ -5,8 +5,27 @@
     "Onion Product Team <webtech@theonion.com>"
   ],
   "description": "Parking onionstudios components.",
-  "main": [],
-  "moduleType": [],
+  "main": [
+    "cms-components.js",
+    "components/cms-button/cms-button.js",
+    "components/cms-component/cms-component.js",
+    "components/cms-container/cms-container.js",
+    "components/cms-content-list/cms-content-list.js",
+    "components/cms-filter-item/cms-filter-item.js",
+    "components/cms-filter-set/cms-filter-set.js",
+    "components/cms-flyout/cms-flyout.js",
+    "components/cms-input/cms-input.js",
+    "components/cms-layout/cms-layout.js",
+    "components/cms-legend/cms-legend.js",
+    "components/cms-partial/cms-partial.js",
+    "components/cms-row/cms-row.js",
+    "components/cms-table/cms-table.js",
+    "components/cms-table-cell/cms-table-cell.js",
+    "components/cms-table-column/cms-table-column.js"
+  ],
+  "moduleType": [
+
+  ],
   "license": "MIT",
   "private": true
 }

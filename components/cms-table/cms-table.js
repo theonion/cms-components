@@ -3,7 +3,7 @@
 angular.module('cmsComponents')
   .directive('cmsTable', function () {
     return {
-      templateUrl: 'shared/cms-table/cms-table.html',
+      templateUrl: 'components/cms-table/cms-table.html',
       restrict: 'E',
       transclude: true,
       scope: {

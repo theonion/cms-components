@@ -3,7 +3,7 @@
 angular.module('cmsComponents')
   .directive('cmsLayout', function () {
     return {
-      templateUrl: 'shared/cms-layout/cms-layout.html',
+      templateUrl: 'components/cms-layout/cms-layout.html',
       restrict: 'E',
       transclude: true,
       controller: function ($scope, CurrentUser) {

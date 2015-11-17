@@ -3,7 +3,7 @@
 angular.module('cmsComponents')
   .directive('cmsContentList', function () {
     return {
-      templateUrl: 'shared/cms-content-list/cms-content-list.html',
+      templateUrl: 'components/cms-content-list/cms-content-list.html',
       restrict: 'E'
     };
   });
