@@ -38,7 +38,7 @@
   "moduleType": [
 
   ],
-  "license": "MIT",
+  "license": "N/A",
   "private": true,
   "dependencies": {
     "sass-toolkit": "https://0469c955e10241b40fffe0225e29a3c238aadf69@github.com/theonion/sass-toolkit.git#master"
