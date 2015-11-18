@@ -34,6 +34,7 @@
     "components/cms-table/cms-table.js",
     "components/cms-table-cell/cms-table-cell.js",
     "components/cms-table-column/cms-table-column.js",
+    "components/sidebar-nav-item/sidebar-nav-item.js",
     "components/ui-sref-active-if/ui-sref-active-if.js",
     "components/user-menu/user-menu.js",
     "components/user-profile/user-profile.js"

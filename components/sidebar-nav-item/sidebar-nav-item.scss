@@ -1,0 +1,21 @@
+@import 'sass-toolkit/utils/flexbox';
+@import 'colors';
+
+sidebar-nav-item {
+  & > a {
+    padding: 0.5em;
+    padding-left: 1em;
+    font-size: 13px;
+    color: rgb(125, 125, 125);
+    display: block;
+  }
+  &.active > a, &.active > a:hover {
+    background-color: $lt-gray;
+    color: black;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: none;
+    color: $button-blue;
+  }
+}

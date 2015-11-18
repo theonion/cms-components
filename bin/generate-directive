@@ -18,9 +18,9 @@ var scope = {
   directiveTemplatePath: argv.path.replace(/app\//, '') + '/' + argv.tag + '.html'
 };
 
-var markup = fs.readFileSync('./scripts/generate-directive-templates/markup.html').toString();
-var script = fs.readFileSync('./scripts/generate-directive-templates/script.js').toString();
-var styles = fs.readFileSync('./scripts/generate-directive-templates/styles.scss').toString();
+var markup = fs.readFileSync(path.join(__dirname, 'generate-directive-templates/markup.html')).toString();
+var script = fs.readFileSync(path.join(__dirname, 'generate-directive-templates/script.js')).toString();
+var styles = fs.readFileSync(path.join(__dirname, 'generate-directive-templates/styles.scss')).toString();
 
 fs.writeFileSync(path.join(argv.path, argv.tag + '.html'), ejs.render(markup, scope));
 fs.writeFileSync(path.join(argv.path, argv.tag + '.js'), ejs.render(script, scope));
