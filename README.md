@@ -121,6 +121,27 @@ function (state, urlRouter, render) {
 }]);
 ```
 
+### directives: ui-sref-active/ui-sref-active-if
+
+How to add an `active` class to elements when a certain state is active.
+
+If an element is a link to a state, add `ui-sref-active="active"` as an attribute.
+
+```js
+<sidebar-nav-item ui-sref-active="active" sref="content.videos">Videos</sidebar-nav-item>
+```
+
+Otherwise use: `ui-sref-active-if="active"`
+```
+<sidebar-panel class="sidebar-panel-content" ui-sref-active-if="content">
+```
+
+That example will add an active class to that element if content or any of it's sub-routes are active.
+
+See more in the wild here:
+
+https://github.com/theonion/onionstudios-cms/blob/3b8a4f68eea8031edf55100cce8014082fbbd62f/app/shared/cms-layout/cms-layout.html
+
 # Development
 Checkout the repo:
 
