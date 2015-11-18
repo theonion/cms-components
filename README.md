@@ -84,28 +84,26 @@ If you're building a cms with a `campaigns` section, you might define nested rou
 ```js
 'use strict';
 
+// Set up pushstate routing.
 angular.module('<yourAppModule>')
 .config(['$locationProvider', function ($locationProvider) {
   $locationProvider.html5Mode(true);
 }])
 
-// Set up pushstate routing.
-
 .config(['$stateProvider', '$urlRouterProvider', '$renderProvider',
 function (state, urlRouter, render) {
+  // Create an abstract `campaigns` state. There is no url for this state,
+  // we just use it so we can know whether or not the campaigns section is active in the ui.
   state.state('campaigns', { abstract: true });
 
-// Create an abstract `campaigns` state. There is no url for this state, we just use it so we can know whether or not the campaigns section is active in the ui.
-
+  // The `campaigns.list` dot notation denotes this as a sub-state of the `campaigns` 
+  // state. When this state is active, the parent state will also be active.
   state.state('campaigns.list', {
 
-// The `campaigns.list` dot notation denotes this as a sub-state of the `campaigns` state. When this state is active, the parent state will also be active.
-
     url: '/campaigns',
+    // This special templateProvider helper will render a directive into the root 
+    // slot of the cms-layout.
     templateProvider: render.renderToRoot('campaigns-list')
-    
-// This special templateProvider helper will render a directive into the root slot of the cms-layout.
-
   });
   state.state('campaigns.calendar', {
     url: '/calendar',
@@ -116,9 +114,9 @@ function (state, urlRouter, render) {
     templateProvider: render.renderToRoot('notifications')
   });
   
+  // It's important to specify the default route here. Because there is no 
+  // state that handles "/" we need to immediately redirect to /campaigns on page load.
   urlRouter.otherwise('/campaigns');
-
-// It's important to specify the default route here. Because there is no state that handles "/" we need to immediately redirect to /campaigns on page load
 
 }]);
 ```
