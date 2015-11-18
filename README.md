@@ -65,6 +65,64 @@ And add an entry for the sass files:
     }]
 ```
 
+## Install ui-router
+
+```
+bower install --save angular-ui-router
+```
+
+`ui-router` gives nested routing. This is useful for rendering nested states (think navigation elements). The analagous feature in django is template inheritance.
+
+Nested routing means nested state and helpers do render links as 'active' and build link to states.
+
+## Route helpers.
+
+Add a file `app/routes.js`.
+
+If you're building a cms with a `campaigns` section, you might define nested routing like this:
+
+```js
+'use strict';
+
+angular.module('<yourAppModule>')
+.config(['$locationProvider', function ($locationProvider) {
+  $locationProvider.html5Mode(true);
+}])
+```
+Set up pushstate routing.
+```
+.config(['$stateProvider', '$urlRouterProvider', '$renderProvider',
+function (state, urlRouter, render) {
+  state.state('campaigns', { abstract: true });
+```
+Create an abstract `campaigns` state. There is no url for this state, we just use it so we can know whether or not the campaigns section is active in the ui.
+```js
+  state.state('campaigns.list', {
+```
+The `campaigns.list` dot notation denotes this as a sub-state of the `campaigns` state. When this state is active, the parent state will also be active.
+```js
+    url: '/campaigns',
+    templateProvider: render.renderToRoot('campaigns-list')
+```
+This special templateProvider helper will render a directive into the root slot of the cms-layout.
+```js
+  });
+  state.state('campaigns.calendar', {
+    url: '/calendar',
+    templateProvider: render.renderToRoot('calandar')
+  });
+  state.state('campaigns.notifications', {
+    url: '/notifications',
+    templateProvider: render.renderToRoot('notifications')
+  });
+  
+  urlRouter.otherwise('/campaigns');
+```
+It's important to specify the default route here.
+```js
+}]);
+```
+
 # Development
 Checkout the repo:
 
