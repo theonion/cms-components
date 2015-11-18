@@ -1,0 +1,28 @@
+{
+  "name": "cms-components",
+  "version": "0.0.1",
+  "description": "parking cms components from onionstudios-cms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "generate-directive": "./bin/generate-directive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theonion/cms-components.git"
+  },
+  "author": "",
+  "license": "N/A",
+  "bugs": {
+    "url": "https://github.com/theonion/cms-components/issues"
+  },
+  "homepage": "https://github.com/theonion/cms-components#readme",
+  "dependencies": {
+    "ejs": "^2.3.4",
+    "inflected": "^1.1.6",
+    "mkdirp": "^0.5.1",
+    "optimist": "^0.6.1"
+  }
+}

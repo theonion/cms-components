@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+var ejs = require('ejs');
+var fs = require('fs');
+var inflect = require('inflected');
+var path = require('path');
+
+var argv = require('optimist')
+  .demand(['path', 'tag'])
+  .usage('generate-directive --path path/to/folder (will create) --tag directive-tag-name')
+  .argv;
+
+require('mkdirp').sync(argv.path);
+
+var scope = {
+  directiveTagName: argv.tag,
+  directiveModule: 'onionstudiosApp',
+  directiveVarName: inflect.camelize(inflect.underscore(argv.tag)).replace(/^./, function (match) { return match.toLowerCase(); }),
+  directiveTemplatePath: argv.path.replace(/app\//, '') + '/' + argv.tag + '.html'
+};
+
+var markup = fs.readFileSync('./scripts/generate-directive-templates/markup.html').toString();
+var script = fs.readFileSync('./scripts/generate-directive-templates/script.js').toString();
+var styles = fs.readFileSync('./scripts/generate-directive-templates/styles.scss').toString();
+
+fs.writeFileSync(path.join(argv.path, argv.tag + '.html'), ejs.render(markup, scope));
+fs.writeFileSync(path.join(argv.path, argv.tag + '.js'), ejs.render(script, scope));
+fs.writeFileSync(path.join(argv.path, argv.tag + '.scss'), ejs.render(styles, scope));
