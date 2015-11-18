@@ -88,24 +88,24 @@ angular.module('<yourAppModule>')
 .config(['$locationProvider', function ($locationProvider) {
   $locationProvider.html5Mode(true);
 }])
-```
-Set up pushstate routing.
-```
+
+// Set up pushstate routing.
+
 .config(['$stateProvider', '$urlRouterProvider', '$renderProvider',
 function (state, urlRouter, render) {
   state.state('campaigns', { abstract: true });
-```
-Create an abstract `campaigns` state. There is no url for this state, we just use it so we can know whether or not the campaigns section is active in the ui.
-```js
+
+// Create an abstract `campaigns` state. There is no url for this state, we just use it so we can know whether or not the campaigns section is active in the ui.
+
   state.state('campaigns.list', {
-```
-The `campaigns.list` dot notation denotes this as a sub-state of the `campaigns` state. When this state is active, the parent state will also be active.
-```js
+
+// The `campaigns.list` dot notation denotes this as a sub-state of the `campaigns` state. When this state is active, the parent state will also be active.
+
     url: '/campaigns',
     templateProvider: render.renderToRoot('campaigns-list')
-```
-This special templateProvider helper will render a directive into the root slot of the cms-layout.
-```js
+    
+// This special templateProvider helper will render a directive into the root slot of the cms-layout.
+
   });
   state.state('campaigns.calendar', {
     url: '/calendar',
@@ -117,9 +117,9 @@ This special templateProvider helper will render a directive into the root slot 
   });
   
   urlRouter.otherwise('/campaigns');
-```
-It's important to specify the default route here.
-```js
+
+// It's important to specify the default route here. Because there is no state that handles "/" we need to immediately redirect to /campaigns on page load
+
 }]);
 ```
 
