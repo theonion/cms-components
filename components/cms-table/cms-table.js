@@ -15,7 +15,6 @@ angular.module('cmsComponents')
         });
       },
       controller: function ($scope) {
-        window.tableScope = $scope;
         $scope.columns = [];
       }
     }
