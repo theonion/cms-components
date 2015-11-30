@@ -3,18 +3,10 @@
 var cmsComponents = angular.module('cmsComponents', []);
 
 cmsComponents.provider('$render', function () {
-  function interpolate (string, data) {
-    return _.template(string, {
-      interpolate: /#{([\s\S]+?)}/g
-    })(data);
-  }
-
   return {
     templateDirective: function templateDirective (directive) {
       return function () {
-        return interpolate('<#{directive}></#{directive}>', {
-          directive: directive
-        });
+        return '<' + directive + '></' + directive + '>';
       }
     },
     renderToRoot: function toRoot(options) {
