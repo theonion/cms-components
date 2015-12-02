@@ -3,22 +3,6 @@
     {{title}}
   </span>
   <span class="cms-input-control">
-    <input class="form-control"
-           ng-if="!multiline && !select && type && !reverse"
-           ng-model="$parent.ngModel"
-           type="{{type}}"
-           placeholder="{{placeholder}}"
-           name="{{name}}" />
-
-    <input class="form-control"
-           ng-if="!multiline && !select && type && reverse"
-           ng-model="$parent.ngModel"
-           ng-true-value="false"
-           ng-false-value="true"
-           type="{{type}}"
-           placeholder="{{placeholder}}"
-           name="{{name}}" />
-    <textarea class="form-control" ng-if="multiline" ng-model="$parent.ngModel" rows="{{rows}}" placeholder="{{placeholder}}"></textarea>
     <ng-transclude></ng-transclude>
   </span>
 </label>
