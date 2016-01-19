@@ -4,8 +4,8 @@
 $glyph-margin: 0.4em;
 
 @mixin button-core {
-  border: none;
-  border-radius: 20px;
+  border: none;  
+  border-radius: 5px;
   color: white;
   padding: 0.6em 1.5em;
   font-size: 14px;
@@ -44,8 +44,8 @@ cms-button {
 
   > button.subtle-action {
     @include button-core;
-    background-color: $lt-gray;
-    color: $most-shaded;
+    background-color: $drk-blue;
+    color: $white;
     font-weight: bold;
     font-size: 12px;
   }

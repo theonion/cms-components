@@ -2,20 +2,26 @@
 @import 'base';
 
 cms-layout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  
   $topbar-height: 50px;
-  $sidebar-width: 170px;
+  $sidebar-width: 200px;
 
   .cms-layout-topbar {
-    width: 100%;
     height: $topbar-height;
     position: fixed;
     top: 0;
-    left: 0;
+    left: $sidebar-width;
+    right: 0;
     background: white;
     z-index: 2;
     @include flexbox;
     @include align-items(center);
-    box-shadow: 0px 0px 4px rgba(125,125,125,0.6);
+    border-bottom: 1px solid $lt-gray;
     padding: 5px 0;
 
     & > user-menu {
@@ -25,15 +31,15 @@ cms-layout {
   }
 
   .cms-layout-sidebar {
+    background: $lt-gray;
     width: $sidebar-width;
     height: 100%;
-    padding-top: ($topbar-height - 1);
+    padding-top: 0;
     top: 0;
     left: 0;
 
     &::after {
       content: "";
-      box-shadow: rgba(125,125,125,0.6) 0 0 5px;
       position: absolute;
       top: 0px;
       left: $sidebar-width;
@@ -52,16 +58,12 @@ cms-layout {
     top: $topbar-height;
     bottom: 0;
     right: 0;
-    /*border-top: $light-border;*/
     overflow-y: scroll;
-    background-image: url(../static/furley-bg.png);
-    z-index: 0;
+    z-index: 0; 
   }
 
   sidebar-panel {
-    border-top: $light-border;
     display: block;
-    padding-bottom: 1em;
     position: relative;
 
     &.sidebar-panel-center {
@@ -73,8 +75,8 @@ cms-layout {
         @include align-self(center);
       }
     }
-    &.active {
-      border-left: 4px solid $button-blue;
+    &.active sidebar-panel-header {
+      font-weight: bold;
     }
   }
 
