@@ -1,5 +1,6 @@
 @import 'sass-toolkit/utils/flexbox';
 @import 'base';
+@import 'typography';
 
 cms-table {
   width: 100%;
@@ -19,12 +20,16 @@ cms-table {
   .cms-table-row {
     @include flexbox;
     @include justify-content(space-between);
-    background-color: $lt-gray;
+    background-color: $color-base-grey;
 
     &.cms-table-header .cms-table-cell {
+      @include text-bold;
+      background-color: $blue-grey;
       padding: 0.5 0.8;
-      color: $button-blue;
+      color: $white;
       font-weight: bold;
+
+      a { color: inherit; }
     }
 
     &:nth-child(odd) {
@@ -38,12 +43,8 @@ cms-table {
     text-overflow: ellipsis;
     whitespace: nowrap;
     overflow: hidden;
-    padding: 0.8em;
+    padding: 1.4em;
     font-size:.9em;
-
-    &:not(:last-child) {
-      border-right: $light-border;
-    }
 
     &[type=text] {
       @include flex-grow(3);

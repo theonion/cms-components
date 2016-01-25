@@ -17,6 +17,8 @@ $body-gray: $drk-gray;
 $button-blue: $md-blue;
 $button-blue-dk: $mdk-blue;
 
+$blue-grey: rgb(149, 159, 173);
+
 
 $color-base-grey: rgb(246, 246, 246);
 
@@ -27,6 +29,12 @@ $palettes: (
     hover: darken($color-base-grey, 5%),
     active: lighten($color-base-grey, 5%),
     disabled: lighten($color-base-grey, 6%)
+  ),
+  white: (
+    base: $white,
+    hover: $white,
+    active: $white,
+    disabled: $white
   ),
   accent-orange: (
     base: #f67e60,

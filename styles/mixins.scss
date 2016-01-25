@@ -60,8 +60,8 @@
   $hover: palette($type, hover);
   $active: palette($type, active);
   $inactive: palette($type, inactive);
-  #{$attribute}: $base;
 
+  #{$attribute}: $base;
   &:hover {
     #{$attribute}: $hover;
   }

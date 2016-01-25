@@ -1,15 +1,28 @@
+@import 'mixins';
+
 .form-control {
-  border-radius: 0;
-  border-color: rgb(232, 232, 232);
-    font-weight: normal;
-    height:auto;
-    padding:12px;
+  @include buttonColor ('border-color', accent-grey-light);
+  border-radius: 5px;
+  font-weight: normal;
+  height:auto;
+  padding:12px;
 }
 
 select.form-control {
-    height:46px;
+  height:46px;
 }
 .control-label {
   text-transform: uppercase;
   font-weight: normal;
+}
+
+.btn { 
+  padding: 12px; 
+  border-color: rgb(232, 232, 232);
+}
+
+.btn-default {
+  @include buttonColor ('background-color', white);
+  @include buttonColor ('border-color', accent-grey-light);
+  color: $blue-grey;
 }

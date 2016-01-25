@@ -1,0 +1,5 @@
+$bold: 700;
+
+@mixin text-bold () {
+  font-weight: $bold;
+}

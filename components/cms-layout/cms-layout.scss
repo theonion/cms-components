@@ -13,7 +13,7 @@ cms-layout {
 
   .cms-layout-topbar {
     height: $topbar-height;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: $sidebar-width;
     right: 0;
@@ -55,6 +55,7 @@ cms-layout {
   }
 
   .cms-layout-viewport {
+    padding: 2em;
     position: fixed;
     left: $sidebar-width;
     top: $topbar-height;
@@ -108,8 +109,7 @@ cms-layout {
 
   .edit-container {
     position: absolute;
-    top: 50px;
+    top: 0;
     bottom: 0;
-    overflow-y: scroll;
   }
 }
