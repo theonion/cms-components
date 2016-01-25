@@ -1,6 +1,6 @@
 @import 'sass-toolkit/utils/flexbox';
-@import 'colors';
-@import 'mixins';
+@import 'cms-components/styles/colors';
+@import 'cms-components/styles/mixins';
 
 $glyph-margin: 0.4em;
 
@@ -32,13 +32,13 @@ cms-button {
 
   > button.friendly-action {
     @include button-core;
-    @include buttonColor ('background-color', create-new);
+    @include button-color ('background-color', create-new);
     font-weight: normal;
   }
 
   > button.muted-action {
     @include button-core;
-    @include buttonColor ('background-color', accent-grey-medium);
+    @include button-color ('background-color', accent-grey-medium);
     color: $most-shaded;
     font-weight: bold;
     font-size: 12px;
@@ -46,7 +46,7 @@ cms-button {
 
   > button.subtle-action {
     @include button-core;
-    @include buttonColor ('background-color', notifications);
+    @include button-color ('background-color', notifications);
     color: $white;
     font-weight: bold;
     font-size: 12px;
@@ -54,13 +54,13 @@ cms-button {
 
   > button.blended-action {
     @include button-core;
-    @include buttonColor ('background-color', base);
+    @include button-color ('background-color', base);
     background-color: transparent;
   }
 
   > button.destructive-action {
     @include button-core;
-    @include buttonColor ('background-color', accent-orange);
+    @include button-color ('background-color', accent-orange);
     color: #b21313;
   }
 

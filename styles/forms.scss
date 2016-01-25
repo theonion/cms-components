@@ -1,7 +1,7 @@
-@import 'mixins';
+@import 'cms-components/styles/mixins';
 
 .form-control {
-  @include buttonColor ('border-color', accent-grey-light);
+  @include button-color ('border-color', accent-grey-light);
   border-radius: 5px;
   font-weight: normal;
   height:auto;
@@ -22,7 +22,7 @@ select.form-control {
 }
 
 .btn-default {
-  @include buttonColor ('background-color', white);
-  @include buttonColor ('border-color', accent-grey-light);
+  @include button-color ('background-color', white);
+  @include button-color ('border-color', accent-grey-light);
   color: $blue-grey;
 }

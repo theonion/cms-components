@@ -54,7 +54,7 @@
   }
 }
 
-@mixin buttonColor ($attribute: 'background-color', $type: 'default'){
+@mixin button-color ($attribute: 'background-color', $type: 'default'){
 
   $base: palette($type, base);
   $hover: palette($type, hover);
