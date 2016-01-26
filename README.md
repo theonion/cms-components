@@ -9,62 +9,6 @@ Install cms-components.
 "cms-components": "https://0469c955e10241b40fffe0225e29a3c238aadf69@github.com/theonion/cms-components.git#<version>",
 ```
 
-### Update your grunt tasks.
-cms-component does not build itself for distribution, it relies on being added to your grunt tasks.
-
-#### Add a section to your `tasks/options/ngtemplates.js` configuration:
-
-```js
-  components: {
-    cwd: 'bower_components/cms-components',
-    src: [
-      'components/**/*.html'
-    ],
-    dest: '.tmp/pre-complete/scripts/cms-templates.js',
-    options: {
-      htmlmin: {
-        collapseBooleanAttributes: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-        removeEmptyAttributes: true,
-        removeRedundantAttributes: true,
-        removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true
-      },
-      module: 'cmsComponents.templates',
-      standalone: true
-    }
-  }
-```
-
-#### And update `tasks/options/sass.js`.
-Add cms-components to the loadPaths
-```
-  options: {
-      loadPath: [
-        'bower_components/',
-        'app/styles/',
-        'bower_components/cms-components/styles' // <<<=== THIS LINE
-      ],
-    },
-```
-
-And add an entry for the sass files:
-```
-    files: [{
-      expand: true,
-      flatten: true,
-      cwd: 'bower_components/cms-components',
-      src: [
-        'components/**/*.scss',
-        'styles/**/*.scss',
-      ],
-      dest: '.tmp/pre-3/styles',
-      ext: '.css'
-    }]
-```
-
 ### Install ui-router
 
 ```
