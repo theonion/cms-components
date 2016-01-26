@@ -13,7 +13,14 @@ module.exports = {
       loader: ExtractTextPlugin.extract('style', 'css!sass')
     }, {
       test: /\.html$/,
-      loader: 'ngtemplate?module=cmsComponents&relativeTo=' + path.resolve(__dirname, './') + '/!html'
+      loader: 'ngtemplate',
+      query: {
+        module: 'cmsComponents',
+        relativeTo: __dirname + '/'
+      }
+    }, {
+      test: /\.html$/,
+      loader: 'html'
     }, {
       test: /\.png$/,
       loader: 'file',
