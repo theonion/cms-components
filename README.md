@@ -111,6 +111,10 @@ bower link cms-components
 ```bash
 ./scripts/dev-start
 ```
+or for a single build, run
+```bash
+./scrtips/dev-start --single-run
+```
 
 ## Generating new components
 Use the generator to scaffold out a directive:
