@@ -1,5 +1,5 @@
-@import "sass-toolkit/utils/flexbox";
-@import 'base';
+@import 'sass-toolkit/utils/flexbox';
+@import 'directive';
 
 cms-layout {
   $topbar-height: 50px;
@@ -54,7 +54,7 @@ cms-layout {
     right: 0;
     /*border-top: $light-border;*/
     overflow-y: scroll;
-    background-image: url(../static/furley-bg.png);
+    background-image: url(../../static/images/furley-bg.png);
     z-index: 0;
   }
 
