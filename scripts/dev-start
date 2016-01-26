@@ -2,4 +2,9 @@
 # Enable a continuous development environment. Will watch files for changes
 #   and rebuild.
 
-./node_modules/.bin/webpack --progress --colors --watch
+dev_start_watch="--watch"
+if [ "$1" == "--single-run" ] || [ "$1" == '-s' ]; then
+  dev_start_watch=""
+fi
+
+./node_modules/.bin/webpack --progress --colors $dev_start_watch
