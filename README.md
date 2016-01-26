@@ -1,7 +1,7 @@
 # cms-components
 A repository to park onionstudios cms components for a while until we figure out what this means to bulbs.
 
-# Installation
+## Installation
 
 Install cms-components.
 
@@ -9,10 +9,10 @@ Install cms-components.
 "cms-components": "https://0469c955e10241b40fffe0225e29a3c238aadf69@github.com/theonion/cms-components.git#<version>",
 ```
 
-## Update your grunt tasks.
+### Update your grunt tasks.
 cms-component does not build itself for distribution, it relies on being added to your grunt tasks.
 
-### Add a section to your `tasks/options/ngtemplates.js` configuration:
+#### Add a section to your `tasks/options/ngtemplates.js` configuration:
 
 ```js
   components: {
@@ -38,7 +38,7 @@ cms-component does not build itself for distribution, it relies on being added t
   }
 ```
 
-### And update `tasks/options/sass.js`.
+#### And update `tasks/options/sass.js`.
 Add cms-components to the loadPaths
 ```
   options: {
@@ -65,7 +65,7 @@ And add an entry for the sass files:
     }]
 ```
 
-## Install ui-router
+### Install ui-router
 
 ```
 bower install --save angular-ui-router
@@ -75,7 +75,7 @@ bower install --save angular-ui-router
 
 Nested routing means nested state and helpers do render links as 'active' and build link to states.
 
-## Route helpers.
+### Route helpers.
 
 Add a file `app/routes.js`.
 
@@ -96,12 +96,12 @@ function (state, urlRouter, render) {
   // we just use it so we can know whether or not the campaigns section is active in the ui.
   state.state('campaigns', { abstract: true });
 
-  // The `campaigns.list` dot notation denotes this as a sub-state of the `campaigns` 
+  // The `campaigns.list` dot notation denotes this as a sub-state of the `campaigns`
   // state. When this state is active, the parent state will also be active.
   state.state('campaigns.list', {
 
     url: '/campaigns',
-    // This special templateProvider helper will render a directive into the root 
+    // This special templateProvider helper will render a directive into the root
     // slot of the cms-layout.
     templateProvider: render.renderToRoot('campaigns-list')
   });
@@ -113,15 +113,15 @@ function (state, urlRouter, render) {
     url: '/notifications',
     templateProvider: render.renderToRoot('notifications')
   });
-  
-  // It's important to specify the default route here. Because there is no 
+
+  // It's important to specify the default route here. Because there is no
   // state that handles "/" we need to immediately redirect to /campaigns on page load.
   urlRouter.otherwise('/campaigns');
 
 }]);
 ```
 
-### directives: ui-sref-active/ui-sref-active-if
+#### directives: ui-sref-active/ui-sref-active-if
 
 How to add an `active` class to elements when a certain state is active.
 
@@ -142,24 +142,33 @@ See more in the wild here:
 
 https://github.com/theonion/onionstudios-cms/blob/3b8a4f68eea8031edf55100cce8014082fbbd62f/app/shared/cms-layout/cms-layout.html
 
-# Development
-Checkout the repo:
-
-```
+## Development
+1. Checkout the repo:
+```bash
 git clone git@github.com:theonion/cms-components.git
 ```
 
-Use `bower link`
+1. Setup your development environment:
+```bash
+./scripts/dev-setup
 ```
+
+1. Use `bower link` (for non-docker projects)
+```bash
 cd cms-components
 bower link
 ```
-```
+```bash
 cd path-to-project-using-cms-components/
 bower link cms-components
 ```
 
-# Generating new components
+1. For continuous builds while you develop
+```bash
+./scripts/dev-start
+```
+
+## Generating new components
 Use the generator to scaffold out a directive:
 ```
 bin/generate-directive --path components/example-directive --name example-directive
