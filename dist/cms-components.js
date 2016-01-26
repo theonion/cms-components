@@ -626,7 +626,7 @@
 
 	var path = 'components/betty-cropper/betty-editable.html';
 	var html = "<button class=\"betty-editable-add-image add-feature-image btn col-md-12\"\n        ng-click=\"upload();\"\n        ng-hide=\"image && image.id\"\n        ng-class=\"addStyles\"\n        ng-disabled=\"isDisabled\">\n  <i class=\"fa fa-picture-o fa-3x\"></i>\n  <div>Upload Image</div>\n</button>\n\n<div ng-show=\"image && image.id\"\n     ng-style=\"imageStyling\"\n     class=\"image-edit-container\">\n  <div class=\"image-edit-overlay\"\n       ng-show=\"editable\">\n    <div class=\"remove\">\n      <button ng-click=\"removeImage();\"\n              class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button name=\"inline_edit\"\n              ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -776,7 +776,7 @@
 
 	var path = 'components/betty-cropper/image-crop-modal.html';
 	var html = "<div class=\"image-cropper-modal\" tabindex=\"1\">\n  <div class=\"modal-header\">\n    <button type=\"button\" class=\"close\" ng-click=\"$dismiss();\" aria-hidden=\"true\">&times;</button>\n    <h4 class=\"modal-title\" ng-hide=\"cropMode\">Edit Image Options</h4>\n    <h4 class=\"modal-title\" ng-show=\"cropMode\">Crop Image</h4>\n  </div>\n  <div class=\"modal-body\">\n    <div ng-hide=\"cropMode\">\n\n      <h5>Set Image Crops</h5>\n      <ul class=\"thumb-list\">\n        <li ng-repeat=\"ratio in ratios\">\n          <div class=\"cropped-thumb-container\" ng-style=\"thumb_container_styles[ratio]\" ng-click=\"selectCrop(ratio)\">\n            <div ng-style=\"thumb_styles[ratio]\" class=\"cropped-thumb\">\n            </div>\n          </div>\n          <span class=\"fa\" ng-class=\"isCropDone(ratio)\"><strong>{{ ratio }}</strong></span>\n        </li>\n      </ul>\n      <div ng-show=\"imageData.hasOwnProperty('caption')\" class=\"caption-container\">\n        <hr>\n        <div class=\"row\">\n          <div class=\"form-group col-md-6\">\n            <label class=\"control-label small\">Caption / Photo Credit</label>\n            <input type=\"text\" class=\"form-control\" placeholder=\"Brief explanation of image\" ng-model=\"imageData.caption\" />\n          </div>\n          <div class=\"form-group col-md-6\">\n            <label class=\"control-label small\">Alt Text</label>\n            <input type=\"text\" class=\"form-control\" placeholder=\"Describe image's contents\" ng-model=\"imageData.alt\" />\n          </div>\n        </div>\n      </div>\n    </div>\n    <div ng-show=\"cropMode\">\n      <div class=\"crop-image-container\">\n        <img ng-src=\"{{ image_url }}\" width=\"{{ scaleData.width }}\" height=\"{{ scaleData.height }}\" />\n      </div>\n      <div class=\"ratio-paginator\">\n        <span\n          ng-repeat=\"ratio in ratios\"\n          ng-class=\"image.selections[ratio].source\"\n          class=\"fa\"\n          ng-click=\"selectCrop(ratio)\">{{ ratio }}</span>\n\n      </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <div ng-hide=\"cropMode\">\n      <button class=\"btn btn-success\" ng-click=\"closeModal();\">Done</button>\n    </div>\n    <div ng-show=\"cropMode\">\n      <button class=\"btn btn-link\" ng-click=\"saveAndQuit()\" ng-hide=\"finished\">Save and Finish</button>\n      <button class=\"btn btn-success\" ng-click=\"saveAndNext()\" ng-hide=\"finished\">Save & Continue</button>\n      <button class=\"btn btn-success\" ng-click=\"saveAndQuit()\" ng-show=\"finished\">Save & Finish</button>\n    </div>\n  </div>\n</div>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -980,7 +980,7 @@
 
 	var path = 'components/cms-button/cms-button.html';
 	var html = "<button class=\"{{type}}-action\">\n  <i ng-hide=\"noglyph\" class=\"fa fa-{{glyph}}\"></i>\n  <ng-transclude></ng-transclude>\n</button>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1029,7 +1029,7 @@
 
 	var path = 'components/cms-component/cms-component.html';
 	var html = "<span>Calling from cms-component</span>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1068,7 +1068,7 @@
 
 	var path = 'components/cms-container/cms-container.html';
 	var html = "<ng-transclude></ng-transclude>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1100,7 +1100,7 @@
 
 	var path = 'components/cms-content-list/cms-content-list.html';
 	var html = "<cms-container>\n  <cms-partial template=\"status-filters\"></cms-partial>\n  <cms-partial template=\"search-filters\"></cms-partial>\n  <cms-partial template=\"list-table\"></cms-partial>\n</cms-container>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1131,7 +1131,7 @@
 
 	var path = 'components/cms-filter-item/cms-filter-item.html';
 	var html = "<ng-transclude></ng-transclude>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1163,7 +1163,7 @@
 
 	var path = 'components/cms-filter-set/cms-filter-set.html';
 	var html = "<ng-transclude></ng-transclude>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1195,7 +1195,7 @@
 
 	var path = 'components/cms-flyout/cms-flyout.html';
 	var html = "<ng-transclude></ng-transclude>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1272,7 +1272,7 @@
 
 	var path = 'components/cms-input/cms-input.html';
 	var html = "<label>\n  <span class=\"cms-input-title\">\n    {{title}}\n  </span>\n  <span class=\"cms-input-control\">\n    <ng-transclude></ng-transclude>\n  </span>\n</label>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1309,7 +1309,7 @@
 
 	var path = 'components/cms-layout/cms-layout.html';
 	var html = "<ng-transclude></ng-transclude>\n<section ui-view=\"cmsLayoutViewport\" class='cms-layout-viewport'>\n</section>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1349,7 +1349,7 @@
 
 	var path = 'components/cms-legend/cms-legend.html';
 	var html = "<cms-row>\n  <hr/>\n  <ng-transclude class='cms-legend-text'></ng-transclude>\n  <hr/>\n</cms-row>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1381,7 +1381,7 @@
 
 	var path = 'components/cms-login/login.html';
 	var html = "<div class=\"login-container\">\n  <div class=\"login-form\">\n    <p class=\"text-center welcome-text\">Welcome</p>\n    <form>\n      <div class=\"login-input username\">\n        <label>Username</label>\n        <input type=\"text\" class=\"form-control\" ng-model=\"username\" required>\n        <div class=\"alert alert-danger required-label\" ng-class=\"submitted\">Required</div>\n      </div>\n      <div class=\"login-input password\">\n        <label>Password</label>\n        <input type=\"password\" class=\"form-control\" ng-model=\"password\" required>\n        <div class=\"alert alert-danger required-label\" ng-class=\"submitted\">Required</div>\n      </div>\n      <alertbar></alertbar>\n      <button class=\"btn add-btn btn-success\" type=\"submit\" ng-click=\"submitLogin()\">\n        <span>Sign in</span>\n      </button>\n    </form>\n    <a class=\"contact\" href=\"mailto:webtech@theonion.com\">\n      <div class=\"question-mark\">?</div>\n      <div class=\"contact-tech\">Contact Tech</div>\n    </a>\n  </div>\n</div>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1437,7 +1437,7 @@
 
 	var path = 'components/cms-logout/logout.html';
 	var html = "";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1468,7 +1468,7 @@
 
 	var path = 'components/cms-partial/cms-partial.html';
 	var html = "<span>Calling from cms-partial</span>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1510,7 +1510,7 @@
 
 	var path = 'components/cms-row/cms-row.html';
 	var html = "<span>Calling from cms-row</span>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1543,7 +1543,7 @@
 
 	var path = 'components/cms-table-cell/cms-table-cell.html';
 	var html = "";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1588,7 +1588,7 @@
 
 	var path = 'components/cms-table-column/cms-table-column.html';
 	var html = "<ng-transclude></ng-transclude>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1620,7 +1620,7 @@
 
 	var path = 'components/cms-table/cms-table.html';
 	var html = "<ng-transclude></ng-transclude>\n<div class=\"cms-table-table\">\n  <div class=\"cms-table-row cms-table-header\">\n    <div class=\"cms-table-cell\" ng-repeat=\"column in columns\"\n         type=\"{{column.attributes.type.value}}\">\n      <a ng-click=\"$parent.$parent.orderTable(column.attributes.sort.value)\">\n        {{column.attributes.title.value}}\n        <i class=\"fa\"\n           ng-class=\"{'fa-chevron-down': $parent.$parent.listOrdering === '-'+column.attributes.sort.value, 'fa-chevron-up': $parent.$parent.listOrdering === column.attributes.sort.value}\"></i>\n      </a>\n    </div>\n  </div>\n\n  <div class=\"cms-table-row\"\n       dir-paginate=\"item in collection | itemsPerPage: 20\"\n       total-items=\"{{collection.$totalCount}}\"\n       current-page=\"$parent.$parent.listPage\">\n    <div class=\"cms-table-cell\" cms-table-cell item=\"item\" column=\"column\" ng-repeat=\"column in columns\"\n         type=\"{{column.attributes.type.value}}\">\n    </div>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-show=\"collection.$status == 'pending'\">\n    <p> Loading items from server... </p>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-hide=\"collection.length\">\n    <p> No items to show in this list. </p>\n  </div>\n</div>\n\n<div class=\"cms-table-pagination\">\n  <dir-pagination-controls on-page-change=\"$parent.$parent.paginate(newPageNumber)\"></dir-pagination-controls>\n</div>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1663,7 +1663,7 @@
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
 	var html = "<a ng-transclude ui-sref=\"{{sref}}\"></a>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1726,7 +1726,7 @@
 
 	var path = 'components/user-menu/user-menu.html';
 	var html = "<div class=\"dropdown\">\n  <button ng-if=\"currentUser\" type=\"button\" class=\"user-menu-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\n    <user-profile></user-profile>\n    <i class=\"user-menu-icon fa fa-ellipsis-v fa-2x\"></i>\n  </button>\n  <ul class=\"dropdown-menu user-menu-dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\n    <li><a ui-sref=\"logout\">Log Out</a></li>\n  </ul>\n</div>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
@@ -1765,7 +1765,7 @@
 
 	var path = 'components/user-profile/user-profile.html';
 	var html = "<span style=\"background-color: {{userColor}};\">{{initials}}</span>\n";
-	window.angular.module('cmsComponents').run(['$templateCache', function(c) { c.put(path, html) }]);
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },

@@ -15,7 +15,7 @@ module.exports = {
       test: /\.html$/,
       loader: 'ngtemplate',
       query: {
-        module: 'cmsComponents',
+        module: 'cmsComponents.templates',
         relativeTo: __dirname + '/'
       }
     }, {
