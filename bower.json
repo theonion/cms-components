@@ -9,12 +9,9 @@
   "main": [
     "dist/cms-components.css",
     "dist/cms-components.js",
-    "dist/furley-bg.png",
+    "dist/furley-bg.png"
   ],
-  "moduleType": [
-
-  ],
-  "license": "N/A",
+  "license": "UNLICENSED",
   "private": true,
   "dependencies": {
     "sass-toolkit": "https://0469c955e10241b40fffe0225e29a3c238aadf69@github.com/theonion/sass-toolkit.git#master"
