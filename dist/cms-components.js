@@ -186,9 +186,9 @@
 		"./cms-layout/cms-layout.html": 50,
 		"./cms-layout/cms-layout.js": 51,
 		"./cms-layout/cms-layout.scss": 52,
-		"./cms-legend/cms-legend.html": 55,
-		"./cms-legend/cms-legend.js": 56,
-		"./cms-legend/cms-legend.scss": 57,
+		"./cms-legend/cms-legend.html": 54,
+		"./cms-legend/cms-legend.js": 55,
+		"./cms-legend/cms-legend.scss": 56,
 		"./cms-login/login.html": 59,
 		"./cms-login/login.js": 60,
 		"./cms-login/login.scss": 61,
@@ -1438,8 +1438,7 @@
 
 /***/ },
 /* 53 */,
-/* 54 */,
-/* 55 */
+/* 54 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-legend/cms-legend.html';
@@ -1448,7 +1447,7 @@
 	module.exports = path;
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1464,12 +1463,13 @@
 
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 57 */,
 /* 58 */,
 /* 59 */
 /***/ function(module, exports) {

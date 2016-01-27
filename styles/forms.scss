@@ -1,4 +1,4 @@
-@import 'cms-components/styles/mixins';
+@import 'mixins';
 
 .form-control {
   @include button-color ('border-color', accent-grey-light);
