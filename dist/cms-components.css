@@ -516,7 +516,7 @@ cms-flyout-panel {
       left: -1em;
       top: 1.8em; }
   cms-flyout[direction='down'] cms-flyout-panel {
-    top: 120%;
+    top: 130%;
     right: 0px; }
     cms-flyout[direction='down'] cms-flyout-panel::before {
       content: "";
@@ -527,7 +527,10 @@ cms-flyout-panel {
       display: block;
       transform: rotate(45deg);
       z-index: 0;
-      right: 2.4em;
+      right: 0;
+      left: 0;
+      margin-left: auto;
+      margin-right: auto;
       top: -1em; }
 cms-input {
   display: block;
@@ -687,10 +690,6 @@ cms-layout {
     flex-grow: 1;
     width: 0px;
     outline: 0; }
-  cms-layout .edit-container {
-    position: absolute;
-    top: 0;
-    bottom: 0; }
 cms-legend hr {
   border-color: #575757 !important;
   margin-top: 0.6em;
