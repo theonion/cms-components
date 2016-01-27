@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Enable a continuous development environment. Will watch files for changes
+#   and rebuild.
+
+dev_start_watch="--watch"
+if [ "$1" == "--single-run" ] || [ "$1" == '-s' ]; then
+  dev_start_watch=""
+fi
+
+./node_modules/.bin/webpack --progress --colors $dev_start_watch
