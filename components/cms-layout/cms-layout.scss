@@ -1,5 +1,5 @@
-@import "sass-toolkit/utils/flexbox";
-@import 'base';
+@import 'sass-toolkit/utils/flexbox';
+@import 'directive';
 
 cms-layout {
   position: fixed;
@@ -62,7 +62,7 @@ cms-layout {
     bottom: 0;
     right: 0;
     overflow-y: scroll;
-    z-index: 0; 
+    z-index: 0;
   }
 
   sidebar-panel {
