@@ -333,7 +333,7 @@
 	'use strict';
 
 	angular.module('cmsComponents')
-	  .service('CurrentUser', function (localStorageService, $location, $rootScope) {
+	  .service('CurrentUser', function (localStorageService, $state, $location, $rootScope) {
 	    this.currentUser = null;
 	    this.getCurrentUser = function () {
 	      return localStorageService.get('currentUser');
@@ -349,7 +349,7 @@
 	      $rootScope.$broadcast('userchange');
 	      localStorageService.remove('authToken');
 	      localStorageService.remove('currentUser');
-	      $location.path('/login');
+	      $state.go('login');
 	    };
 	  });
 
