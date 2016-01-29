@@ -2,6 +2,13 @@
 
 $sidebar-width: 160px;
 
+cms-modal {
+  &.cms-modal-active [cms-modal-trigger] {
+    display: block;
+    opacity: 0.5;
+  }
+}
+
 cms-modal-popup {
   @include align-items (center);
   background: rgba(0,0,0,0.3);
@@ -24,7 +31,6 @@ cms-modal-popup {
   .cms-modal-active & {
     @include flexbox;
   }
-
   cms-modal-content {
     border-radius: 10px;
     background: $white;
