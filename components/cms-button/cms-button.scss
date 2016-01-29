@@ -38,8 +38,10 @@ cms-button {
 
   > button.muted-action {
     @include button-core;
-    @include button-color ('background-color', accent-grey-medium);
-    color: $most-shaded;
+    @include button-color ('border-color', accent-grey-medium);
+    @include button-color ('color', accent-grey-medium);
+    background-color: $white;
+    border: 1px solid;
     font-weight: bold;
     font-size: 12px;
   }

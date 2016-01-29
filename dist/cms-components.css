@@ -226,8 +226,10 @@ cms-button > button.muted-action {
   -moz-flex-direction: center;
   -ms-flex-direction: center;
   flex-direction: center;
-  background-color: #959fad;
-  color: #575757;
+  border-color: #959fad;
+  color: #959fad;
+  background-color: white;
+  border: 1px solid;
   font-weight: bold;
   font-size: 12px; }
   cms-button > button.muted-action > * {
@@ -246,9 +248,13 @@ cms-button > button.muted-action {
     margin-right: 0;
     margin-left: 0.4em; }
   cms-button > button.muted-action:hover {
-    background-color: #4c5a6f; }
+    border-color: #4c5a6f; }
   cms-button > button.muted-action:active, cms-button > button.muted-action:focus {
-    background-color: #959fad; }
+    border-color: #959fad; }
+  cms-button > button.muted-action:hover {
+    color: #4c5a6f; }
+  cms-button > button.muted-action:active, cms-button > button.muted-action:focus {
+    color: #959fad; }
 
 cms-button > button.subtle-action {
   border: none;
@@ -799,6 +805,44 @@ cms-legend cms-row {
       line-height: 19px;
       display: inline-block;
       margin-left: 7px; }
+cms-modal-popup {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  bottom: 0;
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 160px;
+  z-index: 2; }
+  cms-modal-popup cms-modal-header {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex; }
+    cms-modal-popup cms-modal-header .close {
+      margin-left: auto; }
+  .cms-modal-active cms-modal-popup {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex; }
+  cms-modal-popup cms-modal-content {
+    border-radius: 10px;
+    background: white;
+    max-width: 600px;
+    min-width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 1em; }
+    cms-modal-popup cms-modal-content > h3 {
+      text-align: center; }
 cms-row > ng-transclude {
   display: -webkit-box;
   display: -webkit-flex;

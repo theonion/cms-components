@@ -194,6 +194,9 @@
 		"./cms-login/login.scss": 61,
 		"./cms-logout/logout.html": 63,
 		"./cms-logout/logout.js": 64,
+		"./cms-modal/cms-modal.html": 102,
+		"./cms-modal/cms-modal.js": 103,
+		"./cms-modal/cms-modal.scss": 104,
 		"./cms-partial/cms-partial.html": 65,
 		"./cms-partial/cms-partial.js": 66,
 		"./cms-partial/cms-partial.scss": 67,
@@ -1899,6 +1902,92 @@
 
 /***/ },
 /* 96 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-modal/cms-modal.html';
+	var html = "<ng-transclude></ng-transclude>";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 103 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('cmsModal', function () {
+	    return {
+	      templateUrl: 'components/cms-modal/cms-modal.html',
+	      restrict: 'E',
+	      modalTitle: '=',
+	      transclude: true,
+	      controller: ['$scope', '$element', '$document',
+
+	        function ($scope, $element, $document) {
+
+	          var active = false;
+	          var activeClass = 'cms-modal-active';
+	          
+	          function toggleActive (event) {
+	            // don't close if clicking on the inner
+	            if ($(event.target).closest('cms-modal-content')[0]) {
+	              return;
+	            }
+
+	            active = !active;
+	            if (active) {
+	              $element.addClass(activeClass)
+	              setTimeout(function () {
+	                $document.bind('click', toggleActive);
+	              });
+	            }
+	            else {
+	              $element.removeClass(activeClass);
+	              $document.unbind('click', toggleActive);
+	            }
+	          }
+	          $element.on('click', '[cms-modal-trigger]', toggleActive);
+	          $element.on('click', '.close', toggleActive);
+	          
+	          $scope.$on('modal-close', function (event) {
+	            event.stopPropagation();
+	            if (active) {
+	              toggleActive(event);
+	            }
+	          });
+
+
+	          // do close if navigating
+	          $scope.$on('$locationChangeStart', function(event, next, current) {
+	            if (active) { toggleActive(event) };
+	          });
+	        }]
+	    }
+	  })
+	  .directive('cmsModalTrigger', function () {
+	    return {
+	      restrict: 'A',
+	      controller: ['$scope', function ($scope) {
+	      }]
+	    };
+	  })
+	;
+
+
+/***/ },
+/* 104 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
