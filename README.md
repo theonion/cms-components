@@ -88,33 +88,33 @@ https://github.com/theonion/onionstudios-cms/blob/3b8a4f68eea8031edf55100cce8014
 
 ## Development
 1. Checkout the repo:
-```bash
-git clone git@github.com:theonion/cms-components.git
-```
+  ```bash
+  git clone git@github.com:theonion/cms-components.git
+  ```
 
 1. Setup your development environment:
-```bash
-./scripts/dev-setup
-```
+  ```bash
+  ./scripts/dev-setup
+  ```
 
 1. Use `bower link` (for non-docker projects)
-```bash
-cd cms-components
-bower link
-```
-```bash
-cd path-to-project-using-cms-components/
-bower link cms-components
-```
+  ```bash
+  cd cms-components
+  bower link
+  ```
+  ```bash
+  cd path-to-project-using-cms-components/
+  bower link cms-components
+  ```
 
 1. For continuous builds while you develop
-```bash
-./scripts/dev-start
-```
-or for a single build, run
-```bash
-./scrtips/dev-start --single-run
-```
+  ```bash
+  ./scripts/dev-start
+  ```
+  or for a single build, run
+  ```bash
+  ./scrtips/dev-start --single-run
+  ```
 
 ## Generating new components
 Use the generator to scaffold out a directive:
