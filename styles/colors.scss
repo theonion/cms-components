@@ -1,15 +1,81 @@
+$white: rgb(255,255,255);
 $active: #008d52;
-$body-color: #3A3A3A;
-$drk-gray: #e2e2e2;
-$md-gray: rgb(175, 176, 177);
-$lt-gray: rgb(235, 236, 238);
-$mdk-gray: rgb(210, 210, 210);
-$body-gray: #ededed;
 $login-gray: #7c7c7c;
-$button-blue: rgb(61, 191, 225);
-$button-blue-dk: rgb(25, 166, 203);
-$white: #fff;
 $red: #b02020;
 $logo-green: #006837;
 $light-border: 1px solid rgb(224, 225, 226);
 $most-shaded: rgb(87, 87, 87);
+$md-blue: rgb(70, 155, 255);
+$mdk-blue: rgb(42, 110, 158);
+$drk-blue: rgb(75, 90, 112);
+$lt-gray: rgb(246, 246, 246);
+$md-gray: rgb(210, 210, 210);
+$mdk-gray: $md-gray;
+$drk-gray: rgb(155, 155, 155);
+$body-color: rgb(60, 63, 74);
+$body-gray: $drk-gray;
+$button-blue: $md-blue;
+$button-blue-dk: $mdk-blue;
+
+$blue-grey: rgb(149, 159, 173);
+
+
+$color-base-grey: rgb(246, 246, 246);
+
+
+$palettes: (
+  base: (
+    base: $color-base-grey,
+    hover: darken($color-base-grey, 5%),
+    active: lighten($color-base-grey, 5%),
+    disabled: lighten($color-base-grey, 6%)
+  ),
+  white: (
+    base: $white,
+    hover: $white,
+    active: $white,
+    disabled: $white
+  ),
+  accent-orange: (
+    base: #f67e60,
+    hover: #ca5337,
+    active: #f67e60,
+    disabled: #febeae
+  ),
+  accent-grey-light: (
+    base: #c5cbd7,
+    hover: #959fad,
+    active: #c5cbd7,
+    disabled: #ebedf2
+  ),
+  accent-grey-medium: (
+    base: #959fad,
+    hover: #4c5a6f,
+    active: #959fad,
+    disabled: #dadee3
+  ),
+  accent-grey-dark: (
+    base: #4c5a6f,
+    hover: #26364c,
+    active: #4c5a6f,
+    disabled: #c9cdd4
+  ),
+  save: (
+    base: #21cc9c,
+    hover: #169572,
+    active: #21cc9c,
+    disabled: #a8ecdc
+  ),
+  notifications: (
+    base: #2e6f9c,
+    hover: #1a4c6e,
+    active: #2e6f9c,
+    disabled: #b5ccdc
+  ),
+  create-new: (
+    base: #4b9dfc,
+    hover: #094c9e,
+    active: #4b9dfc,
+    disabled: #c0defe
+  )
+);

@@ -186,39 +186,43 @@
 		"./cms-layout/cms-layout.html": 50,
 		"./cms-layout/cms-layout.js": 51,
 		"./cms-layout/cms-layout.scss": 52,
-		"./cms-legend/cms-legend.html": 55,
-		"./cms-legend/cms-legend.js": 56,
-		"./cms-legend/cms-legend.scss": 57,
+		"./cms-legend/cms-legend.html": 54,
+		"./cms-legend/cms-legend.js": 55,
+		"./cms-legend/cms-legend.scss": 56,
 		"./cms-login/login.html": 59,
 		"./cms-login/login.js": 60,
 		"./cms-login/login.scss": 61,
 		"./cms-logout/logout.html": 63,
 		"./cms-logout/logout.js": 64,
-		"./cms-partial/cms-partial.html": 65,
-		"./cms-partial/cms-partial.js": 66,
-		"./cms-partial/cms-partial.scss": 67,
-		"./cms-row/cms-row.html": 69,
-		"./cms-row/cms-row.js": 70,
-		"./cms-row/cms-row.scss": 71,
-		"./cms-table-cell/cms-table-cell.html": 73,
-		"./cms-table-cell/cms-table-cell.js": 74,
-		"./cms-table-cell/cms-table-cell.scss": 75,
-		"./cms-table-column/cms-table-column.html": 77,
-		"./cms-table-column/cms-table-column.js": 78,
-		"./cms-table-column/cms-table-column.scss": 79,
-		"./cms-table/cms-table.html": 81,
-		"./cms-table/cms-table.js": 82,
-		"./cms-table/cms-table.scss": 83,
-		"./sidebar-nav-item/sidebar-nav-item.html": 85,
-		"./sidebar-nav-item/sidebar-nav-item.js": 86,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 87,
-		"./ui-sref-active-if/ui-sref-active-if.js": 89,
-		"./user-menu/user-menu.html": 90,
-		"./user-menu/user-menu.js": 91,
-		"./user-menu/user-menu.scss": 92,
-		"./user-profile/user-profile.html": 94,
-		"./user-profile/user-profile.js": 95,
-		"./user-profile/user-profile.scss": 96
+		"./cms-modal/cms-modal.html": 65,
+		"./cms-modal/cms-modal.js": 66,
+		"./cms-modal/cms-modal.scss": 67,
+		"./cms-partial/cms-partial.html": 69,
+		"./cms-partial/cms-partial.js": 70,
+		"./cms-partial/cms-partial.scss": 71,
+		"./cms-row/cms-row.html": 73,
+		"./cms-row/cms-row.js": 74,
+		"./cms-row/cms-row.scss": 75,
+		"./cms-table-cell/cms-table-cell.html": 77,
+		"./cms-table-cell/cms-table-cell.js": 78,
+		"./cms-table-cell/cms-table-cell.scss": 79,
+		"./cms-table-column/cms-table-column.html": 81,
+		"./cms-table-column/cms-table-column.js": 82,
+		"./cms-table-column/cms-table-column.scss": 83,
+		"./cms-table/cms-table.html": 85,
+		"./cms-table/cms-table.js": 86,
+		"./cms-table/cms-table.scss": 87,
+		"./convert-to-number/convert-to-number.js": 89,
+		"./sidebar-nav-item/sidebar-nav-item.html": 90,
+		"./sidebar-nav-item/sidebar-nav-item.js": 91,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 92,
+		"./ui-sref-active-if/ui-sref-active-if.js": 94,
+		"./user-menu/user-menu.html": 95,
+		"./user-menu/user-menu.js": 96,
+		"./user-menu/user-menu.scss": 97,
+		"./user-profile/user-profile.html": 99,
+		"./user-profile/user-profile.js": 100,
+		"./user-profile/user-profile.scss": 101
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1438,8 +1442,7 @@
 
 /***/ },
 /* 53 */,
-/* 54 */,
-/* 55 */
+/* 54 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-legend/cms-legend.html';
@@ -1448,7 +1451,7 @@
 	module.exports = path;
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1464,12 +1467,13 @@
 
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 57 */,
 /* 58 */,
 /* 59 */
 /***/ function(module, exports) {
@@ -1561,13 +1565,95 @@
 /* 65 */
 /***/ function(module, exports) {
 
+	var path = 'components/cms-modal/cms-modal.html';
+	var html = "<ng-transclude></ng-transclude>";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 66 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('cmsModal', function () {
+	    return {
+	      templateUrl: 'components/cms-modal/cms-modal.html',
+	      restrict: 'E',
+	      modalTitle: '=',
+	      transclude: true,
+	      controller: ['$scope', '$element', '$document',
+
+	        function ($scope, $element, $document) {
+
+	          var active = false;
+	          var activeClass = 'cms-modal-active';
+	          
+	          function toggleActive (event) {
+	            // don't close if clicking on the inner
+	            if ($(event.target).closest('cms-modal-content')[0]) {
+	              return;
+	            }
+
+	            active = !active;
+	            if (active) {
+	              $element.addClass(activeClass)
+	              setTimeout(function () {
+	                $document.bind('click', toggleActive);
+	              });
+	            }
+	            else {
+	              $element.removeClass(activeClass);
+	              $document.unbind('click', toggleActive);
+	            }
+	          }
+	          $element.on('click', '[cms-modal-trigger]', toggleActive);
+	          $element.on('click', '.close', toggleActive);
+	          
+	          $scope.$on('modal-close', function (event) {
+	            event.stopPropagation();
+	            if (active) {
+	              toggleActive(event);
+	            }
+	          });
+
+
+	          // do close if navigating
+	          $scope.$on('$locationChangeStart', function(event, next, current) {
+	            if (active) { toggleActive(event) };
+	          });
+	        }]
+	    }
+	  })
+	  .directive('cmsModalTrigger', function () {
+	    return {
+	      restrict: 'A',
+	      controller: ['$scope', function ($scope) {
+	      }]
+	    };
+	  })
+	;
+
+
+/***/ },
+/* 67 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 68 */,
+/* 69 */
+/***/ function(module, exports) {
+
 	var path = 'components/cms-partial/cms-partial.html';
 	var html = "<span>Calling from cms-partial</span>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 66 */
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1593,14 +1679,14 @@
 
 
 /***/ },
-/* 67 */
+/* 71 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 68 */,
-/* 69 */
+/* 72 */,
+/* 73 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-row/cms-row.html';
@@ -1609,7 +1695,7 @@
 	module.exports = path;
 
 /***/ },
-/* 70 */
+/* 74 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1626,14 +1712,14 @@
 
 
 /***/ },
-/* 71 */
+/* 75 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 72 */,
-/* 73 */
+/* 76 */,
+/* 77 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-cell/cms-table-cell.html';
@@ -1642,7 +1728,7 @@
 	module.exports = path;
 
 /***/ },
-/* 74 */
+/* 78 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1671,14 +1757,14 @@
 
 
 /***/ },
-/* 75 */
+/* 79 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 76 */,
-/* 77 */
+/* 80 */,
+/* 81 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-column/cms-table-column.html';
@@ -1687,7 +1773,7 @@
 	module.exports = path;
 
 /***/ },
-/* 78 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1703,14 +1789,14 @@
 
 
 /***/ },
-/* 79 */
+/* 83 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 80 */,
-/* 81 */
+/* 84 */,
+/* 85 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table/cms-table.html';
@@ -1719,7 +1805,7 @@
 	module.exports = path;
 
 /***/ },
-/* 82 */
+/* 86 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1746,14 +1832,36 @@
 
 
 /***/ },
-/* 83 */
+/* 87 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 84 */,
-/* 85 */
+/* 88 */,
+/* 89 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('convertToNumber', function () {
+	    return {
+	      require: 'ngModel',
+	      link: function(scope, element, attrs, ngModel) {
+	        ngModel.$parsers.push(function(val) {
+	          return parseInt(val, 10);
+	        });
+	        ngModel.$formatters.push(function(val) {
+	          return '' + val;
+	        });
+	      }
+	    };
+	  });
+
+
+/***/ },
+/* 90 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -1762,7 +1870,7 @@
 	module.exports = path;
 
 /***/ },
-/* 86 */
+/* 91 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1781,14 +1889,14 @@
 
 
 /***/ },
-/* 87 */
+/* 92 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 88 */,
-/* 89 */
+/* 93 */,
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1816,7 +1924,7 @@
 
 
 /***/ },
-/* 90 */
+/* 95 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-menu/user-menu.html';
@@ -1825,7 +1933,7 @@
 	module.exports = path;
 
 /***/ },
-/* 91 */
+/* 96 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1848,14 +1956,14 @@
 
 
 /***/ },
-/* 92 */
+/* 97 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 93 */,
-/* 94 */
+/* 98 */,
+/* 99 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-profile/user-profile.html';
@@ -1864,7 +1972,7 @@
 	module.exports = path;
 
 /***/ },
-/* 95 */
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1898,7 +2006,7 @@
 
 
 /***/ },
-/* 96 */
+/* 101 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

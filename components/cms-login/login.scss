@@ -7,7 +7,7 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  background-color: $body-gray;
+  background-color: $white;
   position:fixed;
   height:100%;
   left:0;
@@ -30,8 +30,7 @@
 
 .login-form {
   @include center-block;
-  background: $white;
-  border-top: 3px solid $logo-green;
+  background: $lt-gray;
   margin-top: 85px;
   width: 400px;
   padding: 3rem;
@@ -70,13 +69,9 @@
   }
 
   button {
+    @include button-color('background-color', save);
     border: none;
-    background-color: $button-blue;
     height: 40px;
-
-    &.btn-success:hover {
-      background-color: $button-blue;
-    }
   }
 
   .alert-status .alert {

@@ -1,19 +1,29 @@
 @import 'sass-toolkit/utils/flexbox';
 @import 'colors';
+@import 'typography';
+@import 'mixins';
 
 cms-input {
   display: block;
   margin-bottom:2em;
+
   & > label {
     @include flexbox;
     @include flex-direction(column);
+    
     .cms-input-title {
+      @include text-bold;
       text-transform: uppercase;
       font-weight: normal;
       margin-bottom:.2em;
     }
+
     .input-group-addon {
       outline:0;
+    }
+
+    .input-group-btn .btn {
+      padding: 12px; 
     }
 
     .cms-input-control {

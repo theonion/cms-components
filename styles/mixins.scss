@@ -1,4 +1,5 @@
 @import 'sass-toolkit/utils/flexbox';
+@import 'colors';
 
 @mixin ease($property: all, $time: 200ms) {
   -webkit-transition: $property $time cubic-bezier(0.250, 0.250, 0.840, 0.325);
@@ -51,4 +52,27 @@
     padding-top: 1em;
     overflow-y: scroll;
   }
+}
+
+@mixin button-color ($attribute: 'background-color', $type: 'default'){
+
+  $base: palette($type, base);
+  $hover: palette($type, hover);
+  $active: palette($type, active);
+  $inactive: palette($type, inactive);
+
+  #{$attribute}: $base;
+  &:hover {
+    #{$attribute}: $hover;
+  }
+  &:active, &:focus {
+    #{$attribute}: $active;
+  }
+  &[disabled], &.inactive {
+   #{$attribute}: $inactive; 
+  }
+}
+
+@function palette($palette, $tone: 'default') {
+    @return map-get(map-get($palettes, $palette), $tone);
 }
