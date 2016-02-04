@@ -194,34 +194,35 @@
 		"./cms-login/login.scss": 61,
 		"./cms-logout/logout.html": 63,
 		"./cms-logout/logout.js": 64,
-		"./cms-modal/cms-modal.html": 102,
-		"./cms-modal/cms-modal.js": 103,
-		"./cms-modal/cms-modal.scss": 104,
-		"./cms-partial/cms-partial.html": 65,
-		"./cms-partial/cms-partial.js": 66,
-		"./cms-partial/cms-partial.scss": 67,
-		"./cms-row/cms-row.html": 69,
-		"./cms-row/cms-row.js": 70,
-		"./cms-row/cms-row.scss": 71,
-		"./cms-table-cell/cms-table-cell.html": 73,
-		"./cms-table-cell/cms-table-cell.js": 74,
-		"./cms-table-cell/cms-table-cell.scss": 75,
-		"./cms-table-column/cms-table-column.html": 77,
-		"./cms-table-column/cms-table-column.js": 78,
-		"./cms-table-column/cms-table-column.scss": 79,
-		"./cms-table/cms-table.html": 81,
-		"./cms-table/cms-table.js": 82,
-		"./cms-table/cms-table.scss": 83,
-		"./sidebar-nav-item/sidebar-nav-item.html": 85,
-		"./sidebar-nav-item/sidebar-nav-item.js": 86,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 87,
-		"./ui-sref-active-if/ui-sref-active-if.js": 89,
-		"./user-menu/user-menu.html": 90,
-		"./user-menu/user-menu.js": 91,
-		"./user-menu/user-menu.scss": 92,
-		"./user-profile/user-profile.html": 94,
-		"./user-profile/user-profile.js": 95,
-		"./user-profile/user-profile.scss": 96
+		"./cms-modal/cms-modal.html": 65,
+		"./cms-modal/cms-modal.js": 66,
+		"./cms-modal/cms-modal.scss": 67,
+		"./cms-partial/cms-partial.html": 69,
+		"./cms-partial/cms-partial.js": 70,
+		"./cms-partial/cms-partial.scss": 71,
+		"./cms-row/cms-row.html": 73,
+		"./cms-row/cms-row.js": 74,
+		"./cms-row/cms-row.scss": 75,
+		"./cms-table-cell/cms-table-cell.html": 77,
+		"./cms-table-cell/cms-table-cell.js": 78,
+		"./cms-table-cell/cms-table-cell.scss": 79,
+		"./cms-table-column/cms-table-column.html": 81,
+		"./cms-table-column/cms-table-column.js": 82,
+		"./cms-table-column/cms-table-column.scss": 83,
+		"./cms-table/cms-table.html": 85,
+		"./cms-table/cms-table.js": 86,
+		"./cms-table/cms-table.scss": 87,
+		"./convert-to-number/convert-to-number.js": 89,
+		"./sidebar-nav-item/sidebar-nav-item.html": 90,
+		"./sidebar-nav-item/sidebar-nav-item.js": 91,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 92,
+		"./ui-sref-active-if/ui-sref-active-if.js": 94,
+		"./user-menu/user-menu.html": 95,
+		"./user-menu/user-menu.js": 96,
+		"./user-menu/user-menu.scss": 97,
+		"./user-profile/user-profile.html": 99,
+		"./user-profile/user-profile.js": 100,
+		"./user-profile/user-profile.scss": 101
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1564,364 +1565,13 @@
 /* 65 */
 /***/ function(module, exports) {
 
-	var path = 'components/cms-partial/cms-partial.html';
-	var html = "<span>Calling from cms-partial</span>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 66 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('cmsPartial', ['$templateCache', '$compile',
-	  function ($templateCache, $compile) {
-	    return {
-	      restrict: 'E',
-	      compile: function (element, attrs) {
-	        return {
-	          post: function ($scope, $element, $attrs) {
-	            $element[0].innerHTML = $templateCache.resolve({
-	              path: $attrs.template,
-	              component: $scope.component
-	            });
-	            $compile($element.contents())($scope);
-	          }
-	        };
-	      }
-	    }
-	  }]);
-
-
-/***/ },
-/* 67 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 68 */,
-/* 69 */
-/***/ function(module, exports) {
-
-	var path = 'components/cms-row/cms-row.html';
-	var html = "<span>Calling from cms-row</span>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 70 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('cmsRow', function () {
-	    return {
-	      //templateUrl: 'components/cms-row/cms-row.html',
-	      template: '<ng-transclude></ng-transclude>',
-	      restrict: 'E',
-	      transclude: true
-	    }
-	  });
-
-
-/***/ },
-/* 71 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 72 */,
-/* 73 */
-/***/ function(module, exports) {
-
-	var path = 'components/cms-table-cell/cms-table-cell.html';
-	var html = "";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 74 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('cmsTableCell', function ($compile) {
-	    return {
-	      templateUrl: 'components/cms-table-cell/cms-table-cell.html',
-	      restrict: 'A',
-	      scope: {
-	        column: '=',
-	        item: '=',
-	        text: '='
-	      },
-	      compile: function (element, attributes) {
-	        return {
-	          pre: function ($scope, $element, $attributes) {
-	            // first child is ng-transclude, we don't want that here
-	            $element.append($scope.column.children[0].innerHTML);
-	            $compile($element.contents())($scope);
-	          }
-	        };
-	      }
-	    }
-	  });
-
-
-/***/ },
-/* 75 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 76 */,
-/* 77 */
-/***/ function(module, exports) {
-
-	var path = 'components/cms-table-column/cms-table-column.html';
-	var html = "<ng-transclude></ng-transclude>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 78 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('cmsTableColumn', function () {
-	    return {
-	      templateUrl: 'components/cms-table-column/cms-table-column.html',
-	      restrict: 'E',
-	      transclude: true
-	    }
-	  });
-
-
-/***/ },
-/* 79 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 80 */,
-/* 81 */
-/***/ function(module, exports) {
-
-	var path = 'components/cms-table/cms-table.html';
-	var html = "<ng-transclude></ng-transclude>\n<div class=\"cms-table-table\">\n  <div class=\"cms-table-row cms-table-header\">\n    <div class=\"cms-table-cell\" ng-repeat=\"column in columns\"\n         type=\"{{column.attributes.type.value}}\">\n      <a ng-click=\"$parent.$parent.orderTable(column.attributes.sort.value)\">\n        {{column.attributes.title.value}}\n        <i class=\"fa\"\n           ng-class=\"{'fa-chevron-down': $parent.$parent.listOrdering === '-'+column.attributes.sort.value, 'fa-chevron-up': $parent.$parent.listOrdering === column.attributes.sort.value}\"></i>\n      </a>\n    </div>\n  </div>\n\n  <div class=\"cms-table-row\"\n       dir-paginate=\"item in collection | itemsPerPage: 20\"\n       total-items=\"{{collection.$totalCount}}\"\n       current-page=\"$parent.$parent.listPage\">\n    <div class=\"cms-table-cell\" cms-table-cell item=\"item\" column=\"column\" ng-repeat=\"column in columns\"\n         type=\"{{column.attributes.type.value}}\">\n    </div>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-show=\"collection.$status == 'pending'\">\n    <p> Loading items from server... </p>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-hide=\"collection.length\">\n    <p> No items to show in this list. </p>\n  </div>\n</div>\n\n<div class=\"cms-table-pagination\">\n  <dir-pagination-controls on-page-change=\"$parent.$parent.paginate(newPageNumber)\"></dir-pagination-controls>\n</div>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 82 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('cmsTable', function () {
-	    return {
-	      templateUrl: 'components/cms-table/cms-table.html',
-	      restrict: 'E',
-	      transclude: true,
-	      scope: {
-	        collection: '='
-	      },
-	      link: function ($scope, $element, $attrs) {
-	        $element.find('cms-table-column').each(function (index, column) {
-	          $scope.columns.push($(column).clone()[0]);
-	        });
-	      },
-	      controller: function ($scope) {
-	        $scope.columns = [];
-	      }
-	    }
-	  });
-
-
-/***/ },
-/* 83 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 84 */,
-/* 85 */
-/***/ function(module, exports) {
-
-	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
-	var html = "<a ng-transclude ui-sref=\"{{sref}}\"></a>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 86 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('sidebarNavItem', function () {
-	    return {
-	      templateUrl: 'components/sidebar-nav-item/sidebar-nav-item.html',
-	      restrict: 'E',
-	      scope: {
-	        'sref': '@'
-	      },
-	      transclude: true
-	    }
-	  });
-
-
-/***/ },
-/* 87 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 88 */,
-/* 89 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('uiSrefActiveIf', ['$state', function($state) {
-	    return {
-	        restrict: "A",
-	        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
-	            var state = $attrs.uiSrefActiveIf;
-
-	            function update() {
-	                if ( $state.includes(state) || $state.is(state) ) {
-	                    $element.addClass("active");
-	                } else {
-	                    $element.removeClass("active");
-	                }
-	            }
-
-	            $scope.$on('$stateChangeSuccess', update);
-	            update();
-	        }]
-	    };
-	}])
-
-
-/***/ },
-/* 90 */
-/***/ function(module, exports) {
-
-	var path = 'components/user-menu/user-menu.html';
-	var html = "<div class=\"dropdown\">\n  <button ng-if=\"currentUser\" type=\"button\" class=\"user-menu-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\n    <user-profile></user-profile>\n    <i class=\"user-menu-icon fa fa-ellipsis-v fa-2x\"></i>\n  </button>\n  <ul class=\"dropdown-menu user-menu-dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\n    <li><a ui-sref=\"logout\">Log Out</a></li>\n  </ul>\n</div>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 91 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('userMenu', function () {
-	    return {
-	      templateUrl: 'components/user-menu/user-menu.html',
-	      restrict: 'E',
-	      controller: function ($scope, CurrentUser) {
-	        function setCurrentUser () {
-	          $scope.currentUser = CurrentUser.getCurrentUser();
-	          console.log('setCurrentUser in user-menu', $scope.currentUser);
-	        }
-	        $scope.$on('userchange', setCurrentUser);
-	        setCurrentUser();
-	      }
-	    }
-	  });
-
-
-/***/ },
-/* 92 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 93 */,
-/* 94 */
-/***/ function(module, exports) {
-
-	var path = 'components/user-profile/user-profile.html';
-	var html = "<span style=\"background-color: {{userColor}};\">{{initials}}</span>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 95 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('userProfile', function () {
-	    return {
-	      templateUrl: 'components/user-profile/user-profile.html',
-	      restrict: 'E',
-	      controller: ['$scope', 'CurrentUser', 'md5', function ($scope, currentUser, md5) {
-	        $scope.setUser = function () {
-	          $scope.currentUser = currentUser.getCurrentUser();
-	          if ($scope.currentUser) {
-	            $scope.initials = currentUser.getCurrentUser().slice(0, 2);
-
-	            var hash = md5.createHash($scope.currentUser);
-	            var rgb = '#' + hash.substring(0,2) + hash.substring(2,4) + hash.substring(4,6);
-	            $scope.userColor = rgb;
-	          }
-	          else {
-	            $scope.currentUser = null;
-	            $scope.userColor = null;
-	            $scope.initials = null;
-	          }
-	        };
-	        $scope.$on('userchange', $scope.setUser);
-	        $scope.setUser();
-	      }]
-	    }
-	  });
-
-
-/***/ },
-/* 96 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */
-/***/ function(module, exports) {
-
 	var path = 'components/cms-modal/cms-modal.html';
 	var html = "<ng-transclude></ng-transclude>";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 103 */
+/* 66 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1987,7 +1637,376 @@
 
 
 /***/ },
-/* 104 */
+/* 67 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 68 */,
+/* 69 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-partial/cms-partial.html';
+	var html = "<span>Calling from cms-partial</span>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 70 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('cmsPartial', ['$templateCache', '$compile',
+	  function ($templateCache, $compile) {
+	    return {
+	      restrict: 'E',
+	      compile: function (element, attrs) {
+	        return {
+	          post: function ($scope, $element, $attrs) {
+	            $element[0].innerHTML = $templateCache.resolve({
+	              path: $attrs.template,
+	              component: $scope.component
+	            });
+	            $compile($element.contents())($scope);
+	          }
+	        };
+	      }
+	    }
+	  }]);
+
+
+/***/ },
+/* 71 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 72 */,
+/* 73 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-row/cms-row.html';
+	var html = "<span>Calling from cms-row</span>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 74 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('cmsRow', function () {
+	    return {
+	      //templateUrl: 'components/cms-row/cms-row.html',
+	      template: '<ng-transclude></ng-transclude>',
+	      restrict: 'E',
+	      transclude: true
+	    }
+	  });
+
+
+/***/ },
+/* 75 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 76 */,
+/* 77 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-table-cell/cms-table-cell.html';
+	var html = "";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 78 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('cmsTableCell', function ($compile) {
+	    return {
+	      templateUrl: 'components/cms-table-cell/cms-table-cell.html',
+	      restrict: 'A',
+	      scope: {
+	        column: '=',
+	        item: '=',
+	        text: '='
+	      },
+	      compile: function (element, attributes) {
+	        return {
+	          pre: function ($scope, $element, $attributes) {
+	            // first child is ng-transclude, we don't want that here
+	            $element.append($scope.column.children[0].innerHTML);
+	            $compile($element.contents())($scope);
+	          }
+	        };
+	      }
+	    }
+	  });
+
+
+/***/ },
+/* 79 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 80 */,
+/* 81 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-table-column/cms-table-column.html';
+	var html = "<ng-transclude></ng-transclude>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 82 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('cmsTableColumn', function () {
+	    return {
+	      templateUrl: 'components/cms-table-column/cms-table-column.html',
+	      restrict: 'E',
+	      transclude: true
+	    }
+	  });
+
+
+/***/ },
+/* 83 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 84 */,
+/* 85 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-table/cms-table.html';
+	var html = "<ng-transclude></ng-transclude>\n<div class=\"cms-table-table\">\n  <div class=\"cms-table-row cms-table-header\">\n    <div class=\"cms-table-cell\" ng-repeat=\"column in columns\"\n         type=\"{{column.attributes.type.value}}\">\n      <a ng-click=\"$parent.$parent.orderTable(column.attributes.sort.value)\">\n        {{column.attributes.title.value}}\n        <i class=\"fa\"\n           ng-class=\"{'fa-chevron-down': $parent.$parent.listOrdering === '-'+column.attributes.sort.value, 'fa-chevron-up': $parent.$parent.listOrdering === column.attributes.sort.value}\"></i>\n      </a>\n    </div>\n  </div>\n\n  <div class=\"cms-table-row\"\n       dir-paginate=\"item in collection | itemsPerPage: 20\"\n       total-items=\"{{collection.$totalCount}}\"\n       current-page=\"$parent.$parent.listPage\">\n    <div class=\"cms-table-cell\" cms-table-cell item=\"item\" column=\"column\" ng-repeat=\"column in columns\"\n         type=\"{{column.attributes.type.value}}\">\n    </div>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-show=\"collection.$status == 'pending'\">\n    <p> Loading items from server... </p>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-hide=\"collection.length\">\n    <p> No items to show in this list. </p>\n  </div>\n</div>\n\n<div class=\"cms-table-pagination\">\n  <dir-pagination-controls on-page-change=\"$parent.$parent.paginate(newPageNumber)\"></dir-pagination-controls>\n</div>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 86 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('cmsTable', function () {
+	    return {
+	      templateUrl: 'components/cms-table/cms-table.html',
+	      restrict: 'E',
+	      transclude: true,
+	      scope: {
+	        collection: '='
+	      },
+	      link: function ($scope, $element, $attrs) {
+	        $element.find('cms-table-column').each(function (index, column) {
+	          $scope.columns.push($(column).clone()[0]);
+	        });
+	      },
+	      controller: function ($scope) {
+	        $scope.columns = [];
+	      }
+	    }
+	  });
+
+
+/***/ },
+/* 87 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 88 */,
+/* 89 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('convertToNumber', function () {
+	    return {
+	      require: 'ngModel',
+	      link: function(scope, element, attrs, ngModel) {
+	        ngModel.$parsers.push(function(val) {
+	          return parseInt(val, 10);
+	        });
+	        ngModel.$formatters.push(function(val) {
+	          return '' + val;
+	        });
+	      }
+	    };
+	  });
+
+
+/***/ },
+/* 90 */
+/***/ function(module, exports) {
+
+	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
+	var html = "<a ng-transclude ui-sref=\"{{sref}}\"></a>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 91 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('sidebarNavItem', function () {
+	    return {
+	      templateUrl: 'components/sidebar-nav-item/sidebar-nav-item.html',
+	      restrict: 'E',
+	      scope: {
+	        'sref': '@'
+	      },
+	      transclude: true
+	    }
+	  });
+
+
+/***/ },
+/* 92 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 93 */,
+/* 94 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('uiSrefActiveIf', ['$state', function($state) {
+	    return {
+	        restrict: "A",
+	        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+	            var state = $attrs.uiSrefActiveIf;
+
+	            function update() {
+	                if ( $state.includes(state) || $state.is(state) ) {
+	                    $element.addClass("active");
+	                } else {
+	                    $element.removeClass("active");
+	                }
+	            }
+
+	            $scope.$on('$stateChangeSuccess', update);
+	            update();
+	        }]
+	    };
+	}])
+
+
+/***/ },
+/* 95 */
+/***/ function(module, exports) {
+
+	var path = 'components/user-menu/user-menu.html';
+	var html = "<div class=\"dropdown\">\n  <button ng-if=\"currentUser\" type=\"button\" class=\"user-menu-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\n    <user-profile></user-profile>\n    <i class=\"user-menu-icon fa fa-ellipsis-v fa-2x\"></i>\n  </button>\n  <ul class=\"dropdown-menu user-menu-dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\n    <li><a ui-sref=\"logout\">Log Out</a></li>\n  </ul>\n</div>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 96 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('userMenu', function () {
+	    return {
+	      templateUrl: 'components/user-menu/user-menu.html',
+	      restrict: 'E',
+	      controller: function ($scope, CurrentUser) {
+	        function setCurrentUser () {
+	          $scope.currentUser = CurrentUser.getCurrentUser();
+	          console.log('setCurrentUser in user-menu', $scope.currentUser);
+	        }
+	        $scope.$on('userchange', setCurrentUser);
+	        setCurrentUser();
+	      }
+	    }
+	  });
+
+
+/***/ },
+/* 97 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 98 */,
+/* 99 */
+/***/ function(module, exports) {
+
+	var path = 'components/user-profile/user-profile.html';
+	var html = "<span style=\"background-color: {{userColor}};\">{{initials}}</span>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 100 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('userProfile', function () {
+	    return {
+	      templateUrl: 'components/user-profile/user-profile.html',
+	      restrict: 'E',
+	      controller: ['$scope', 'CurrentUser', 'md5', function ($scope, currentUser, md5) {
+	        $scope.setUser = function () {
+	          $scope.currentUser = currentUser.getCurrentUser();
+	          if ($scope.currentUser) {
+	            $scope.initials = currentUser.getCurrentUser().slice(0, 2);
+
+	            var hash = md5.createHash($scope.currentUser);
+	            var rgb = '#' + hash.substring(0,2) + hash.substring(2,4) + hash.substring(4,6);
+	            $scope.userColor = rgb;
+	          }
+	          else {
+	            $scope.currentUser = null;
+	            $scope.userColor = null;
+	            $scope.initials = null;
+	          }
+	        };
+	        $scope.$on('userchange', $scope.setUser);
+	        $scope.setUser();
+	      }]
+	    }
+	  });
+
+
+/***/ },
+/* 101 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
