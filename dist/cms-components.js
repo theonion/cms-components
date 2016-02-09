@@ -1078,7 +1078,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-button/cms-button.html';
-	var html = "<button class=\"{{type}}-action\">\n  <i ng-hide=\"noglyph\" class=\"fa fa-{{glyph}}\"></i>\n  <ng-transclude></ng-transclude>\n</button>\n";
+	var html = "<button class=\"{{ type || 'friendly' }}-action\">\n  <i\n      ng-if=\"iconIsBefore && !hideGlyph()\"\n      class=\"{{ iconClasses }}\">\n  </i>\n  <ng-transclude></ng-transclude>\n  <i\n      ng-if=\"!iconIsBefore && !hideGlyph()\"\n      class=\"{{ iconClasses }}\">\n  </i>\n</button>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -1096,20 +1096,19 @@
 	      restrict: 'EA',
 	      transclude: true,
 	      scope: {
-	        glyph: '@',
-	        type: '@',
-	        glyphsize: '@',
-	        glyphpos: '@',
-	        noglyph: '@'
+	        type: '@buttonType',                // type of button styling to apply, defaults to 'friendly'
+	        glyph: '@buttonGlyph',              // glyph to use from glyph library, defaults to 'question-circle'
+	        glyphClass: '@buttonGlyphClass',    // class to use to style glyph, defaults to 'fa'
+	        glyphPrefix: '@buttonGlyphPrefix',  // prefix for glyph icon, defaults to 'fa'
+	        glyphPos: '@buttonGlyphPos',        // position of glyph, 'before' or 'after', defaults to 'before'
+	        hideGlyph: '&buttonGlyphHide',      // truthy to hide glyph
 	      },
-	      link: function ($scope, element, attrs) {
-	        attrs.type  || (attrs.type = 'friendly');
-	        attrs.glyph || (attrs.glyph = 'question-circle');
-	        attrs.glyphsize || (attrs.glyphsize = 'lg');
-	        attrs.glyphpos || (attrs.glyphpos = 'before');
-	        if (attrs.noglyph !== undefined) {
-	          attrs.noglyph = 'noglyph';
-	        }
+	      link: function ($scope, elements, attrs) {
+	        $scope.iconClasses =
+	            ($scope.glyphClass || 'fa') + ' ' +
+	            ($scope.glyphPrefix || 'fa') + '-' +
+	            ($scope.glyph || 'question-circle');
+	        $scope.iconIsBefore = $scope.glyphPos !== 'after';
 	      }
 	    }
 	  });
