@@ -11,16 +11,9 @@ $glyph-margin: 0.4em;
   font-size: 14px;
   outline:0;
   padding: 0.6em 1.5em;
-  width: 100%;
-
-  @include flexbox;
-  @include flex-direction(center);
 
   & > * {
     @include align-self(center);
-  }
-  & > i {
-    margin-right: $glyph-margin;
   }
 
   [glyphpos="after"] & > i {
