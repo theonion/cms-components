@@ -33,6 +33,11 @@ $glyph-margin: 0.4em;
 cms-button {
   display: inline-block;
 
+  > button.success-action {
+    @include button-core;
+    @include button-color ('background-color', save)
+  }
+
   > button.friendly-action {
     @include button-core;
     @include button-color ('background-color', create-new);
