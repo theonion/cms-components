@@ -5,12 +5,14 @@
 $glyph-margin: 0.4em;
 
 @mixin button-core {
-  border: none;  
+  border: none;
   border-radius: 5px;
   color: white;
-  padding: 0.6em 1.5em;
   font-size: 14px;
   outline:0;
+  padding: 0.6em 1.5em;
+  width: 100%;
+
   @include flexbox;
   @include flex-direction(center);
 
@@ -29,6 +31,7 @@ $glyph-margin: 0.4em;
 }
 
 cms-button {
+  display: inline-block;
 
   > button.friendly-action {
     @include button-core;
