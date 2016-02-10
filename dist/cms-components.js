@@ -150,82 +150,84 @@
 
 	var map = {
 		"./auth/auth-interceptor.js": 3,
+		"./auth/auth-interceptor.spec.js": 109,
 		"./auth/auth-service.js": 4,
-		"./auth/auth.js": 5,
-		"./auth/current-user.js": 6,
-		"./auth/http-request-buffer-factory.js": 7,
-		"./betty-cropper/betty-cropper.js": 8,
-		"./betty-cropper/betty-cropper.scss": 9,
-		"./betty-cropper/betty-editable.html": 13,
-		"./betty-cropper/betty-editable.js": 14,
-		"./betty-cropper/betty-service.js": 15,
-		"./betty-cropper/image-crop-modal.html": 16,
-		"./betty-cropper/image-crop-modal.js": 17,
-		"./betty-cropper/open-image-crop-modal.js": 18,
-		"./cms-button/cms-button.html": 19,
-		"./cms-button/cms-button.js": 20,
-		"./cms-button/cms-button.scss": 21,
-		"./cms-component/cms-component.html": 23,
-		"./cms-component/cms-component.js": 24,
-		"./cms-component/cms-component.scss": 25,
-		"./cms-container/cms-container.html": 27,
-		"./cms-container/cms-container.js": 28,
-		"./cms-container/cms-container.scss": 29,
-		"./cms-content-list/cms-content-list.html": 31,
-		"./cms-content-list/cms-content-list.js": 32,
-		"./cms-content-list/cms-content-list.scss": 33,
-		"./cms-filter-item/cms-filter-item.html": 35,
-		"./cms-filter-item/cms-filter-item.js": 36,
-		"./cms-filter-item/cms-filter-item.scss": 37,
-		"./cms-filter-set/cms-filter-set.html": 39,
-		"./cms-filter-set/cms-filter-set.js": 40,
-		"./cms-filter-set/cms-filter-set.scss": 41,
-		"./cms-flyout/cms-flyout.html": 43,
-		"./cms-flyout/cms-flyout.js": 44,
-		"./cms-flyout/cms-flyout.scss": 45,
-		"./cms-input/cms-input.html": 47,
-		"./cms-input/cms-input.js": 48,
-		"./cms-input/cms-input.scss": 49,
-		"./cms-layout/cms-layout.html": 51,
-		"./cms-layout/cms-layout.js": 52,
-		"./cms-layout/cms-layout.scss": 53,
-		"./cms-legend/cms-legend.html": 55,
-		"./cms-legend/cms-legend.js": 56,
-		"./cms-legend/cms-legend.scss": 57,
-		"./cms-login/login.html": 60,
-		"./cms-login/login.js": 61,
-		"./cms-login/login.scss": 62,
-		"./cms-logout/logout.html": 64,
-		"./cms-logout/logout.js": 65,
-		"./cms-modal/cms-modal.html": 66,
-		"./cms-modal/cms-modal.js": 67,
-		"./cms-modal/cms-modal.scss": 68,
-		"./cms-partial/cms-partial.html": 70,
-		"./cms-partial/cms-partial.js": 71,
-		"./cms-partial/cms-partial.scss": 72,
-		"./cms-row/cms-row.html": 74,
-		"./cms-row/cms-row.js": 75,
-		"./cms-row/cms-row.scss": 76,
-		"./cms-table-cell/cms-table-cell.html": 78,
-		"./cms-table-cell/cms-table-cell.js": 79,
-		"./cms-table-cell/cms-table-cell.scss": 80,
-		"./cms-table-column/cms-table-column.html": 82,
-		"./cms-table-column/cms-table-column.js": 83,
-		"./cms-table-column/cms-table-column.scss": 84,
-		"./cms-table/cms-table.html": 86,
-		"./cms-table/cms-table.js": 87,
-		"./cms-table/cms-table.scss": 88,
-		"./convert-to-number/convert-to-number.js": 90,
-		"./sidebar-nav-item/sidebar-nav-item.html": 91,
-		"./sidebar-nav-item/sidebar-nav-item.js": 92,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 93,
-		"./ui-sref-active-if/ui-sref-active-if.js": 95,
-		"./user-menu/user-menu.html": 96,
-		"./user-menu/user-menu.js": 97,
-		"./user-menu/user-menu.scss": 98,
-		"./user-profile/user-profile.html": 100,
-		"./user-profile/user-profile.js": 101,
-		"./user-profile/user-profile.scss": 102
+		"./auth/auth-service.spec.js": 103,
+		"./auth/auth.js": 108,
+		"./auth/current-user.js": 5,
+		"./auth/http-request-buffer-factory.js": 6,
+		"./betty-cropper/betty-cropper.js": 7,
+		"./betty-cropper/betty-cropper.scss": 8,
+		"./betty-cropper/betty-editable.html": 12,
+		"./betty-cropper/betty-editable.js": 13,
+		"./betty-cropper/betty-service.js": 14,
+		"./betty-cropper/image-crop-modal.html": 15,
+		"./betty-cropper/image-crop-modal.js": 16,
+		"./betty-cropper/open-image-crop-modal.js": 17,
+		"./cms-button/cms-button.html": 18,
+		"./cms-button/cms-button.js": 19,
+		"./cms-button/cms-button.scss": 20,
+		"./cms-component/cms-component.html": 22,
+		"./cms-component/cms-component.js": 23,
+		"./cms-component/cms-component.scss": 24,
+		"./cms-container/cms-container.html": 26,
+		"./cms-container/cms-container.js": 27,
+		"./cms-container/cms-container.scss": 28,
+		"./cms-content-list/cms-content-list.html": 30,
+		"./cms-content-list/cms-content-list.js": 31,
+		"./cms-content-list/cms-content-list.scss": 32,
+		"./cms-filter-item/cms-filter-item.html": 34,
+		"./cms-filter-item/cms-filter-item.js": 35,
+		"./cms-filter-item/cms-filter-item.scss": 36,
+		"./cms-filter-set/cms-filter-set.html": 38,
+		"./cms-filter-set/cms-filter-set.js": 39,
+		"./cms-filter-set/cms-filter-set.scss": 40,
+		"./cms-flyout/cms-flyout.html": 42,
+		"./cms-flyout/cms-flyout.js": 43,
+		"./cms-flyout/cms-flyout.scss": 44,
+		"./cms-input/cms-input.html": 46,
+		"./cms-input/cms-input.js": 47,
+		"./cms-input/cms-input.scss": 48,
+		"./cms-layout/cms-layout.html": 50,
+		"./cms-layout/cms-layout.js": 51,
+		"./cms-layout/cms-layout.scss": 52,
+		"./cms-legend/cms-legend.html": 54,
+		"./cms-legend/cms-legend.js": 55,
+		"./cms-legend/cms-legend.scss": 56,
+		"./cms-login/login.html": 59,
+		"./cms-login/login.js": 60,
+		"./cms-login/login.scss": 61,
+		"./cms-logout/logout.html": 63,
+		"./cms-logout/logout.js": 64,
+		"./cms-modal/cms-modal.html": 65,
+		"./cms-modal/cms-modal.js": 66,
+		"./cms-modal/cms-modal.scss": 67,
+		"./cms-partial/cms-partial.html": 69,
+		"./cms-partial/cms-partial.js": 70,
+		"./cms-partial/cms-partial.scss": 71,
+		"./cms-row/cms-row.html": 73,
+		"./cms-row/cms-row.js": 74,
+		"./cms-row/cms-row.scss": 75,
+		"./cms-table-cell/cms-table-cell.html": 77,
+		"./cms-table-cell/cms-table-cell.js": 78,
+		"./cms-table-cell/cms-table-cell.scss": 79,
+		"./cms-table-column/cms-table-column.html": 81,
+		"./cms-table-column/cms-table-column.js": 82,
+		"./cms-table-column/cms-table-column.scss": 83,
+		"./cms-table/cms-table.html": 85,
+		"./cms-table/cms-table.js": 86,
+		"./cms-table/cms-table.scss": 87,
+		"./convert-to-number/convert-to-number.js": 89,
+		"./sidebar-nav-item/sidebar-nav-item.html": 90,
+		"./sidebar-nav-item/sidebar-nav-item.js": 91,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 92,
+		"./ui-sref-active-if/ui-sref-active-if.js": 94,
+		"./user-menu/user-menu.html": 95,
+		"./user-menu/user-menu.js": 96,
+		"./user-menu/user-menu.scss": 97,
+		"./user-profile/user-profile.html": 99,
+		"./user-profile/user-profile.js": 100,
+		"./user-profile/user-profile.scss": 101
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -343,16 +345,6 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	angular.module('cmsComponents.auth', [
-	  'cmsComponents.auth.service',
-	  'cmsComponents.auth.interceptor'
-	]);
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
 	'use strict';
 
 	angular.module('cmsComponents')
@@ -378,7 +370,7 @@
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -425,7 +417,7 @@
 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -730,16 +722,16 @@
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 9 */,
 /* 10 */,
 /* 11 */,
-/* 12 */,
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/betty-editable.html';
@@ -748,7 +740,7 @@
 	module.exports = path;
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -865,7 +857,7 @@
 
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -889,7 +881,7 @@
 
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/image-crop-modal.html';
@@ -898,7 +890,7 @@
 	module.exports = path;
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1069,7 +1061,7 @@
 
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1093,7 +1085,7 @@
 
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-button/cms-button.html';
@@ -1102,7 +1094,7 @@
 	module.exports = path;
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1135,14 +1127,14 @@
 
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 22 */,
-/* 23 */
+/* 21 */,
+/* 22 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-component/cms-component.html';
@@ -1151,7 +1143,7 @@
 	module.exports = path;
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1174,14 +1166,14 @@
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 26 */,
-/* 27 */
+/* 25 */,
+/* 26 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-container/cms-container.html';
@@ -1190,7 +1182,7 @@
 	module.exports = path;
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1206,14 +1198,14 @@
 
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 30 */,
-/* 31 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-content-list/cms-content-list.html';
@@ -1222,7 +1214,7 @@
 	module.exports = path;
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1237,14 +1229,14 @@
 
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 34 */,
-/* 35 */
+/* 33 */,
+/* 34 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-filter-item/cms-filter-item.html';
@@ -1253,7 +1245,7 @@
 	module.exports = path;
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1269,14 +1261,14 @@
 
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 38 */,
-/* 39 */
+/* 37 */,
+/* 38 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-filter-set/cms-filter-set.html';
@@ -1285,7 +1277,7 @@
 	module.exports = path;
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1301,14 +1293,14 @@
 
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 42 */,
-/* 43 */
+/* 41 */,
+/* 42 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-flyout/cms-flyout.html';
@@ -1317,7 +1309,7 @@
 	module.exports = path;
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1378,14 +1370,14 @@
 
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 46 */,
-/* 47 */
+/* 45 */,
+/* 46 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-input/cms-input.html';
@@ -1394,7 +1386,7 @@
 	module.exports = path;
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1415,14 +1407,14 @@
 
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 50 */,
-/* 51 */
+/* 49 */,
+/* 50 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-layout/cms-layout.html';
@@ -1431,7 +1423,7 @@
 	module.exports = path;
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1454,14 +1446,14 @@
 
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 54 */,
-/* 55 */
+/* 53 */,
+/* 54 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-legend/cms-legend.html';
@@ -1470,7 +1462,7 @@
 	module.exports = path;
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1486,15 +1478,15 @@
 
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 57 */,
 /* 58 */,
-/* 59 */,
-/* 60 */
+/* 59 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-login/login.html';
@@ -1503,7 +1495,7 @@
 	module.exports = path;
 
 /***/ },
-/* 61 */
+/* 60 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1543,14 +1535,14 @@
 
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 63 */,
-/* 64 */
+/* 62 */,
+/* 63 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-logout/logout.html';
@@ -1559,7 +1551,7 @@
 	module.exports = path;
 
 /***/ },
-/* 65 */
+/* 64 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1581,7 +1573,7 @@
 
 
 /***/ },
-/* 66 */
+/* 65 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-modal/cms-modal.html';
@@ -1590,7 +1582,7 @@
 	module.exports = path;
 
 /***/ },
-/* 67 */
+/* 66 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1656,14 +1648,14 @@
 
 
 /***/ },
-/* 68 */
+/* 67 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 69 */,
-/* 70 */
+/* 68 */,
+/* 69 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-partial/cms-partial.html';
@@ -1672,7 +1664,7 @@
 	module.exports = path;
 
 /***/ },
-/* 71 */
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1698,14 +1690,14 @@
 
 
 /***/ },
-/* 72 */
+/* 71 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 73 */,
-/* 74 */
+/* 72 */,
+/* 73 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-row/cms-row.html';
@@ -1714,7 +1706,7 @@
 	module.exports = path;
 
 /***/ },
-/* 75 */
+/* 74 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1731,14 +1723,14 @@
 
 
 /***/ },
-/* 76 */
+/* 75 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 77 */,
-/* 78 */
+/* 76 */,
+/* 77 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-cell/cms-table-cell.html';
@@ -1747,7 +1739,7 @@
 	module.exports = path;
 
 /***/ },
-/* 79 */
+/* 78 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1776,14 +1768,14 @@
 
 
 /***/ },
-/* 80 */
+/* 79 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 81 */,
-/* 82 */
+/* 80 */,
+/* 81 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-column/cms-table-column.html';
@@ -1792,7 +1784,7 @@
 	module.exports = path;
 
 /***/ },
-/* 83 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1808,14 +1800,14 @@
 
 
 /***/ },
-/* 84 */
+/* 83 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 85 */,
-/* 86 */
+/* 84 */,
+/* 85 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table/cms-table.html';
@@ -1824,7 +1816,7 @@
 	module.exports = path;
 
 /***/ },
-/* 87 */
+/* 86 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1851,14 +1843,14 @@
 
 
 /***/ },
-/* 88 */
+/* 87 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 89 */,
-/* 90 */
+/* 88 */,
+/* 89 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1880,7 +1872,7 @@
 
 
 /***/ },
-/* 91 */
+/* 90 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -1889,7 +1881,7 @@
 	module.exports = path;
 
 /***/ },
-/* 92 */
+/* 91 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1908,14 +1900,14 @@
 
 
 /***/ },
-/* 93 */
+/* 92 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 94 */,
-/* 95 */
+/* 93 */,
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1943,7 +1935,7 @@
 
 
 /***/ },
-/* 96 */
+/* 95 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-menu/user-menu.html';
@@ -1952,7 +1944,7 @@
 	module.exports = path;
 
 /***/ },
-/* 97 */
+/* 96 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1975,14 +1967,14 @@
 
 
 /***/ },
-/* 98 */
+/* 97 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 99 */,
-/* 100 */
+/* 98 */,
+/* 99 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-profile/user-profile.html';
@@ -1991,7 +1983,7 @@
 	module.exports = path;
 
 /***/ },
-/* 101 */
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2025,10 +2017,51 @@
 
 
 /***/ },
-/* 102 */
+/* 101 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 102 */,
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	describe('success', function () {
+	  var authService = __webpack_require__(4);
+
+	  it('should have tests', function () {
+	    console.log('congratulations, you should start writing tests');
+	  });
+	});
+
+
+/***/ },
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */
+/***/ function(module, exports) {
+
+	angular.module('cmsComponents.auth', [
+	  'cmsComponents.auth.service',
+	  'cmsComponents.auth.interceptor'
+	]);
+
+
+/***/ },
+/* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+	describe('success', function () {
+	  var authInterceptor = __webpack_require__(3);
+
+	  it('should have tests', function () {
+	    console.log('congratulations, you should start writing tests');
+	  });
+	});
+
 
 /***/ }
 /******/ ]);

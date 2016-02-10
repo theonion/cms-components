@@ -1,7 +1,7 @@
 describe('success', function () {
-  var authServiceInterceptor = require('./auth-interceptor');
+  var authInterceptor = require('./auth-interceptor');
 
-  it('should not fail', function () {
-    console.log('congratulations')
+  it('should have tests', function () {
+    console.log('congratulations, you should start writing tests');
   });
 });
