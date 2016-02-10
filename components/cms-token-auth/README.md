@@ -30,10 +30,27 @@ A login component that interacts with [django-rest-framework-jwt](https://github
         'TokenAuthConfigProvider',
         function (TokenAuthConfigProvider) {
           TokenAuthConfigProvider.setLogoUrl('myLogo.png');
-          TokenAuthConfigProvider.setApiHost('base.url.for.api.with.drf.token.auth.com');
+          TokenAuthConfigProvider.setApiHost('mysite.com');
           TokenAuthConfigProvider.setApiEndpointAuth('/authentication/endpoint/provided/by/api');
           TokenAuthConfigProvider.setApiEndpointRefresh('/token/refresh/endpoint/provied/by/api');
           TokenAuthConfigProvider.setLoginPagePath('/where/the/login/page/is/hosted');
         }
       ]);
   ```
+  
+  Available configuration methods on `TokenAuthConfigProvider`:
+
+  | Method    | Usage    | Defaults    |
+  | --------- | -------- | ----------- |
+  | setAfterLoginPath | Page to route to after a successful login. | `'/'` |
+  | setApiEndpointAuth | Endpoint for token `auth`. | `'/api/token/auth'` |
+  | setApiEndpointReferesh | Endpoint for token `refresh`. | `'/api/token/refresh` |
+  | setApiEndpointVerify | Endpoint for token `verify`. | `'/api/token/verify'` |
+  | setApiHost | Host where endpoints are located. | `''` |
+  | setHandleHttpCodes | Takes an `Array` of HTTP codes to handle with this token auth library. | `[401, 403]` |
+  | setLoginCallback | Callback to execute when a successful login occurs. | `function () {}` |
+  | setLoginPathPath | Path to login page. | `''` |
+  | setLogoUrl | Url of logo to use on login page. | `''` |
+  | setLogoutCallback | Callback to execute when logout occurs. | `function () {}` |
+  | setMatchers | List of regular expressions to match request URLs. Only matched URLs will be intercepted. | `[/.*/]` |
+  | setTokenKey | Local storage key where token is stored. | `'authToken'` |
