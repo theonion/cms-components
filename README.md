@@ -87,6 +87,9 @@ See more in the wild here:
 https://github.com/theonion/onionstudios-cms/blob/3b8a4f68eea8031edf55100cce8014082fbbd62f/app/shared/cms-layout/cms-layout.html
 
 ## Development
+
+### Setting up your environment
+
 1. Checkout the repo:
   ```bash
   git clone git@github.com:theonion/cms-components.git
@@ -97,7 +100,10 @@ https://github.com/theonion/onionstudios-cms/blob/3b8a4f68eea8031edf55100cce8014
   ./scripts/dev-setup
   ```
 
-1. Use `bower link` (for non-docker projects)
+### Continuous development
+To enable building/realtime updating of code changes:
+
+- For **non-docker projects** use `bower link`:
   ```bash
   cd cms-components
   bower link
@@ -107,14 +113,31 @@ https://github.com/theonion/onionstudios-cms/blob/3b8a4f68eea8031edf55100cce8014
   bower link cms-components
   ```
 
-1. For continuous builds while you develop
-  ```bash
-  ./scripts/dev-start
+- For **docker projects** add the following line to `docker-compose.yml`, under
+  the `volumes` section of the particular project `cms-components` is linked to:
+  ```yml
+    - ../cms-components:/build/bower_components/cms-components
   ```
-  or for a single build, run
-  ```bash
-  ./scrtips/dev-start --single-run
-  ```
+  Note: this assumes that project is a sibling directory of the `cms-components`
+  project directory.
+
+Then, follow the steps in the [Building section below](#building).
+
+### Testing javascript
+To run a continuous test:
+```bash
+$ ./scripts/test-js
+```
+
+### Building
+For continuous builds while you develop
+```bash
+./scripts/dev-start
+```
+or for a single build, run
+```bash
+./scripts/dev-start --single-run
+```
 
 ## Generating new components
 Use the generator to scaffold out a directive:

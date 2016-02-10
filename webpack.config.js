@@ -1,5 +1,6 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   entry: './webpack.entry.js',
@@ -30,7 +31,8 @@ module.exports = {
     }]
   },
   plugins: [
-    new ExtractTextPlugin('cms-components.css')
+    new ExtractTextPlugin('cms-components.css'),
+    new webpack.IgnorePlugin(/\.\/.*\.spec\.js$/)
   ],
   sassLoader: {
     includePaths: [

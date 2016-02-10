@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Run js tests.
+
+./node_modules/.bin/karma start karma.conf.js
