@@ -136,7 +136,7 @@ For continuous builds while you develop
 ```
 or for a single build, run
 ```bash
-./scrtips/dev-start --single-run
+./scripts/dev-start --single-run
 ```
 
 ## Generating new components
