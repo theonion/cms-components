@@ -116,6 +116,12 @@ https://github.com/theonion/onionstudios-cms/blob/3b8a4f68eea8031edf55100cce8014
   ./scrtips/dev-start --single-run
   ```
 
+### Testing javascript
+To run a continuous test:
+```bash
+$ ./scripts/test-js
+```
+
 ## Generating new components
 Use the generator to scaffold out a directive:
 ```

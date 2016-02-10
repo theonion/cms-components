@@ -57,7 +57,9 @@
 
 	'use strict';
 
-	var cmsComponents = angular.module('cmsComponents', []);
+	var cmsComponents = angular.module('cmsComponents', [
+	  'cmsComponents.auth'
+	]);
 
 	cmsComponents.provider('$render', function () {
 	  return {
@@ -148,7 +150,10 @@
 
 	var map = {
 		"./auth/auth-interceptor.js": 3,
+		"./auth/auth-interceptor.spec.js": 109,
 		"./auth/auth-service.js": 4,
+		"./auth/auth-service.spec.js": 103,
+		"./auth/auth.js": 108,
 		"./auth/current-user.js": 5,
 		"./auth/http-request-buffer-factory.js": 6,
 		"./betty-cropper/betty-cropper.js": 7,
@@ -242,92 +247,98 @@
 /* 3 */
 /***/ function(module, exports) {
 
-	'use strict';
+	angular.module('cmsComponents.auth.interceptor', [])
+	  .factory('authInterceptor', [
+	    '$q', '$location', '$injector', 'localStorageService', 'httpRequestBuffer',
+	    function ($q, $location, $injector, localStorageService, httpRequestBuffer) {
 
-	angular.module('cmsComponents').factory('authInterceptor', ['$q', '$location', '$injector', 'localStorageService', 'httpRequestBuffer', function ($q, $location, $injector, localStorageService, httpRequestBuffer) {
+	      var factory = {};
 
-	  var factory = {};
-
-	  factory.request = function (config) {
-	    config.headers = config.headers || {};
-	    var token = localStorageService.get('authToken');
-	    var isBettyCropperRequest = _.has(config.headers, 'X-Betty-Api-Key');
-	    if (token && !config.ignoreAuthorizationHeader && !isBettyCropperRequest) {
-	      config.headers.Authorization = 'JWT ' + token;
-	    }
-	    return config;
-	  };
-
-	  factory.responseError = function (response) {
-	    if (response.config) {
-	      var ignoreAuthModule = response.config.ignoreAuthModule || response.config.headers.ignoreAuthModule;
-	      if (!ignoreAuthModule) {
-	        if (response.status === 403 || response.status === 401) {
-	          var deferred = $q.defer();
-	          httpRequestBuffer.append(response.config, deferred);
-	          var authService = $injector.get('authService');
-	          authService.refreshToken();
+	      factory.request = function (config) {
+	        config.headers = config.headers || {};
+	        var token = localStorageService.get('authToken');
+	        var isBettyCropperRequest = _.has(config.headers, 'X-Betty-Api-Key');
+	        if (token && !config.ignoreAuthorizationHeader && !isBettyCropperRequest) {
+	          config.headers.Authorization = 'JWT ' + token;
 	        }
-	      }
-	    }
-	    return $q.reject(response);
-	  };
+	        return config;
+	      };
 
-	  return factory;
-	}]);
+	      factory.responseError = function (response) {
+	        if (response.config) {
+	          var ignoreAuthModule = response.config.ignoreAuthModule || response.config.headers.ignoreAuthModule;
+	          if (!ignoreAuthModule) {
+	            if (response.status === 403 || response.status === 401) {
+	              var deferred = $q.defer();
+	              httpRequestBuffer.append(response.config, deferred);
+	              var authService = $injector.get('authService');
+	              authService.refreshToken();
+	            }
+	          }
+	        }
+	        return $q.reject(response);
+	      };
+
+	      return factory;
+	    }
+	  ]);
 
 
 /***/ },
 /* 4 */
 /***/ function(module, exports) {
 
-	'use strict';
+	angular.module('cmsComponents.auth.service', [])
+	  .service('authService', [
+	    '$rootScope', '$location', '$http', 'httpRequestBuffer', 'localStorageService',
+	      'alertService', 'Config', 'CurrentUser',
+	    function ($rootScope, $location, $http, httpRequestBuffer, localStorageService,
+	        alertService, Config, CurrentUser) {
 
-	angular.module('cmsComponents').service('authService', ['$rootScope', '$location', '$http', 'httpRequestBuffer', 'localStorageService', 'alertService', 'Config', 'CurrentUser',
-	function ($rootScope, $location, $http, httpRequestBuffer, localStorageService, alertService, Config, CurrentUser) {
-	  var service = {};
+	      var service = {};
 
-	  service.login = function (username, password) {
-	    return $http.post(Config.apiHost + '/api/token/auth', {
-	      username: username,
-	      password: password
-	    })
-	    .success(service.loginSuccess)
-	    .error(service.loginError);
-	  };
+	      service.login = function (username, password) {
+	        return $http.post(Config.apiHost + '/api/token/auth', {
+	          username: username,
+	          password: password
+	        })
+	        .success(service.loginSuccess)
+	        .error(service.loginError);
+	      };
 
-	  service.logout = function () {
-	    localStorageService.remove('authToken');
-	  };
+	      service.logout = function () {
+	        localStorageService.remove('authToken');
+	      };
 
-	  service.loginSuccess = function(response) {
-	    localStorageService.set('authToken', response.token);
-	  };
+	      service.loginSuccess = function(response) {
+	        localStorageService.set('authToken', response.token);
+	      };
 
-	  service.loginError = function(response) {
-	    alertService.addAlert('Username or password provided is incorrect.', 'danger');
-	  };
+	      service.loginError = function(response) {
+	        alertService.addAlert('Username or password provided is incorrect.', 'danger');
+	      };
 
-	  service.refreshToken = function () {
-	    var token = localStorageService.get('authToken');
-	    return $http.post(Config.apiHost + '/api/token/refresh', { token: token }, { ignoreAuthModule: true })
-	    .success(service.tokenRefreshed)
-	    .error(service.tokenRefreshError);
-	  };
+	      service.refreshToken = function () {
+	        var token = localStorageService.get('authToken');
+	        return $http.post(Config.apiHost + '/api/token/refresh', { token: token }, { ignoreAuthModule: true })
+	        .success(service.tokenRefreshed)
+	        .error(service.tokenRefreshError);
+	      };
 
-	  service.tokenRefreshed = function(response) {
-	    localStorageService.set('authToken', response.token);
-	    httpRequestBuffer.retryAll();
-	  };
+	      service.tokenRefreshed = function(response) {
+	        localStorageService.set('authToken', response.token);
+	        httpRequestBuffer.retryAll();
+	      };
 
-	  service.tokenRefreshError = function(response) {
-	    httpRequestBuffer.rejectAll();
-	    alertService.addAlert('You failed to authenticate. Redirecting to login.', 'danger');
-	    CurrentUser.logout();
-	  };
+	      service.tokenRefreshError = function(response) {
+	        httpRequestBuffer.rejectAll();
+	        alertService.addAlert('You failed to authenticate. Redirecting to login.', 'danger');
+	        CurrentUser.logout();
+	      };
 
-	  return service;
-	}]);
+	      return service;
+	    }
+	  ]);
 
 
 /***/ },
@@ -2010,6 +2021,61 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 102 */,
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	describe('failure', function () {
+	  var authService = __webpack_require__(4);
+
+	  it('should fail', function () {
+
+	    // TODO : add test code here
+	    throw new Error('Not implemented yet.');
+	  });
+	});
+
+
+/***/ },
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */
+/***/ function(module, exports) {
+
+	angular.module('cmsComponents.auth', [
+	  'cmsComponents.auth.service',
+	  'cmsComponents.auth.interceptor'
+	]);
+
+
+/***/ },
+/* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+	describe('failure', function () {
+	  var authServiceInterceptor = __webpack_require__(3);
+
+	  it('should fail', function () {
+
+	    // TODO : add test code here
+	    throw new Error('Not implemented yet.');
+	  });
+
+	  it('should fail again', function () {
+
+	    // TODO : add test code here
+	    throw new Error('Not implemented yet.');
+	  });
+
+	  it('should not fail', function () {
+	    console.log('congratulations')
+	  });
+	});
+
 
 /***/ }
 /******/ ]);
