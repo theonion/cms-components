@@ -215,6 +215,12 @@
 		"./cms-table/cms-table.html": 86,
 		"./cms-table/cms-table.js": 87,
 		"./cms-table/cms-table.scss": 88,
+		"./cms-token-auth/cms-token-auth-config.js": 114,
+		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 115,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 116,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 117,
+		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 118,
+		"./cms-token-auth/cms-token-auth.js": 119,
 		"./convert-to-number/convert-to-number.js": 90,
 		"./sidebar-nav-item/sidebar-nav-item.html": 91,
 		"./sidebar-nav-item/sidebar-nav-item.js": 92,
@@ -2029,6 +2035,658 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.auth.config', [
+	  'lodash'
+	])
+	  .provider('TokenAuthConfig', [
+	    '_',
+	    function TokenAuthConfigProvider (_) {
+	      // page to route to after a successful login
+	      var afterLoginPath = '/';
+	      // endpoint for token auth
+	      var apiEndpointAuth = '/api/token/auth';
+	      // endpoint for token refresh
+	      var apiEndpointRefresh = '/api/token/refresh';
+	      // endpoint for token verification
+	      var apiEndpointVerify = '/api/token/verify';
+	      // host where auth endpoints are located
+	      var apiHost = '';
+	      // HTTP codes this module should handle
+	      var handleHttpCodes = [401, 403];
+	      // callback called on successful login
+	      var loginCallback = function () {};
+	      // path to login page
+	      var loginPagePath = '';
+	      // url for logo to display on login page
+	      var logoUrl = '';
+	      // callback called on successful logout
+	      var logoutCallback = function () {};
+	      // list of regular expressions to match request urls, only matched urls will
+	      //  be intercepted successfully
+	      var matchers = [/.*/];
+	      // local storage key for token
+	      var tokenKey = 'authToken';
+
+	      this.setAfterLoginPath = function (value) {
+	        if (_.isString(value)) {
+	          afterLoginPath = value;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.afterLoginPath must be a string!');
+	        }
+	      };
+
+	      this.setApiEndpointAuth = function (value) {
+	        if (_.isString(value)) {
+	          apiEndpointAuth = value;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.apiEndpointAuth must be a string!');
+	        }
+	      };
+
+	      this.setApiEndpointRefresh = function (value) {
+	        if (_.isString(value)) {
+	          apiEndpointRefresh = value;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.apiEndpointRefresh must be a string!');
+	        }
+	      };
+
+	      this.setApiEndpointVerify = function (value) {
+	        if (_.isString(value)) {
+	          apiEndpointVerify = value;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.apiEndpointVerify must be a string!');
+	        }
+	      };
+
+	      this.setApiHost = function (value) {
+	        if (_.isString(value)) {
+	          apiHost = value;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.apiHost must be a string!');
+	        }
+	      };
+
+	      this.setHandleHttpCodes = function (httpCodesList) {
+	        if (_.isArray(httpCodesList)) {
+	          // check that all the items are numbers
+	          _.each(httpCodesList, function (httpCode) {
+	            if (!_.isNumber(httpCode)) {
+	              throw new TypeError('TokenAuthConfig.handleHttpCodes must include only Numbers! ' + httpCode + ' is not a Number.');
+	            }
+	          });
+
+	          handleHttpCodes = httpCodesList;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.handleHttpCodes must be an array!');
+	        }
+	      };
+
+	      this.setLoginCallback = function (func) {
+	        if (_.isFunction(func)) {
+	          loginCallback = func;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.loginCallback must be a function!');
+	        }
+	      };
+
+	      this.setLoginPagePath = function (value) {
+	        if (_.isString(value)) {
+	          loginPagePath = value;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.loginPagePath must be a string!');
+	        }
+	      };
+
+	      this.setLogoUrl = function (value) {
+	        if (_.isString(value)) {
+	          logoUrl = value;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.logoUrl must be a string!');
+	        }
+	      };
+
+	      this.setLogoutCallback = function (func) {
+	        if (_.isFunction(func)) {
+	          logoutCallback = func;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.logoutCallback must be a function!');
+	        }
+	      };
+
+	      this.setMatchers = function (matcherList) {
+	        if (_.isArray(matcherList)) {
+	          // check that all the items are regex
+	          _.each(matcherList, function (matcher) {
+	            if (!_.isRegExp(matcher)) {
+	              throw new TypeError('TokenAuthConfig.matchers must include only RegExp objects! ' + matcher + ' is not a RegExp.');
+	            }
+	          });
+
+	          matchers = matcherList;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.matchers must be an array!');
+	        }
+	      };
+
+	      this.setTokenKey = function (value) {
+	        if (_.isString(value)) {
+	          tokenKey = value;
+	        } else {
+	          throw new TypeError('TokenAuthConfig.tokenKey must be a string!');
+	        }
+	      };
+
+	      this.$get = function () {
+	        return {
+	          getAfterLoginPath: _.constant(afterLoginPath),
+	          getApiEndpointAuth: _.constant(apiHost + apiEndpointAuth),
+	          getApiEndpointRefresh: _.constant(apiHost + apiEndpointRefresh),
+	          getApiEndpointVerify: _.constant(apiHost + apiEndpointVerify),
+	          getLoginPagePath: _.constant(loginPagePath),
+	          getLogoUrl: _.constant(logoUrl),
+	          getTokenKey: _.constant(tokenKey),
+	          loginCallback: loginCallback,
+	          logoutCallback: logoutCallback,
+	          /**
+	           * Check if this an HTTP status code this library should handle.
+	           *
+	           * @param {number} httpCode - HTTP code to test.
+	           * @returns {boolean} true if HTTP code indicates something to handle,
+	           *    false otherwise.
+	           */
+	          isStatusCodeToHandle: function (httpCode) {
+	            return _.includes(handleHttpCodes, httpCode);
+	          },
+	          /**
+	           * Check if a url is a token auth url.
+	           *
+	           * @param {string} url - Url to test against token auth urls.
+	           * @returns {boolean} true if url should be intercepted, false otherwise.
+	           */
+	          isTokenAuthUrl: function (url) {
+	            return url.search(this.getApiEndpointAuth()) ||
+	              url.search(this.getApiEndpointVerify()) ||
+	              url.search(this.getApiEndpointRefresh());
+	          },
+	          /**
+	           * Check if a given url should be intercepted by this library's interceptor.
+	           *
+	           * @param {string} url - Url to test against matchers.
+	           * @returns {boolean} true if url should be intercepted, false otherwise.
+	           */
+	          shouldBeIntercepted: function (url) {
+	            return _.chain(matchers)
+	              .find(function (regex) {
+	                return regex.test(url);
+	              })
+	              .isRegExp()
+	              .value();
+	          }
+	       };
+	      };
+	    }
+	  ]);
+
+
+/***/ },
+/* 115 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.auth.interceptor', [
+	  'cmsComponents.auth.authService',
+	  'cmsComponents.auth.config',
+	  'LocalStorageModule'
+	])
+	  .service('TokenAuthInterceptor', [
+	    '$injector', '$q', 'localStorageService', 'TokenAuthConfig',
+	    function ($injector, $q, localStorageService, TokenAuthConfig) {
+
+	      var doIgnoreAuth = function (config) {
+	        return Boolean(!config || config.ignoreTokenAuth);
+	      };
+
+	      var abortRequest = function (config) {
+	        var abort = $q.defer();
+	        config.timeout = abort.promise;
+	        abort.resolve();
+	      };
+
+	      this.request = function (config) {
+	        var newConfig;
+
+	        if (!doIgnoreAuth(config) && TokenAuthConfig.shouldBeIntercepted(config.url)) {
+
+	          // get token from storage
+	          var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+	          // need to inject service here, otherwise we get a circular $http dep
+	          var TokenAuthService = $injector.get('TokenAuthService');
+
+	          // check if we have a token, if not, prevent request from firing, send user to login
+	          if (token) {
+	            newConfig = TokenAuthService.tokenVerify()
+	              .then(function () {
+	                // add Authorization header
+	                config.headers = config.headers || {};
+	                config.headers.Authorization = 'JWT ' + token;
+
+	                return config;
+	              })
+	              .catch(function () {
+	                // verification failed abort request
+	                abortRequest(config);
+	              });
+	          } else {
+	            // abort requests where there's no token
+	            abortRequest(config);
+
+	            // navigate to login page
+	            TokenAuthService.navToLogin();
+
+	            // return aborted request
+	            newConfig = config;
+	          }
+	        } else {
+	          // this is a request not being intercepted, just return it
+	          newConfig = config;
+	        }
+
+	        return newConfig;
+	      };
+
+	      this.responseError = function (response) {
+	        // only deal with an error if auth module is not ignored, this is a url
+	        //  to deal with and the response code is unauthorized
+	        if (!doIgnoreAuth(response.config) &&
+	            TokenAuthConfig.shouldBeIntercepted(response.config.url) &&
+	            TokenAuthConfig.isStatusCodeToHandle(response.status)) {
+
+	          // need to inject service here, otherwise we get a circular $http dep
+	          var TokenAuthService = $injector.get('TokenAuthService');
+
+	          // append request to buffer to retry later
+	          TokenAuthService.requestBufferPush(response.config);
+
+	          // attempt to refresh token
+	          TokenAuthService.tokenRefresh();
+	        }
+
+	        return $q.reject(response);
+	      };
+
+	      return this;
+	    }
+	  ]);
+
+
+/***/ },
+/* 116 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
+	var html = "<div>\n  <div class=\"login-header\">\n    <img ng-src=\"{{LOGO_URL}}\">\n  </div>\n  <div class=\"login-form\">\n    <p class=\"text-center welcome-text\">Welcome</p>\n    <form>\n      <div class=\"login-input username\">\n        <label>Username</label>\n        <input\n            type=\"text\"\n            class=\"form-control\"\n            ng-model=\"username\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <div class=\"login-input password\">\n        <label>Password</label>\n        <input\n            type=\"password\"\n            class=\"form-control\"\n            ng-model=\"password\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <alertbar></alertbar>\n      <button\n          class=\"btn add-btn btn-success\"\n          type=\"submit\"\n          ng-click=\"submitLogin()\">\n        <span>Sign in</span>\n      </button>\n    </form>\n    <a\n        class=\"contact\"\n        href=\"mailto:webtech@theonion.com\">\n      <div class=\"question-mark\">?</div>\n      <div class=\"contact-tech\">Contact Tech</div>\n    </a>\n  </div>\n</div>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 117 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.auth.loginForm', [
+	  'cmsComponents.auth.authService',
+	  'cmsComponents.templates'
+	])
+	  .directive('tokenAuthLoginForm', [
+	    function () {
+	      return {
+	        controller: [
+	          '$scope', 'TokenAuthService', 'TokenAuthConfig',
+	          function ($scope, TokenAuthService, TokenAuthConfig) {
+
+	            $scope.username = '';
+	            $scope.password = '';
+	            $scope.submitted = '';
+	            $scope.LOGO_URL = TokenAuthConfig.getLogoUrl();
+
+	            $scope.submitLogin = function () {
+	              $scope.submitted = 'submitted';
+
+	              if(!_.isEmpty($scope.username) && !_.isEmpty($scope.password)) {
+	                TokenAuthService.login($scope.username, $scope.password);
+	              }
+	            };
+	          }
+	        ],
+	        restrict: 'E',
+	        scope: {},
+	        templateUrl: 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html'
+	      };
+	    }
+	  ]);
+
+
+/***/ },
+/* 118 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.auth.authService', [
+	  'cmsComponents.auth.config',
+	  'LocalStorageModule'
+	])
+	  .service('TokenAuthService', [
+	    '$q', '$location', '$http', 'localStorageService', 'TokenAuthConfig',
+	    function ($q, $location, $http, localStorageService, TokenAuthConfig) {
+
+	      var TokenAuthService = this;
+	      var requestInProgress = false;
+	      // false if not verified at least once, otherwise promise that resolves when
+	      //  verification endpoint returns
+	      var $verified = false;
+
+	      TokenAuthService._requestBuffer = [];
+
+	      /**
+	       * Force verification promise to be resolved. Used whenever an endpoint
+	       *  besides the verify endpoint has been used to successfully authenticate.
+	       */
+	      var forceAuthenticated = function () {
+	        $verified = $q.defer();
+	        $verified.resolve();
+	      };
+
+	      /**
+	       * Force verification promise to be rejected. Used whenever an endpoint
+	       *  besides the verify endpoint has been used to unauthenticate.
+	       */
+	      var forceUnauthenticated = function () {
+	        $verified = $q.defer();
+	        $verified.reject();
+	      };
+
+	      var authSuccess = function (deferred) {
+	        return function () {
+	          forceAuthenticated();
+	          TokenAuthService.requestBufferRetry();
+
+	          // if we're currently on the login page, navigate away from it
+	          if ($location.path() === TokenAuthConfig.getLoginPagePath()) {
+	            $location.path(TokenAuthConfig.getAfterLoginPath());
+	          }
+
+	          deferred.resolve();
+	        };
+	      };
+
+	      var noTokenFailure = function (deferred) {
+	        return function () {
+	          forceUnauthenticated();
+	          TokenAuthService.navToLogin();
+	          deferred.reject();
+	        };
+	      };
+
+	      /**
+	       * Token verification endpoint. Should be used as the initial request when
+	       *  a page loads to check if user is authenticated. All requests should be
+	       *  buffered until verify endpoint returns successfully.
+
+	       * Because token verification is meant only to occur once when the page loads,
+	       *  subsequent calls to this function will return the promise from the original
+	       *  call.
+	       *
+	       * @returns {promise} resolves when authenticated, rejects otherwise.
+	       */
+	      TokenAuthService.tokenVerify = function () {
+	        if (!$verified && !requestInProgress) {
+	          // verify has not been called yet, set it up
+	          $verified = $q.defer();
+
+	          // no currently running request, start a new one
+	          requestInProgress = true;
+
+	          var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+	          if (token) {
+
+	            // has a token, fire off request
+	            $http.post(
+	              TokenAuthConfig.getApiEndpointVerify(),
+	              {token: token},
+	              {ignoreTokenAuth: true}
+	            )
+	            .then(authSuccess($verified))
+	            .catch(function (response) {
+	              // some error at the verify endpoint
+	              if (response.status === 400) {
+	                // this is an expired token, attempt refresh
+	                requestInProgress = false;
+	                TokenAuthService.tokenRefresh()
+	                  .then($verified.resolve)
+	                  .catch($verified.reject);
+	              } else if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
+	                // user is not authorized, send them to login page
+	                noTokenFailure($verified)();
+	              } else {
+	                // this is not an auth error, reject verification
+	                $verified.reject();
+	              }
+	            })
+	            .finally(function () {
+	              // reset request flag so other requests can go through
+	              requestInProgress = false;
+	            });
+	          } else {
+	            noTokenFailure($verified)();
+
+	            // reset request flag so other requests can go through
+	            requestInProgress = false;
+	          }
+	        }
+
+	        return $verified ? $verified.promise : $q.reject();
+	      };
+
+	      /**
+	       * Token refresh endpoint. Should be used for reauthenticating ajax requests
+	       *  that have responded with an unauthorized status code. In the event of
+	       *  an error status code returning from a refresh request, the user will
+	       *  be routed to the login page.
+	       *
+	       * @returns {promise} resolves when authenticated, rejects otherwise.
+	       */
+	      TokenAuthService.tokenRefresh = function () {
+	        var refresh = $q.defer();
+
+	        if (!requestInProgress) {
+	          // no currently running request, start a new one
+	          requestInProgress = true;
+	          TokenAuthService._pendingRefresh = refresh;
+
+	          var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+	          if (token) {
+	            // has token, fire off request
+	            $http.post(
+	              TokenAuthConfig.getApiEndpointRefresh(),
+	              {token: token},
+	              {ignoreTokenAuth: true}
+	            )
+	            .success(authSuccess(refresh))
+	            .catch(noTokenFailure(refresh))
+	            .finally(function () {
+	              // reset request flag so other requests can go through
+	              requestInProgress = false;
+	            });
+	          } else {
+	            noTokenFailure(refresh)();
+
+	            // reset request flag so other requests can go through
+	            requestInProgress = false;
+	          }
+
+	        } else if (!TokenAuthService._pendingRefresh) {
+	          // there is a request happening, and it's not a refresh request, reject promise
+	          refresh.reject();
+	        } else {
+	          // request in progress and it's a refresh request, return existing promise
+	          refresh = TokenAuthService._pendingRefresh;
+	        }
+
+	        return refresh.promise;
+	      };
+
+	      /**
+	       * Login endpoint. Should only be used where a user is providing a username
+	       *  and password to login. After a successful login, the user will be directed
+	       *  to the configured afterLoginPath location.
+	       *
+	       * @param {string} username - username to use to login.
+	       * @param {string} password - password to use to login.
+	       * @returns {promise} resolves when authenticated, rejects otherwise.
+	       */
+	      TokenAuthService.login = function (username, password) {
+	        var login = $q.defer();
+
+	        if (!requestInProgress) {
+	          // no currently running request, start a new one
+	          requestInProgress = true;
+	          TokenAuthService._pendingLogin = login;
+
+	          $http.post(
+	            TokenAuthConfig.getApiEndpointAuth(),
+	            {
+	              username: username,
+	              password: password
+	            },
+	            {ignoreTokenAuth: true}
+	          )
+	          .success(function (response) {
+	            forceAuthenticated();
+	            localStorageService.set(TokenAuthConfig.getTokenKey(), response.token);
+	            $location.path(TokenAuthConfig.getAfterLoginPath());
+	            TokenAuthConfig.loginCallback();
+	            login.resolve();
+	          })
+	          .catch(function () {
+	            forceUnauthenticated();
+	            login.reject();
+	          })
+	          .finally(function () {
+	            // reset request flag so other requests can go through
+	            requestInProgress = false;
+	          });
+	        } else if (!TokenAuthService._pendingLogin) {
+	          // there is a request happening, and it's not a login request, reject promise
+	          login.reject();
+	        } else {
+	          // request in progress and it's a login request, return existing promise
+	          login = TokenAuthService._pendingLogin;
+	        }
+
+	        return login.promise;
+	      };
+
+	      /**
+	       * Log user out by removing token from local storage, sends them back to
+	       *  login page.
+	       */
+	      TokenAuthService.logout = function () {
+	        forceUnauthenticated();
+	        localStorageService.remove(TokenAuthConfig.getTokenKey());
+	        $location.path(TokenAuthConfig.getLoginPagePath());
+	        TokenAuthConfig.logoutCallback();
+	      };
+
+	      /**
+	       * Push a request configuration into buffer to be rerun later.
+	       *
+	       * @param {object} config - request configuration to be buffered.
+	       * @returns {object} cloned config object added to the buffer.
+	       */
+	      TokenAuthService.requestBufferPush = function (config) {
+	        var configCopy = _.omit(config, 'timeout');
+	        TokenAuthService._requestBuffer.push(configCopy);
+	        return configCopy;
+	      };
+
+	      /**
+	       * Retry all buffered requests. If any response returns with an
+	       *  unauthorized status code, all further buffered requests will be aborted.
+	       *  Clears buffer in every case.
+	       */
+	      TokenAuthService.requestBufferRetry = function () {
+	        var abort = $q.defer();
+
+	        _.each(TokenAuthService._requestBuffer, function (config) {
+	          // hook for canceling requests after a failure
+	          config.timeout = abort.promise;
+
+	          $http(config)
+	            .catch(function (response) {
+	              if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
+	                // have one failure, abort all other requests
+	                abort.resolve();
+	              }
+	            });
+	         });
+
+	         TokenAuthService.requestBufferClear();
+	      };
+
+	      /**
+	       * Remove all request configurations from request buffer.
+	       */
+	      TokenAuthService.requestBufferClear = function () {
+	        TokenAuthService._requestBuffer = [];
+	      };
+
+	      /**
+	       * Clear request buffer and send user to login page.
+	       */
+	      TokenAuthService.navToLogin = function () {
+	        TokenAuthService.requestBufferClear();
+	        $location.path(TokenAuthConfig.getLoginPagePath());
+	      };
+
+	      return TokenAuthService;
+	    }
+	  ]);
+
+
+/***/ },
+/* 119 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.auth', [
+	  'cmsComponents.auth.interceptor',
+	  'cmsComponents.auth.config',
+	  'cmsComponents.auth.loginForm'
+	]);
+
 
 /***/ }
 /******/ ]);
