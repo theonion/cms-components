@@ -7,23 +7,20 @@ A login component that interacts with [django-rest-framework-jwt](https://github
     angular.module('myModule', ['cmsComponents.auth']);
   ```
 
-1. In the `config` step of your app/module, add the following:
-  1. A logout callback:
-    ```js
-      MyLoginService.setLogoutCallback(function () {
-        TokenAuthServiceProvider.$get().logout();
-      });
-    ```
-    Where `MyLoginService` is some service that handles logging in/out.
+1. In the `config` step of your app/module, setup auth interceptor to authenticate requests:
+  ```js
+    $httpProvider.interceptors.push('TokenAuthInterceptor');
+  ```
 
-  1. Setup auth interceptor to authenticate requests:
-    ```js
-      $httpProvider.interceptors.push('TokenAuthInterceptor');
-    ```
-
-1. In the run step of your app/module, add the following:
+1. In the `run` step of your app/module, add the following:
   ```js
     TokenAuthService.tokenAuthVerify();
+  ```
+  Which will cause the first required authentication request to fire.
+
+1. Wherever logout occurs, be sure to call the `logout` cleanup method:
+  ```js
+    TokenAuthServiceProvider.$get().logout();
   ```
 
 1. Configure `TokenAuthConfig` itself:
