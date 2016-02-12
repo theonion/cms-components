@@ -86,6 +86,7 @@ describe('Service: TokenAuthService', function () {
       var fail = sandbox.stub();
 
       TokenAuthService.tokenVerify().catch(fail);
+      $rootScope.$digest();
 
       expect(fail.calledOnce).to.be.true;
     });
@@ -107,6 +108,7 @@ describe('Service: TokenAuthService', function () {
       requestVerify().respond(500);
 
       TokenAuthService.tokenVerify().catch(fail);
+      $httpBackend.flush();
 
       expect(fail.calledOnce).to.be.true;
     });
