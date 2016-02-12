@@ -174,25 +174,8 @@ describe('Service: TokenAuthService', function () {
 
   describe('refresh', function () {
 
-    it('should return rejected promise, nav to login when no token is available', function () {
-      var fail = sinon.stub();
-      var failVerification = sinon.stub();
-
-      localStorageService.get = sinon.stub().returns(null);
-      TokenAuthService.navToLogin = sinon.stub();
-
-      TokenAuthService.tokenRefresh().catch(fail);
-
-      TokenAuthService.tokenVerify().catch(failVerification);
-
-      $rootScope.$digest();
-
-      expect(fail.calledOnce).to.be.true;
-      expect(failVerification.calledOnce).to.be.true;
-      expect(TokenAuthService.navToLogin.calledOnce).to.be.true;
-    });
-
     it('should retry request buffer on success', function () {
+// TODO :remove this
       var success = sinon.stub();
       var successVerification = sinon.stub();
 
@@ -212,24 +195,115 @@ describe('Service: TokenAuthService', function () {
       expect(success.calledOnce).to.be.true;
     });
 
-    it('should return rejected promise, nav to login when refresh fails', function () {
-      var fail = sinon.stub();
-      var failVerification = sinon.stub();
-
+    it('should resolve on success', function () {
+      var success = sinon.stub();
       localStorageService.get = sinon.stub().returns(testToken);
-      TokenAuthService.navToLogin = sinon.stub();
+      requestRefresh().respond(200);
 
-      TokenAuthService.tokenRefresh().catch(fail);
-
-      requestRefresh().respond(400);
+      TokenAuthService.tokenRefresh().then(success);
       $httpBackend.flush();
 
-      TokenAuthService.tokenVerify().catch(failVerification);
+      expect(success.calledOnce).to.be.true;
+    });
+
+    it('should get the current user on success', function () {
+      localStorageService.get = sinon.stub().returns(testToken);
+      CurrentUser.$get = sinon.stub().returns($q.resolve());
+      requestRefresh().respond(200);
+
+      TokenAuthService.tokenRefresh();
+      $httpBackend.flush();
+
+      expect(CurrentUser.$get.calledOnce).to.be.true;
+    });
+
+    it('should retry request buffer on success', function () {
+      TokenAuthService.requestBufferRetry = sinon.stub();
+      localStorageService.get = sinon.stub().returns(testToken);
+      CurrentUser.$get = sinon.stub().returns($q.resolve());
+      requestRefresh().respond(200);
+
+      TokenAuthService.tokenRefresh();
+      $httpBackend.flush();
+
+      expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
+    });
+
+    it('should call auth success handlers with user on success', function () {
+      var fakeUser = {};
+
+      TokenAuthConfig.callAuthSuccessHandlers = sinon.stub().withArgs(fakeUser);
+      CurrentUser.$get = sinon.stub().returns($q.resolve(fakeUser));
+      localStorageService.get = sinon.stub().returns(testToken);
+      requestRefresh().respond(200);
+
+      TokenAuthService.tokenRefresh();
+      $httpBackend.flush();
+
+      expect(TokenAuthConfig.callAuthSuccessHandlers.calledOnce).to.be.true;
+    });
+
+    it('should reject when no token is available', function () {
+      var fail = sinon.stub();
+      localStorageService.get = sinon.stub().returns(null);
+
+      TokenAuthService.tokenRefresh().catch(fail);
       $rootScope.$digest();
 
-      expect(failVerification.calledOnce).to.be.true;
-      expect(TokenAuthService.navToLogin.calledOnce).to.be.true;
       expect(fail.calledOnce).to.be.true;
+    });
+
+    it('should reject when bad response from server', function () {
+      var fail = sinon.stub();
+
+      localStorageService.get = sinon.stub().returns(testToken);
+      requestRefresh().respond(400);
+
+      TokenAuthService.tokenRefresh().catch(fail);
+      $httpBackend.flush();
+
+      expect(fail.calledOnce).to.be.true;
+    });
+
+    it('should reject if another request is currently pending', function () {
+      var fail = sinon.stub();
+      localStorageService.get = sinon.stub().returns(testToken);
+
+      TokenAuthService.tokenRefresh();
+      TokenAuthService.tokenRefresh().catch(fail);
+
+      $httpBackend.expectPOST(TokenAuthConfig.getApiEndpointRefresh()).respond({});
+      $httpBackend.flush();
+
+      expect(fail.calledOnce).to.be.true;
+    });
+
+    it('should clear the request buffer on failure', function () {
+      TokenAuthService.requestBufferClear = sinon.stub();
+
+      TokenAuthService.tokenRefresh();
+      $rootScope.$digest();
+
+      expect(TokenAuthService.requestBufferClear.calledOnce).to.be.true;
+    });
+
+    it('should logout the current user on failure', function () {
+      CurrentUser.logout = sinon.stub();
+
+      TokenAuthService.tokenRefresh();
+      $rootScope.$digest();
+
+      expect(CurrentUser.logout.calledOnce).to.be.true;
+    });
+
+    it('should call auth failure handlers on failure', function () {
+
+      TokenAuthConfig.callAuthFailureHandlers = sinon.stub();
+
+      TokenAuthService.tokenRefresh();
+      $rootScope.$digest();
+
+      expect(TokenAuthConfig.callAuthFailureHandlers.calledOnce).to.be.true;
     });
   });
 

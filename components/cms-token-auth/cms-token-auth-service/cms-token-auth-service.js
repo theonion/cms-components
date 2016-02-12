@@ -38,24 +38,39 @@ angular.module('cmsComponents.auth.service', [
 
       var authSuccess = function (deferred) {
         return function () {
-          forceAuthenticated();
-          TokenAuthService.requestBufferRetry();
-          deferred.resolve();
-          CurrentUser.$get()
+          return CurrentUser.$get()
             .then(function (user) {
+              TokenAuthService.requestBufferRetry();
+
               TokenAuthConfig.callAuthSuccessHandlers(user);
-            });
+
+              forceAuthenticated();
+              deferred.resolve();
+            })
+            .catch(deferred.reject);
         };
       };
 
-      var noTokenFailure = function (deferred) {
-        return function () {
-          forceUnauthenticated();
-          TokenAuthService.requestBufferClear();
-          deferred.reject();
-          CurrentUser.logout();
-          TokenAuthConfig.callAuthFailureHandlers();
+      var loginAuthSuccess = function (deferred) {
+        return function (loginResponse) {
+            return CurrentUser.$get()
+              .then(function (user) {
+                localStorageService.set(TokenAuthConfig.getTokenKey(), loginResponse.data.token);
+
+                TokenAuthConfig.callAuthSuccessHandlers(user);
+
+                forceAuthenticated();
+                deferred.resolve();
+              })
+              .catch(deferred.reject);
         };
+      };
+
+      var noTokenFailure = function () {
+        forceUnauthenticated();
+        TokenAuthService.requestBufferClear();
+        CurrentUser.logout();
+        TokenAuthConfig.callAuthFailureHandlers();
       };
 
       /**
@@ -97,7 +112,8 @@ angular.module('cmsComponents.auth.service', [
                   .catch($verified.reject);
               } else if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
                 // user is not authorized, send them to login page
-                noTokenFailure($verified)();
+                noTokenFailure();
+                $verified.reject();
               } else {
                 // this is not an auth error, reject verification
                 $verified.reject();
@@ -108,7 +124,9 @@ angular.module('cmsComponents.auth.service', [
               requestInProgress = false;
             });
           } else {
-            noTokenFailure($verified)();
+            noTokenFailure();
+
+            $verified.reject();
 
             // reset request flag so other requests can go through
             requestInProgress = false;
@@ -125,43 +143,43 @@ angular.module('cmsComponents.auth.service', [
        * @returns {promise} resolves when authenticated, rejects otherwise.
        */
       TokenAuthService.tokenRefresh = function () {
-        var refresh = $q.defer();
-
-        if (!requestInProgress) {
-          // no currently running request, start a new one
-          requestInProgress = true;
-          TokenAuthService._pendingRefresh = refresh;
-
-          var token = localStorageService.get(TokenAuthConfig.getTokenKey());
-          if (token) {
-            // has token, fire off request
-            $http.post(
-              TokenAuthConfig.getApiEndpointRefresh(),
-              {token: token},
-              {ignoreTokenAuth: true}
-            )
-            .success(authSuccess(refresh))
-            .catch(noTokenFailure(refresh))
-            .finally(function () {
-              // reset request flag so other requests can go through
-              requestInProgress = false;
-            });
-          } else {
-            noTokenFailure(refresh)();
-
-            // reset request flag so other requests can go through
-            requestInProgress = false;
-          }
-
-        } else if (!TokenAuthService._pendingRefresh) {
-          // there is a request happening, and it's not a refresh request, reject promise
-          refresh.reject();
-        } else {
-          // request in progress and it's a refresh request, return existing promise
-          refresh = TokenAuthService._pendingRefresh;
+        if (requestInProgress) {
+          // there's already an auth request going, reject
+          return $q.reject();
         }
 
-        return refresh.promise;
+        // no currently running request, start a new one
+        requestInProgress = true;
+
+        var refresh = $q.defer();
+        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+        if (token) {
+          $http.post(
+            TokenAuthConfig.getApiEndpointRefresh(),
+            {
+              token: token
+            },
+            {
+              ignoreTokenAuth: true
+            }
+          )
+            .success(refresh.resolve)
+            .catch(refresh.reject);
+        } else {
+          refresh.reject();
+        }
+
+        return refresh.promise
+          .then(authSuccess(refresh))
+          .catch(function (error) {
+            noTokenFailure();
+
+            return $q.reject(error);
+          })
+          .finally(function () {
+            // reset request flag so other requests can go through
+            requestInProgress = false;
+          });
       };
 
       /**
@@ -172,6 +190,8 @@ angular.module('cmsComponents.auth.service', [
        *
        * Calls TokenAuthConfig.callAuthSuccessHandlers on success, and
        *  TokenAuthConfig.callAuthFailureHandlers on failure.
+       *
+       * Sets token key in local storage on success.
        *
        * @param {string} username - username to use to login.
        * @param {string} password - password to use to login.
@@ -197,20 +217,11 @@ angular.module('cmsComponents.auth.service', [
             ignoreTokenAuth: true
           }
         )
-          .then(function (response) {
-            localStorageService.set(TokenAuthConfig.getTokenKey(), response.data.token);
-
-            CurrentUser.$get()
-              .then(login.resolve)
-              .catch(login.reject);
-          })
+          .then(login.resolve)
           .catch(login.reject);
 
         return login.promise
-          .then(function (user) {
-            forceAuthenticated();
-            TokenAuthConfig.callAuthSuccessHandlers(user);
-          })
+          .then(loginAuthSuccess(login))
           .catch(function (error) {
             forceUnauthenticated();
             CurrentUser.logout();
