@@ -6,6 +6,7 @@ describe('Service: TokenAuthService', function () {
   require('../cms-token-auth-user/cms-token-auth-user');
   require('./cms-token-auth-service');
 
+  var $http;
   var $httpBackend;
   var $location;
   var $q;
@@ -15,6 +16,7 @@ describe('Service: TokenAuthService', function () {
   var testToken = 'some-test-token';
   var TokenAuthConfig;
   var TokenAuthService;
+  var sandbox;
 
   var requestVerify = function () {
     return $httpBackend.expectPOST(
@@ -33,9 +35,10 @@ describe('Service: TokenAuthService', function () {
   beforeEach(function () {
     angular.mock.module('cmsComponents.auth');
 
-    inject(function (_$httpBackend_, _$location_, _$q_, _$rootScope_,
+    inject(function (_$http_, _$httpBackend_, _$location_, _$q_, _$rootScope_,
         _localStorageService_, _TokenAuthConfig_, _TokenAuthService_, _CurrentUser_) {
 
+      $http = _$http_;
       $httpBackend = _$httpBackend_;
       $location = _$location_;
       $q = _$q_;
@@ -44,160 +47,166 @@ describe('Service: TokenAuthService', function () {
       localStorageService = _localStorageService_;
       TokenAuthConfig = _TokenAuthConfig_;
       TokenAuthService = _TokenAuthService_;
+
+      sandbox = sinon.sandbox.create();
     });
+  });
+
+  afterEach(function () {
+    sandbox.restore();
   });
 
   describe('verification', function () {
 
-    it('should return rejected promise, nav to login when no token is available', function () {
-      localStorageService.get = sinon.stub();
-      TokenAuthService.navToLogin = sinon.stub();
-
-      var fail = sinon.stub();
-      var verification = TokenAuthService.tokenVerify();
-
-      verification.catch(fail);
-
-      $rootScope.$digest();
-
-      expect(fail.calledOnce).to.be.true;
-      expect(TokenAuthService.navToLogin.calledOnce).to.be.true;
-    });
-
-    it('should set authentication flag and retry request buffer on success', function () {
-      localStorageService.get = sinon.stub().returns(testToken);
-      TokenAuthService.requestBufferRetry = sinon.stub();
-
-      var success = sinon.stub();
-      var verification = TokenAuthService.tokenVerify();
-
-      verification.then(success);
-
+    it('should return existing verification promise if one has already fired', function () {
+      localStorageService.get = sandbox.stub().returns(testToken);
+      sandbox.spy($http, 'post');
       requestVerify().respond(200);
+
+      TokenAuthService.tokenVerify();
+      TokenAuthService.tokenVerify();
       $httpBackend.flush();
 
-      expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
-      expect(success.calledOnce).to.be.true;
+      expect($http.post.calledOnce).to.be.true;
     });
 
-    it('should attempt to refresh token on HTTP 400', function () {
-      var success = sinon.stub();
-
-      localStorageService.get = sinon.stub().returns(testToken);
-
-      TokenAuthService.tokenVerify()
-        .then(success);
-
-      requestVerify().respond(400);
+    it('should reject if an auth request is currently pending', function () {
+      var fail = sandbox.stub();
+      localStorageService.get = sandbox.stub().returns(testToken);
       requestRefresh().respond(200);
-      $httpBackend.flush();
 
-      expect(success.calledOnce).to.be.true;
-    });
-
-    it('should send user to login on HTTP 401', function () {
-      localStorageService.get = sinon.stub().returns(testToken);
-      TokenAuthService.navToLogin = sinon.stub();
-
-      var fail = sinon.stub();
-
+      TokenAuthService.tokenRefresh();
       TokenAuthService.tokenVerify().catch(fail);
-
-      requestVerify().respond(401);
       $httpBackend.flush();
 
       expect(fail.calledOnce).to.be.true;
-      expect(TokenAuthService.navToLogin.calledOnce).to.be.true;
     });
 
-    it('should send user to login on HTTP 403', function () {
-      localStorageService.get = sinon.stub().returns(testToken);
-      TokenAuthService.navToLogin = sinon.stub();
-
-      var fail = sinon.stub();
+    it('should reject when no token is available', function () {
+      var fail = sandbox.stub();
 
       TokenAuthService.tokenVerify().catch(fail);
 
-      requestVerify().respond(403);
-      $httpBackend.flush();
-
       expect(fail.calledOnce).to.be.true;
-      expect(TokenAuthService.navToLogin.calledOnce).to.be.true;
     });
 
-    it('should resolve as refresh does on HTTP 400', function () {
-      localStorageService.get = sinon.stub().returns(testToken);
-
-      var verifySuccess = $q.defer();
-      var success = sinon.stub();
-      verifySuccess.resolve();
-      TokenAuthService.tokenRefresh = sinon.stub().returns(verifySuccess.promise);
-
-      TokenAuthService.tokenVerify().then(success);
+    it('should attempt to refresh token on HTTP 400 error status', function () {
+      TokenAuthService.tokenRefresh = sinon.stub().returns($q.resolve());
+      localStorageService.get = sandbox.stub().returns(testToken);
       requestVerify().respond(400);
+
+      TokenAuthService.tokenVerify();
       $httpBackend.flush();
 
-      expect(success.calledOnce).to.be.true;
+      expect(TokenAuthService.tokenRefresh.calledOnce).to.be.true;
     });
 
-    it('should reject as refresh does on HTTP 400', function () {
-      localStorageService.get = sinon.stub().returns(testToken);
-
-      var verifyFailure = $q.defer();
-      var fail = sinon.stub();
-      verifyFailure.reject();
-      TokenAuthService.tokenRefresh = sinon.stub().returns(verifyFailure.promise);
-
-      TokenAuthService.tokenVerify().catch(fail);
-      requestVerify().respond(400);
-      $httpBackend.flush();
-
-      expect(fail.calledOnce).to.be.true;
-    });
-
-    it('should reject without refresh on other error codes', function () {
-      var fail = sinon.stub();
-
-      localStorageService.get = sinon.stub().returns(testToken);
-      sinon.spy(TokenAuthService, 'tokenRefresh');
-
-      TokenAuthService.tokenVerify()
-        .catch(fail);
-
+    it('should reject on HTTP status not handled by config', function () {
+      var fail = sandbox.stub();
+      localStorageService.get = sandbox.stub().returns(testToken);
       requestVerify().respond(500);
-      $httpBackend.flush();
 
-      expect(TokenAuthService.tokenRefresh.notCalled).to.be.true;
+      TokenAuthService.tokenVerify().catch(fail);
+
       expect(fail.calledOnce).to.be.true;
+    });
+
+    describe('on success', function () {
+      var fakeUser;
+
+      beforeEach(function () {
+        fakeUser = {};
+        CurrentUser.$get = sandbox.stub().returns($q.resolve(fakeUser));
+        localStorageService.get = sandbox.stub().returns(testToken);
+        requestVerify().respond(200);
+      });
+
+      it('should resolve', function () {
+        var success = sandbox.stub();
+
+        TokenAuthService.tokenVerify().then(success);
+        $httpBackend.flush();
+
+        expect(success.calledOnce).to.be.true;
+      });
+
+      it('should get the current user', function () {
+
+        TokenAuthService.tokenVerify();
+        $httpBackend.flush();
+
+        expect(CurrentUser.$get.calledOnce).to.be.true;
+      });
+
+      it('should retry request buffer', function () {
+        TokenAuthService.requestBufferRetry = sandbox.stub();
+
+        TokenAuthService.tokenVerify();
+        $httpBackend.flush();
+
+        expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
+      });
+
+      it('should call auth success handlers with user', function () {
+        TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub().withArgs(fakeUser);
+
+        TokenAuthService.tokenVerify();
+        $httpBackend.flush();
+
+        expect(TokenAuthConfig.callAuthSuccessHandlers.calledOnce).to.be.true;
+      });
+    });
+
+    describe('on failure from a non-400 status handled by config', function () {
+      // note: assuming default of [401, 403]
+      beforeEach(function () {
+        localStorageService.get = sandbox.stub().returns(testToken);
+        requestVerify().respond(401);
+      });
+
+      it('should clear request buffer', function () {
+        TokenAuthService.requestBufferClear = sandbox.stub();
+
+        TokenAuthService.tokenVerify();
+        $httpBackend.flush();
+
+        expect(TokenAuthService.requestBufferClear.calledOnce).to.be.true;
+      });
+
+      it('should logout current user', function () {
+        CurrentUser.logout = sandbox.stub();
+
+        TokenAuthService.tokenVerify();
+        $httpBackend.flush();
+
+        expect(CurrentUser.logout.calledOnce).to.be.true;
+      });
+
+      it('should call auth failure handlers', function () {
+        TokenAuthConfig.callAuthFailureHandlers = sandbox.stub();
+
+        TokenAuthService.tokenVerify();
+        $httpBackend.flush();
+
+        expect(TokenAuthConfig.callAuthFailureHandlers.calledOnce).to.be.true;
+      });
+
+      it('should reject', function () {
+        var fail = sandbox.stub();
+
+        TokenAuthService.tokenVerify().catch(fail);
+        $httpBackend.flush();
+
+        expect(fail.calledOnce).to.be.true;
+      });
     });
   });
 
   describe('refresh', function () {
 
-    it('should retry request buffer on success', function () {
-// TODO :remove this
-      var success = sinon.stub();
-      var successVerification = sinon.stub();
-
-      localStorageService.get = sinon.stub().returns(testToken);
-      TokenAuthService.requestBufferRetry = sinon.stub();
-
-      TokenAuthService.tokenRefresh().then(success);
-
-      requestRefresh().respond(200);
-      $httpBackend.flush();
-
-      TokenAuthService.tokenVerify().then(successVerification);
-      $rootScope.$digest();
-
-      expect(successVerification.calledOnce).to.be.true;
-      expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
-      expect(success.calledOnce).to.be.true;
-    });
-
     it('should resolve on success', function () {
-      var success = sinon.stub();
-      localStorageService.get = sinon.stub().returns(testToken);
+      var success = sandbox.stub();
+      localStorageService.get = sandbox.stub().returns(testToken);
       requestRefresh().respond(200);
 
       TokenAuthService.tokenRefresh().then(success);
@@ -207,8 +216,8 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should get the current user on success', function () {
-      localStorageService.get = sinon.stub().returns(testToken);
-      CurrentUser.$get = sinon.stub().returns($q.resolve());
+      localStorageService.get = sandbox.stub().returns(testToken);
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
       requestRefresh().respond(200);
 
       TokenAuthService.tokenRefresh();
@@ -218,9 +227,9 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should retry request buffer on success', function () {
-      TokenAuthService.requestBufferRetry = sinon.stub();
-      localStorageService.get = sinon.stub().returns(testToken);
-      CurrentUser.$get = sinon.stub().returns($q.resolve());
+      TokenAuthService.requestBufferRetry = sandbox.stub();
+      localStorageService.get = sandbox.stub().returns(testToken);
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
       requestRefresh().respond(200);
 
       TokenAuthService.tokenRefresh();
@@ -232,9 +241,9 @@ describe('Service: TokenAuthService', function () {
     it('should call auth success handlers with user on success', function () {
       var fakeUser = {};
 
-      TokenAuthConfig.callAuthSuccessHandlers = sinon.stub().withArgs(fakeUser);
-      CurrentUser.$get = sinon.stub().returns($q.resolve(fakeUser));
-      localStorageService.get = sinon.stub().returns(testToken);
+      TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub().withArgs(fakeUser);
+      CurrentUser.$get = sandbox.stub().returns($q.resolve(fakeUser));
+      localStorageService.get = sandbox.stub().returns(testToken);
       requestRefresh().respond(200);
 
       TokenAuthService.tokenRefresh();
@@ -244,8 +253,8 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should reject when no token is available', function () {
-      var fail = sinon.stub();
-      localStorageService.get = sinon.stub().returns(null);
+      var fail = sandbox.stub();
+      localStorageService.get = sandbox.stub().returns(null);
 
       TokenAuthService.tokenRefresh().catch(fail);
       $rootScope.$digest();
@@ -254,9 +263,9 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should reject when bad response from server', function () {
-      var fail = sinon.stub();
+      var fail = sandbox.stub();
 
-      localStorageService.get = sinon.stub().returns(testToken);
+      localStorageService.get = sandbox.stub().returns(testToken);
       requestRefresh().respond(400);
 
       TokenAuthService.tokenRefresh().catch(fail);
@@ -266,8 +275,8 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should reject if another request is currently pending', function () {
-      var fail = sinon.stub();
-      localStorageService.get = sinon.stub().returns(testToken);
+      var fail = sandbox.stub();
+      localStorageService.get = sandbox.stub().returns(testToken);
 
       TokenAuthService.tokenRefresh();
       TokenAuthService.tokenRefresh().catch(fail);
@@ -279,7 +288,7 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should clear the request buffer on failure', function () {
-      TokenAuthService.requestBufferClear = sinon.stub();
+      TokenAuthService.requestBufferClear = sandbox.stub();
 
       TokenAuthService.tokenRefresh();
       $rootScope.$digest();
@@ -288,7 +297,7 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should logout the current user on failure', function () {
-      CurrentUser.logout = sinon.stub();
+      CurrentUser.logout = sandbox.stub();
 
       TokenAuthService.tokenRefresh();
       $rootScope.$digest();
@@ -298,7 +307,7 @@ describe('Service: TokenAuthService', function () {
 
     it('should call auth failure handlers on failure', function () {
 
-      TokenAuthConfig.callAuthFailureHandlers = sinon.stub();
+      TokenAuthConfig.callAuthFailureHandlers = sandbox.stub();
 
       TokenAuthService.tokenRefresh();
       $rootScope.$digest();
@@ -333,7 +342,7 @@ describe('Service: TokenAuthService', function () {
       var config2 = {method: 'GET', url: '2'};
       var config3 = {method: 'GET', url: '3'};
 
-      TokenAuthService.requestBufferClear = sinon.stub();
+      TokenAuthService.requestBufferClear = sandbox.stub();
 
       TokenAuthService.requestBufferPush(config1);
       TokenAuthService.requestBufferPush(config2);
@@ -429,10 +438,10 @@ describe('Service: TokenAuthService', function () {
 
     it('should retrieve current user and call auth success handlers', function () {
       var fakeUser = {};
-      var loginSuccess = sinon.stub();
+      var loginSuccess = sandbox.stub();
 
-      CurrentUser.$get = sinon.stub().returns($q.resolve(fakeUser));
-      TokenAuthConfig.callAuthSuccessHandlers = sinon.stub().withArgs(fakeUser);
+      CurrentUser.$get = sandbox.stub().returns($q.resolve(fakeUser));
+      TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub().withArgs(fakeUser);
 
       TokenAuthService.login(username, password).then(loginSuccess);
       $httpBackend.expectPOST(
@@ -450,10 +459,10 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should reject on failure', function () {
-      var fail = sinon.stub();
-      var failVerification = sinon.stub();
+      var fail = sandbox.stub();
+      var failVerification = sandbox.stub();
 
-      TokenAuthConfig.callAuthFailureHandlers = sinon.stub();
+      TokenAuthConfig.callAuthFailureHandlers = sandbox.stub();
 
       // TokenAuthService.login(username, password).catch(fail);
       TokenAuthService.login(username, password).catch(fail);
@@ -473,7 +482,7 @@ describe('Service: TokenAuthService', function () {
 
     it('should logout current user on failure', function () {
 
-      CurrentUser.logout = sinon.stub();
+      CurrentUser.logout = sandbox.stub();
 
       TokenAuthService.login(username, password);
 
@@ -490,7 +499,7 @@ describe('Service: TokenAuthService', function () {
     });
 
     it('should reject if another request is currently pending', function () {
-      var fail = sinon.stub();
+      var fail = sandbox.stub();
 
       TokenAuthService.login(username, password);
       TokenAuthService.login(username, password).catch(fail);
@@ -503,11 +512,11 @@ describe('Service: TokenAuthService', function () {
   });
 
   it('should have a logout function', function () {
-    var fail = sinon.stub();
+    var fail = sandbox.stub();
 
-    localStorageService.remove = sinon.stub();
-    $location.path = sinon.stub();
-    TokenAuthConfig.logoutCallback = sinon.stub();
+    localStorageService.remove = sandbox.stub();
+    $location.path = sandbox.stub();
+    TokenAuthConfig.logoutCallback = sandbox.stub();
 
     TokenAuthService.logout();
 
@@ -522,8 +531,8 @@ describe('Service: TokenAuthService', function () {
   });
 
   it('should have a way to navigate to the login page', function () {
-    $location.path = sinon.stub();
-    TokenAuthService.requestBufferClear = sinon.stub();
+    $location.path = sandbox.stub();
+    TokenAuthService.requestBufferClear = sandbox.stub();
 
     TokenAuthService.navToLogin();
 
@@ -532,7 +541,7 @@ describe('Service: TokenAuthService', function () {
   });
 
   it('should not allow multiple token auth requests to occur', function () {
-    localStorageService.get = sinon.stub().returns(testToken);
+    localStorageService.get = sandbox.stub().returns(testToken);
 
     TokenAuthService.tokenVerify();
     TokenAuthService.tokenRefresh();

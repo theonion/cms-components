@@ -23,7 +23,10 @@ angular.module('cmsComponents.auth.service', [
        *  besides the verify endpoint has been used to successfully authenticate.
        */
       var forceAuthenticated = function () {
-        $verified = $q.defer();
+        if (!$verified) {
+          $verified = $q.defer();
+        }
+
         $verified.resolve();
       };
 
@@ -32,7 +35,10 @@ angular.module('cmsComponents.auth.service', [
        *  besides the verify endpoint has been used to unauthenticate.
        */
       var forceUnauthenticated = function () {
-        $verified = $q.defer();
+        if (!$verified) {
+          $verified = $q.defer();
+        }
+
         $verified.reject();
       };
 
@@ -85,55 +91,61 @@ angular.module('cmsComponents.auth.service', [
        * @returns {promise} resolves when authenticated, rejects otherwise.
        */
       TokenAuthService.tokenVerify = function () {
-        if (!$verified && !requestInProgress) {
-          // verify has not been called yet, set it up
-          $verified = $q.defer();
-
-          // no currently running request, start a new one
-          requestInProgress = true;
-
-          var token = localStorageService.get(TokenAuthConfig.getTokenKey());
-          if (token) {
-
-            // has a token, fire off request
-            $http.post(
-              TokenAuthConfig.getApiEndpointVerify(),
-              {token: token},
-              {ignoreTokenAuth: true}
-            )
-            .then(authSuccess($verified))
-            .catch(function (response) {
-              // some error at the verify endpoint
-              if (response.status === 400) {
-                // this is an expired token, attempt refresh
-                requestInProgress = false;
-                TokenAuthService.tokenRefresh()
-                  .then($verified.resolve)
-                  .catch($verified.reject);
-              } else if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
-                // user is not authorized, send them to login page
-                noTokenFailure();
-                $verified.reject();
-              } else {
-                // this is not an auth error, reject verification
-                $verified.reject();
-              }
-            })
-            .finally(function () {
-              // reset request flag so other requests can go through
-              requestInProgress = false;
-            });
-          } else {
-            noTokenFailure();
-
-            $verified.reject();
-
-            // reset request flag so other requests can go through
-            requestInProgress = false;
-          }
+        if ($verified) {
+          // already verified, return existing verification
+          return $verified;
         }
 
-        return $verified ? $verified.promise : $q.reject();
+        if (requestInProgress) {
+          // there's already an auth request going, reject
+          return $q.reject();
+        }
+
+        // no currently running request, start a new one
+        requestInProgress = true;
+
+        // verify has not been called yet, set it up
+        $verified = $q.defer();
+
+        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+        if (token) {
+          $http.post(
+            TokenAuthConfig.getApiEndpointVerify(),
+            {
+              token: token
+            },
+            {
+              ignoreTokenAuth: true
+            }
+          )
+          .then(authSuccess($verified))
+          .catch(function (response) {
+
+            if (response.status === 400) {
+              // this is an expired token, attempt refresh
+              requestInProgress = false;
+              TokenAuthService.tokenRefresh()
+                .then($verified.resolve)
+                .catch($verified.reject);
+            } else if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
+              // user is not authorized, special failure
+              // side-effect: reject $verified, this can probably be done better
+              noTokenFailure();
+            } else {
+              // this is not an auth error, reject verification
+              $verified.reject();
+            }
+          });
+        } else {
+          // side-effect: reject $verified, this can probably be done better
+          noTokenFailure();
+        }
+
+        return $verified.promise
+          .finally(function () {
+            // reset request flag so other requests can go through
+            requestInProgress = false;
+          });
       };
 
       /**
