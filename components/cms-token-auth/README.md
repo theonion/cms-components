@@ -37,7 +37,7 @@ A login component that interacts with [django-rest-framework-jwt](https://github
         }
       ]);
   ```
-  
+
   Available configuration methods on `TokenAuthConfigProvider`:
 
   | Method    | Usage    | Defaults    |
@@ -48,8 +48,8 @@ A login component that interacts with [django-rest-framework-jwt](https://github
   | setApiEndpointVerify | Endpoint for token `verify`. | `'/api/token/verify'` |
   | setApiHost | Host where endpoints are located. | `''` |
   | setHandleHttpCodes | Takes an `Array` of HTTP codes to handle with this token auth library. | `[401, 403]` |
-  | setLoginCallback | Callback to execute when a successful login occurs. | `function () {}` |
-  | setLoginPathPath | Path to login page. | `''` |
+  | setLoginCallback | Callback to execute when a successful login occurs. Receives the logged in user's username. | `function () {}` |
+  | setLoginPagePath | Path to login page. | `''` |
   | setLogoUrl | Url of logo to use on login page. | `''` |
   | setLogoutCallback | Callback to execute when logout occurs. | `function () {}` |
   | setMatchers | List of regular expressions to match request URLs. Only matched URLs will be intercepted. | `[/.*/]` |

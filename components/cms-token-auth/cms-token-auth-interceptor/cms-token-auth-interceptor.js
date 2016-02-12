@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('cmsComponents.auth.interceptor', [
-  'cmsComponents.auth.authService',
+  'cmsComponents.auth.service',
   'cmsComponents.auth.config',
   'LocalStorageModule'
 ])

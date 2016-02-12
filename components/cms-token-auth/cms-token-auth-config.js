@@ -16,21 +16,23 @@ angular.module('cmsComponents.auth.config', [
       var apiEndpointVerify = '/api/token/verify';
       // host where auth endpoints are located
       var apiHost = '';
+      // handlers to when an authentication failure occurs
+      var authFailureHandlers = [];
+      // handlers to fire when authentication succeeds
+      var authSuccessHandlers = [];
       // HTTP codes this module should handle
       var handleHttpCodes = [401, 403];
-      // callback called on successful login
-      var loginCallback = function () {};
       // path to login page
       var loginPagePath = '';
       // url for logo to display on login page
       var logoUrl = '';
-      // callback called on successful logout
-      var logoutCallback = function () {};
       // list of regular expressions to match request urls, only matched urls will
       //  be intercepted successfully
       var matchers = [/.*/];
       // local storage key for token
       var tokenKey = 'authToken';
+      // handlers to fire when unauthentication occurs (logout)
+      var unauthHandlers = [];
 
       this.setAfterLoginPath = function (value) {
         if (_.isString(value)) {
@@ -87,11 +89,19 @@ angular.module('cmsComponents.auth.config', [
         }
       };
 
-      this.setLoginCallback = function (func) {
+      this.addAuthFailureHandler = function (func) {
         if (_.isFunction(func)) {
-          loginCallback = func;
+          authFailureHandlers.push(func);
         } else {
-          throw new TypeError('TokenAuthConfig.loginCallback must be a function!');
+          throw new TypeError('TokenAuthConfig.addAuthFailureHandlers can only contain functions!');
+        }
+      };
+
+      this.addAuthSuccessHandler = function (func) {
+        if (_.isFunction(func)) {
+          authSuccessHandlers.push(func);
+        } else {
+          throw new TypeError('TokenAuthConfig.authSuccessHandlers can only contain functions!');
         }
       };
 
@@ -142,6 +152,14 @@ angular.module('cmsComponents.auth.config', [
         }
       };
 
+      this.addUnauthHandler = function (func) {
+        if (_.isFunction(func)) {
+          unauthHandlers.push(func);
+        } else {
+          throw new TypeError('TokenAuthConfig.unauthHandlers can only contain functions!');
+        }
+      };
+
       this.$get = function () {
         return {
           getAfterLoginPath: _.constant(afterLoginPath),
@@ -151,8 +169,33 @@ angular.module('cmsComponents.auth.config', [
           getLoginPagePath: _.constant(loginPagePath),
           getLogoUrl: _.constant(logoUrl),
           getTokenKey: _.constant(tokenKey),
-          loginCallback: loginCallback,
-          logoutCallback: logoutCallback,
+          callAuthFailureHandlers: function (args) {
+            if (!_.isArray(args)) {
+              args = [args];
+            }
+
+            authFailureHandlers.forEach(function (handler) {
+              handler.apply(null, args);
+            });
+          },
+          callAuthSuccessHandlers: function (args) {
+            if (!_.isArray(args)) {
+              args = [args];
+            }
+
+            authSuccessHandlers.forEach(function (handler) {
+              handler.apply(null, args);
+            });
+          },
+          callUnauthHandlers: function (args) {
+            if (!_.isArray(args)) {
+              args = [args];
+            }
+
+            unauthHandlers.forEach(function (handler) {
+              handler.apply(null, args);
+            });
+          },
           /**
            * Check if this an HTTP status code this library should handle.
            *

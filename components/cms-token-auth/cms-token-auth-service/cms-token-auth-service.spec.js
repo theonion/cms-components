@@ -3,12 +3,14 @@
 describe('Service: TokenAuthService', function () {
   require('../cms-token-auth');
   require('../cms-token-auth-config');
+  require('../cms-token-auth-user/cms-token-auth-user');
   require('./cms-token-auth-service');
 
   var $httpBackend;
   var $location;
   var $q;
   var $rootScope;
+  var CurrentUser;
   var localStorageService;
   var testToken = 'some-test-token';
   var TokenAuthConfig;
@@ -32,12 +34,13 @@ describe('Service: TokenAuthService', function () {
     angular.mock.module('cmsComponents.auth');
 
     inject(function (_$httpBackend_, _$location_, _$q_, _$rootScope_,
-        _localStorageService_, _TokenAuthConfig_, _TokenAuthService_) {
+        _localStorageService_, _TokenAuthConfig_, _TokenAuthService_, _CurrentUser_) {
 
       $httpBackend = _$httpBackend_;
       $location = _$location_;
       $q = _$q_;
       $rootScope = _$rootScope_;
+      CurrentUser = _CurrentUser_;
       localStorageService = _localStorageService_;
       TokenAuthConfig = _TokenAuthConfig_;
       TokenAuthService = _TokenAuthService_;
@@ -335,15 +338,9 @@ describe('Service: TokenAuthService', function () {
     var username = 'abc';
     var password = '123';
 
-    it('should setup token in local storage, redirect user, call callback on success', function () {
-      var success = sinon.stub();
-      var successVerification = sinon.stub();
+    it('should setup auth token in local storage', function () {
 
-      $location.path = sinon.stub();
-      TokenAuthConfig.loginCallback = sinon.stub();
-
-      TokenAuthService.login(username, password).then(success);
-
+      TokenAuthService.login(username, password);
       $httpBackend.expectPOST(
         TokenAuthConfig.getApiEndpointAuth(),
         {
@@ -353,20 +350,38 @@ describe('Service: TokenAuthService', function () {
       ).respond({token: testToken});
       $httpBackend.flush();
 
-      TokenAuthService.tokenVerify().then(successVerification);
-      $rootScope.$digest();
-
-      expect(successVerification.calledOnce).to.be.true;
       expect(localStorageService.get(TokenAuthConfig.getTokenKey())).to.equal(testToken);
-      expect($location.path.withArgs(TokenAuthConfig.getAfterLoginPath()).calledOnce).to.be.true;
-      expect(TokenAuthConfig.loginCallback.calledOnce).to.be.true;
-      expect(success.calledOnce).to.be.true;
+    });
+
+    it('should retrieve current user and call auth success handlers', function () {
+      var fakeUser = {};
+      var loginSuccess = sinon.stub();
+
+      CurrentUser.$get = sinon.stub().returns($q.resolve(fakeUser));
+      TokenAuthConfig.callAuthSuccessHandlers = sinon.stub().withArgs(fakeUser);
+
+      TokenAuthService.login(username, password).then(loginSuccess);
+      $httpBackend.expectPOST(
+        TokenAuthConfig.getApiEndpointAuth(),
+        {
+          username: username,
+          password: password
+        }
+      ).respond({token: testToken});
+      $httpBackend.flush();
+
+      expect(CurrentUser.$get.calledOnce).to.be.true;
+      expect(TokenAuthConfig.callAuthSuccessHandlers.calledOnce).to.be.true;
+      expect(loginSuccess.calledOnce).to.be.true;
     });
 
     it('should reject on failure', function () {
       var fail = sinon.stub();
       var failVerification = sinon.stub();
 
+      TokenAuthConfig.callAuthFailureHandlers = sinon.stub();
+
+      // TokenAuthService.login(username, password).catch(fail);
       TokenAuthService.login(username, password).catch(fail);
 
       $httpBackend.expectPOST(
@@ -378,10 +393,37 @@ describe('Service: TokenAuthService', function () {
       ).respond(401);
       $httpBackend.flush();
 
-      TokenAuthService.tokenVerify().catch(failVerification);
-      $rootScope.$digest();
+      expect(fail.calledOnce).to.be.true;
+      expect(TokenAuthConfig.callAuthFailureHandlers.calledOnce).to.be.true;
+    });
 
-      expect(failVerification.calledOnce).to.be.true;
+    it('should logout current user on failure', function () {
+
+      CurrentUser.logout = sinon.stub();
+
+      TokenAuthService.login(username, password);
+
+      $httpBackend.expectPOST(
+        TokenAuthConfig.getApiEndpointAuth(),
+        {
+          username: username,
+          password: password
+        }
+      ).respond(401);
+      $httpBackend.flush();
+
+      expect(CurrentUser.logout.calledOnce).to.be.true;
+    });
+
+    it('should reject if another request is currently pending', function () {
+      var fail = sinon.stub();
+
+      TokenAuthService.login(username, password);
+      TokenAuthService.login(username, password).catch(fail);
+
+      $httpBackend.expectPOST(TokenAuthConfig.getApiEndpointAuth()).respond({});
+      $httpBackend.flush();
+
       expect(fail.calledOnce).to.be.true;
     });
   });

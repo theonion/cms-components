@@ -1,15 +1,17 @@
 'use strict';
 
-angular.module('cmsComponents.auth.authService', [
+angular.module('cmsComponents.auth.service', [
   'cmsComponents.auth.config',
+  'cmsComponents.auth.user',
   'LocalStorageModule'
 ])
   .service('TokenAuthService', [
-    '$q', '$location', '$http', 'localStorageService', 'TokenAuthConfig',
-    function ($q, $location, $http, localStorageService, TokenAuthConfig) {
+    '$q', '$http', 'localStorageService', 'CurrentUser', 'TokenAuthConfig',
+    function ($q, $http, localStorageService, CurrentUser, TokenAuthConfig) {
 
       var TokenAuthService = this;
       var requestInProgress = false;
+
       // false if not verified at least once, otherwise promise that resolves when
       //  verification endpoint returns
       var $verified = false;
@@ -38,21 +40,21 @@ angular.module('cmsComponents.auth.authService', [
         return function () {
           forceAuthenticated();
           TokenAuthService.requestBufferRetry();
-
-          // if we're currently on the login page, navigate away from it
-          if ($location.path() === TokenAuthConfig.getLoginPagePath()) {
-            $location.path(TokenAuthConfig.getAfterLoginPath());
-          }
-
           deferred.resolve();
+          CurrentUser.$get()
+            .then(function (user) {
+              TokenAuthConfig.callAuthSuccessHandlers(user);
+            });
         };
       };
 
       var noTokenFailure = function (deferred) {
         return function () {
           forceUnauthenticated();
-          TokenAuthService.navToLogin();
+          TokenAuthService.requestBufferClear();
           deferred.reject();
+          CurrentUser.logout();
+          TokenAuthConfig.callAuthFailureHandlers();
         };
       };
 
@@ -60,7 +62,7 @@ angular.module('cmsComponents.auth.authService', [
        * Token verification endpoint. Should be used as the initial request when
        *  a page loads to check if user is authenticated. All requests should be
        *  buffered until verify endpoint returns successfully.
-
+       *
        * Because token verification is meant only to occur once when the page loads,
        *  subsequent calls to this function will return the promise from the original
        *  call.
@@ -118,9 +120,7 @@ angular.module('cmsComponents.auth.authService', [
 
       /**
        * Token refresh endpoint. Should be used for reauthenticating ajax requests
-       *  that have responded with an unauthorized status code. In the event of
-       *  an error status code returning from a refresh request, the user will
-       *  be routed to the login page.
+       *  that have responded with an unauthorized status code.
        *
        * @returns {promise} resolves when authenticated, rejects otherwise.
        */
@@ -166,53 +166,62 @@ angular.module('cmsComponents.auth.authService', [
 
       /**
        * Login endpoint. Should only be used where a user is providing a username
-       *  and password to login. After a successful login, the user will be directed
-       *  to the configured afterLoginPath location.
+       *  and password to login.
+       *
+       * Makes an additional request to get current user info.
+       *
+       * Calls TokenAuthConfig.callAuthSuccessHandlers on success, and
+       *  TokenAuthConfig.callAuthFailureHandlers on failure.
        *
        * @param {string} username - username to use to login.
        * @param {string} password - password to use to login.
-       * @returns {promise} resolves when authenticated, rejects otherwise.
+       * @returns {promise} resolves when fully authenticated, rejects otherwise.
        */
       TokenAuthService.login = function (username, password) {
+        if (requestInProgress) {
+          // there's already an auth request going, reject
+          return $q.reject();
+        }
+
+        // no currently running request, start a new one
+        requestInProgress = true;
+
         var login = $q.defer();
+        $http.post(
+          TokenAuthConfig.getApiEndpointAuth(),
+          {
+            username: username,
+            password: password
+          },
+          {
+            ignoreTokenAuth: true
+          }
+        )
+          .then(function (response) {
+            localStorageService.set(TokenAuthConfig.getTokenKey(), response.data.token);
 
-        if (!requestInProgress) {
-          // no currently running request, start a new one
-          requestInProgress = true;
-          TokenAuthService._pendingLogin = login;
-
-          $http.post(
-            TokenAuthConfig.getApiEndpointAuth(),
-            {
-              username: username,
-              password: password
-            },
-            {ignoreTokenAuth: true}
-          )
-          .success(function (response) {
-            forceAuthenticated();
-            localStorageService.set(TokenAuthConfig.getTokenKey(), response.token);
-            $location.path(TokenAuthConfig.getAfterLoginPath());
-            TokenAuthConfig.loginCallback();
-            login.resolve();
+            CurrentUser.$get()
+              .then(login.resolve)
+              .catch(login.reject);
           })
-          .catch(function () {
+          .catch(login.reject);
+
+        return login.promise
+          .then(function (user) {
+            forceAuthenticated();
+            TokenAuthConfig.callAuthSuccessHandlers(user);
+          })
+          .catch(function (error) {
             forceUnauthenticated();
-            login.reject();
+            CurrentUser.logout();
+            TokenAuthConfig.callAuthFailureHandlers();
+
+            return $q.reject(error);
           })
           .finally(function () {
             // reset request flag so other requests can go through
             requestInProgress = false;
           });
-        } else if (!TokenAuthService._pendingLogin) {
-          // there is a request happening, and it's not a login request, reject promise
-          login.reject();
-        } else {
-          // request in progress and it's a login request, return existing promise
-          login = TokenAuthService._pendingLogin;
-        }
-
-        return login.promise;
       };
 
       /**
@@ -221,9 +230,9 @@ angular.module('cmsComponents.auth.authService', [
        */
       TokenAuthService.logout = function () {
         forceUnauthenticated();
+        CurrentUser.logout();
+        TokenAuthConfig.callUnauthHandlers();
         localStorageService.remove(TokenAuthConfig.getTokenKey());
-        $location.path(TokenAuthConfig.getLoginPagePath());
-        TokenAuthConfig.logoutCallback();
       };
 
       /**
@@ -267,14 +276,6 @@ angular.module('cmsComponents.auth.authService', [
        */
       TokenAuthService.requestBufferClear = function () {
         TokenAuthService._requestBuffer = [];
-      };
-
-      /**
-       * Clear request buffer and send user to login page.
-       */
-      TokenAuthService.navToLogin = function () {
-        TokenAuthService.requestBufferClear();
-        $location.path(TokenAuthConfig.getLoginPagePath());
       };
 
       return TokenAuthService;

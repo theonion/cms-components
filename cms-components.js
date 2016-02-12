@@ -1,7 +1,8 @@
 'use strict';
 
 var cmsComponents = angular.module('cmsComponents', [
-  'cmsComponents.auth'
+  'cmsComponents.auth',
+  'cmsComponents.user.service'
 ]);
 
 cmsComponents.provider('$render', function () {

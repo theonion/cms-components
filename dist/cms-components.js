@@ -58,7 +58,8 @@
 	'use strict';
 
 	var cmsComponents = angular.module('cmsComponents', [
-	  'cmsComponents.auth'
+	  'cmsComponents.auth',
+	  'cmsComponents.user.service'
 	]);
 
 	cmsComponents.provider('$render', function () {
@@ -149,89 +150,87 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./auth/auth-interceptor.js": 3,
-		"./auth/auth-service.js": 4,
-		"./auth/auth.js": 5,
-		"./auth/current-user.js": 6,
-		"./auth/http-request-buffer-factory.js": 7,
-		"./betty-cropper/betty-cropper.js": 8,
-		"./betty-cropper/betty-cropper.scss": 9,
-		"./betty-cropper/betty-editable.html": 13,
-		"./betty-cropper/betty-editable.js": 14,
-		"./betty-cropper/betty-service.js": 15,
-		"./betty-cropper/image-crop-modal.html": 16,
-		"./betty-cropper/image-crop-modal.js": 17,
-		"./betty-cropper/open-image-crop-modal.js": 18,
-		"./cms-button/cms-button.html": 19,
-		"./cms-button/cms-button.js": 20,
-		"./cms-button/cms-button.scss": 21,
-		"./cms-component/cms-component.html": 23,
-		"./cms-component/cms-component.js": 24,
-		"./cms-component/cms-component.scss": 25,
-		"./cms-container/cms-container.html": 27,
-		"./cms-container/cms-container.js": 28,
-		"./cms-container/cms-container.scss": 29,
-		"./cms-content-list/cms-content-list.html": 31,
-		"./cms-content-list/cms-content-list.js": 32,
-		"./cms-content-list/cms-content-list.scss": 33,
-		"./cms-filter-item/cms-filter-item.html": 35,
-		"./cms-filter-item/cms-filter-item.js": 36,
-		"./cms-filter-item/cms-filter-item.scss": 37,
-		"./cms-filter-set/cms-filter-set.html": 39,
-		"./cms-filter-set/cms-filter-set.js": 40,
-		"./cms-filter-set/cms-filter-set.scss": 41,
-		"./cms-flyout/cms-flyout.html": 43,
-		"./cms-flyout/cms-flyout.js": 44,
-		"./cms-flyout/cms-flyout.scss": 45,
-		"./cms-input/cms-input.html": 47,
-		"./cms-input/cms-input.js": 48,
-		"./cms-input/cms-input.scss": 49,
-		"./cms-layout/cms-layout.html": 51,
-		"./cms-layout/cms-layout.js": 52,
-		"./cms-layout/cms-layout.scss": 53,
-		"./cms-legend/cms-legend.html": 55,
-		"./cms-legend/cms-legend.js": 56,
-		"./cms-legend/cms-legend.scss": 57,
-		"./cms-login/login.html": 60,
-		"./cms-login/login.js": 61,
-		"./cms-login/login.scss": 62,
-		"./cms-logout/logout.html": 64,
-		"./cms-logout/logout.js": 65,
-		"./cms-modal/cms-modal.html": 66,
-		"./cms-modal/cms-modal.js": 67,
-		"./cms-modal/cms-modal.scss": 68,
-		"./cms-partial/cms-partial.html": 70,
-		"./cms-partial/cms-partial.js": 71,
-		"./cms-partial/cms-partial.scss": 72,
-		"./cms-row/cms-row.html": 74,
-		"./cms-row/cms-row.js": 75,
-		"./cms-row/cms-row.scss": 76,
-		"./cms-table-cell/cms-table-cell.html": 78,
-		"./cms-table-cell/cms-table-cell.js": 79,
-		"./cms-table-cell/cms-table-cell.scss": 80,
-		"./cms-table-column/cms-table-column.html": 82,
-		"./cms-table-column/cms-table-column.js": 83,
-		"./cms-table-column/cms-table-column.scss": 84,
-		"./cms-table/cms-table.html": 86,
-		"./cms-table/cms-table.js": 87,
-		"./cms-table/cms-table.scss": 88,
-		"./cms-token-auth/cms-token-auth-config.js": 114,
-		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 115,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 116,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 117,
-		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 118,
-		"./cms-token-auth/cms-token-auth.js": 119,
-		"./convert-to-number/convert-to-number.js": 90,
-		"./sidebar-nav-item/sidebar-nav-item.html": 91,
-		"./sidebar-nav-item/sidebar-nav-item.js": 92,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 93,
-		"./ui-sref-active-if/ui-sref-active-if.js": 95,
-		"./user-menu/user-menu.html": 96,
-		"./user-menu/user-menu.js": 97,
-		"./user-menu/user-menu.scss": 98,
-		"./user-profile/user-profile.html": 100,
-		"./user-profile/user-profile.js": 101,
-		"./user-profile/user-profile.scss": 102
+		"./betty-cropper/betty-cropper.js": 3,
+		"./betty-cropper/betty-cropper.scss": 4,
+		"./betty-cropper/betty-editable.html": 8,
+		"./betty-cropper/betty-editable.js": 9,
+		"./betty-cropper/betty-service.js": 10,
+		"./betty-cropper/image-crop-modal.html": 11,
+		"./betty-cropper/image-crop-modal.js": 12,
+		"./betty-cropper/open-image-crop-modal.js": 13,
+		"./cms-button/cms-button.html": 14,
+		"./cms-button/cms-button.js": 15,
+		"./cms-button/cms-button.scss": 16,
+		"./cms-component/cms-component.html": 18,
+		"./cms-component/cms-component.js": 19,
+		"./cms-component/cms-component.scss": 20,
+		"./cms-container/cms-container.html": 22,
+		"./cms-container/cms-container.js": 23,
+		"./cms-container/cms-container.scss": 24,
+		"./cms-content-list/cms-content-list.html": 26,
+		"./cms-content-list/cms-content-list.js": 27,
+		"./cms-content-list/cms-content-list.scss": 28,
+		"./cms-filter-item/cms-filter-item.html": 30,
+		"./cms-filter-item/cms-filter-item.js": 31,
+		"./cms-filter-item/cms-filter-item.scss": 32,
+		"./cms-filter-set/cms-filter-set.html": 34,
+		"./cms-filter-set/cms-filter-set.js": 35,
+		"./cms-filter-set/cms-filter-set.scss": 36,
+		"./cms-flyout/cms-flyout.html": 38,
+		"./cms-flyout/cms-flyout.js": 39,
+		"./cms-flyout/cms-flyout.scss": 40,
+		"./cms-input/cms-input.html": 42,
+		"./cms-input/cms-input.js": 43,
+		"./cms-input/cms-input.scss": 44,
+		"./cms-layout/cms-layout.html": 46,
+		"./cms-layout/cms-layout.js": 47,
+		"./cms-layout/cms-layout.scss": 48,
+		"./cms-legend/cms-legend.html": 50,
+		"./cms-legend/cms-legend.js": 51,
+		"./cms-legend/cms-legend.scss": 52,
+		"./cms-login/login.html": 55,
+		"./cms-login/login.js": 56,
+		"./cms-login/login.scss": 57,
+		"./cms-logout/logout.html": 59,
+		"./cms-logout/logout.js": 60,
+		"./cms-modal/cms-modal.html": 61,
+		"./cms-modal/cms-modal.js": 62,
+		"./cms-modal/cms-modal.scss": 63,
+		"./cms-partial/cms-partial.html": 65,
+		"./cms-partial/cms-partial.js": 66,
+		"./cms-partial/cms-partial.scss": 67,
+		"./cms-row/cms-row.html": 69,
+		"./cms-row/cms-row.js": 70,
+		"./cms-row/cms-row.scss": 71,
+		"./cms-table-cell/cms-table-cell.html": 73,
+		"./cms-table-cell/cms-table-cell.js": 74,
+		"./cms-table-cell/cms-table-cell.scss": 75,
+		"./cms-table-column/cms-table-column.html": 77,
+		"./cms-table-column/cms-table-column.js": 78,
+		"./cms-table-column/cms-table-column.scss": 79,
+		"./cms-table/cms-table.html": 81,
+		"./cms-table/cms-table.js": 82,
+		"./cms-table/cms-table.scss": 83,
+		"./cms-token-auth/cms-token-auth-config.js": 85,
+		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 86,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 87,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 88,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 89,
+		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 91,
+		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 108,
+		"./cms-token-auth/cms-token-auth.js": 92,
+		"./convert-to-number/convert-to-number.js": 93,
+		"./sidebar-nav-item/sidebar-nav-item.html": 94,
+		"./sidebar-nav-item/sidebar-nav-item.js": 95,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 96,
+		"./ui-sref-active-if/ui-sref-active-if.js": 98,
+		"./user-menu/user-menu.html": 99,
+		"./user-menu/user-menu.js": 100,
+		"./user-menu/user-menu.scss": 101,
+		"./user-profile/user-profile.html": 103,
+		"./user-profile/user-profile.js": 104,
+		"./user-profile/user-profile.scss": 105,
+		"./user/user.js": 107
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -249,189 +248,6 @@
 
 /***/ },
 /* 3 */
-/***/ function(module, exports) {
-
-	angular.module('cmsComponents.auth.interceptor', [])
-	  .factory('authInterceptor', [
-	    '$q', '$location', '$injector', 'localStorageService', 'httpRequestBuffer',
-	    function ($q, $location, $injector, localStorageService, httpRequestBuffer) {
-
-	      var factory = {};
-
-	      factory.request = function (config) {
-	        config.headers = config.headers || {};
-	        var token = localStorageService.get('authToken');
-	        var isBettyCropperRequest = _.has(config.headers, 'X-Betty-Api-Key');
-	        if (token && !config.ignoreAuthorizationHeader && !isBettyCropperRequest) {
-	          config.headers.Authorization = 'JWT ' + token;
-	        }
-	        return config;
-	      };
-
-	      factory.responseError = function (response) {
-	        if (response.config) {
-	          var ignoreAuthModule = response.config.ignoreAuthModule || response.config.headers.ignoreAuthModule;
-	          if (!ignoreAuthModule) {
-	            if (response.status === 403 || response.status === 401) {
-	              var deferred = $q.defer();
-	              httpRequestBuffer.append(response.config, deferred);
-	              var authService = $injector.get('authService');
-	              authService.refreshToken();
-	            }
-	          }
-	        }
-	        return $q.reject(response);
-	      };
-
-	      return factory;
-	    }
-	  ]);
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	angular.module('cmsComponents.auth.service', [])
-	  .service('authService', [
-	    '$rootScope', '$location', '$http', 'httpRequestBuffer', 'localStorageService',
-	      'alertService', 'Config', 'CurrentUser',
-	    function ($rootScope, $location, $http, httpRequestBuffer, localStorageService,
-	        alertService, Config, CurrentUser) {
-
-	      var service = {};
-
-	      service.login = function (username, password) {
-	        return $http.post(Config.apiHost + '/api/token/auth', {
-	          username: username,
-	          password: password
-	        })
-	        .success(service.loginSuccess)
-	        .error(service.loginError);
-	      };
-
-	      service.logout = function () {
-	        localStorageService.remove('authToken');
-	      };
-
-	      service.loginSuccess = function(response) {
-	        localStorageService.set('authToken', response.token);
-	      };
-
-	      service.loginError = function(response) {
-	        alertService.addAlert('Username or password provided is incorrect.', 'danger');
-	      };
-
-	      service.refreshToken = function () {
-	        var token = localStorageService.get('authToken');
-	        return $http.post(Config.apiHost + '/api/token/refresh', { token: token }, { ignoreAuthModule: true })
-	        .success(service.tokenRefreshed)
-	        .error(service.tokenRefreshError);
-	      };
-
-	      service.tokenRefreshed = function(response) {
-	        localStorageService.set('authToken', response.token);
-	        httpRequestBuffer.retryAll();
-	      };
-
-	      service.tokenRefreshError = function(response) {
-	        httpRequestBuffer.rejectAll();
-	        alertService.addAlert('You failed to authenticate. Redirecting to login.', 'danger');
-	        CurrentUser.logout();
-	      };
-
-	      return service;
-	    }
-	  ]);
-
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	angular.module('cmsComponents.auth', [
-	  'cmsComponents.auth.service',
-	  'cmsComponents.auth.interceptor'
-	]);
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .service('CurrentUser', function (localStorageService, $state, $location, $rootScope) {
-	    this.currentUser = null;
-	    this.getCurrentUser = function () {
-	      return localStorageService.get('currentUser');
-	    };
-
-	    this.setCurrentUser = function (newCurrentUser) {
-	      localStorageService.set('currentUser', newCurrentUser);
-	      $rootScope.$broadcast('userchange');
-	    };
-
-	    this.logout = function () {
-	      this.currentUser = null;
-	      $rootScope.$broadcast('userchange');
-	      localStorageService.remove('authToken');
-	      localStorageService.remove('currentUser');
-	      $state.go('login');
-	    };
-	  });
-
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents').service('httpRequestBuffer', ['$injector', function ($injector) {
-	  var buffer = [];
-
-	  function _retryHttpRequest(config, deferred) {
-	    function successCallback(response) {
-	      deferred.resolve(response);
-	    }
-
-	    function errorCallback(response) {
-	      deferred.reject(response);
-	    }
-	    config.headers.ignoreAuthModule = true;
-	    var $http = $http || $injector.get('$http');
-	    $http(config).then(successCallback, errorCallback);
-	  }
-
-	  return {
-	    append: function (config, deferred) {
-	      buffer.push({
-	        config: config,
-	        deferred: deferred
-	      });
-	    },
-	    rejectAll: function (reason) {
-	      if (reason) {
-	        _.each(buffer, function (request) {
-	          request.deferred.reject(reason);
-	        });
-	      }
-	      buffer = [];
-	    },
-	    retryAll: function () {
-	      _.each(buffer, function (request) {
-	        _retryHttpRequest(request.config, request.deferred);
-	      });
-	      buffer = [];
-	    }
-	  };
-	}]);
-
-
-/***/ },
-/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -736,16 +552,16 @@
 
 
 /***/ },
-/* 9 */
+/* 4 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/betty-editable.html';
@@ -754,7 +570,7 @@
 	module.exports = path;
 
 /***/ },
-/* 14 */
+/* 9 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -871,7 +687,7 @@
 
 
 /***/ },
-/* 15 */
+/* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -895,7 +711,7 @@
 
 
 /***/ },
-/* 16 */
+/* 11 */
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/image-crop-modal.html';
@@ -904,7 +720,7 @@
 	module.exports = path;
 
 /***/ },
-/* 17 */
+/* 12 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1075,7 +891,7 @@
 
 
 /***/ },
-/* 18 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1099,7 +915,7 @@
 
 
 /***/ },
-/* 19 */
+/* 14 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-button/cms-button.html';
@@ -1108,7 +924,7 @@
 	module.exports = path;
 
 /***/ },
-/* 20 */
+/* 15 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1141,14 +957,14 @@
 
 
 /***/ },
-/* 21 */
+/* 16 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 22 */,
-/* 23 */
+/* 17 */,
+/* 18 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-component/cms-component.html';
@@ -1157,7 +973,7 @@
 	module.exports = path;
 
 /***/ },
-/* 24 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1180,14 +996,14 @@
 
 
 /***/ },
-/* 25 */
+/* 20 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 26 */,
-/* 27 */
+/* 21 */,
+/* 22 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-container/cms-container.html';
@@ -1196,7 +1012,7 @@
 	module.exports = path;
 
 /***/ },
-/* 28 */
+/* 23 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1212,14 +1028,14 @@
 
 
 /***/ },
-/* 29 */
+/* 24 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 30 */,
-/* 31 */
+/* 25 */,
+/* 26 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-content-list/cms-content-list.html';
@@ -1228,7 +1044,7 @@
 	module.exports = path;
 
 /***/ },
-/* 32 */
+/* 27 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1243,14 +1059,14 @@
 
 
 /***/ },
-/* 33 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 34 */,
-/* 35 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-filter-item/cms-filter-item.html';
@@ -1259,7 +1075,7 @@
 	module.exports = path;
 
 /***/ },
-/* 36 */
+/* 31 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1275,14 +1091,14 @@
 
 
 /***/ },
-/* 37 */
+/* 32 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 38 */,
-/* 39 */
+/* 33 */,
+/* 34 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-filter-set/cms-filter-set.html';
@@ -1291,7 +1107,7 @@
 	module.exports = path;
 
 /***/ },
-/* 40 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1307,14 +1123,14 @@
 
 
 /***/ },
-/* 41 */
+/* 36 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 42 */,
-/* 43 */
+/* 37 */,
+/* 38 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-flyout/cms-flyout.html';
@@ -1323,7 +1139,7 @@
 	module.exports = path;
 
 /***/ },
-/* 44 */
+/* 39 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1384,14 +1200,14 @@
 
 
 /***/ },
-/* 45 */
+/* 40 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 46 */,
-/* 47 */
+/* 41 */,
+/* 42 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-input/cms-input.html';
@@ -1400,7 +1216,7 @@
 	module.exports = path;
 
 /***/ },
-/* 48 */
+/* 43 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1421,14 +1237,14 @@
 
 
 /***/ },
-/* 49 */
+/* 44 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 50 */,
-/* 51 */
+/* 45 */,
+/* 46 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-layout/cms-layout.html';
@@ -1437,7 +1253,7 @@
 	module.exports = path;
 
 /***/ },
-/* 52 */
+/* 47 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1460,14 +1276,14 @@
 
 
 /***/ },
-/* 53 */
+/* 48 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 54 */,
-/* 55 */
+/* 49 */,
+/* 50 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-legend/cms-legend.html';
@@ -1476,7 +1292,7 @@
 	module.exports = path;
 
 /***/ },
-/* 56 */
+/* 51 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1492,15 +1308,15 @@
 
 
 /***/ },
-/* 57 */
+/* 52 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 58 */,
-/* 59 */,
-/* 60 */
+/* 53 */,
+/* 54 */,
+/* 55 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-login/login.html';
@@ -1509,7 +1325,7 @@
 	module.exports = path;
 
 /***/ },
-/* 61 */
+/* 56 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1549,14 +1365,14 @@
 
 
 /***/ },
-/* 62 */
+/* 57 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 63 */,
-/* 64 */
+/* 58 */,
+/* 59 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-logout/logout.html';
@@ -1565,29 +1381,37 @@
 	module.exports = path;
 
 /***/ },
-/* 65 */
+/* 60 */
 /***/ function(module, exports) {
 
 	'use strict';
 
-	angular.module('cmsComponents')
-	.directive('cmsLogout', function () {
-	  return {
-	    restrict: 'E',
-	    templateUrl: 'components/cms-logout/logout.html',
-	    controller: ['$scope', '$state', 'authService', 'CurrentUser', 'BettyService',
-	    function ($scope, $state, authService, CurrentUser, BettyService) {
-	      CurrentUser.setCurrentUser(null);
-	      authService.logout();
-	      BettyService.updateBettyConfig();
-	      $state.go('login');
-	    }]
-	  }
-	});
+	angular.module('cmsComponents.logout', [
+	  'cmsComponents.auth.authService'
+	])
+	  .directive('cmsLogout', [
+	    function () {
+	      return {
+	        restrict: 'E',
+	        templateUrl: 'components/cms-logout/logout.html',
+	        controller: [
+	          '$state', 'TokenAuthService', 'CurrentUser', 'BettyService',
+	          function ($state, TokenAuthService, CurrentUser, BettyService) {
+
+	            TokenAuthService.logout();
+
+	            CurrentUser.setCurrentUser(null);
+	            BettyService.updateBettyConfig();
+	            $state.go('login');
+	          }
+	        ]
+	      }
+	    }
+	  ]);
 
 
 /***/ },
-/* 66 */
+/* 61 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-modal/cms-modal.html';
@@ -1596,7 +1420,7 @@
 	module.exports = path;
 
 /***/ },
-/* 67 */
+/* 62 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1662,14 +1486,14 @@
 
 
 /***/ },
-/* 68 */
+/* 63 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 69 */,
-/* 70 */
+/* 64 */,
+/* 65 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-partial/cms-partial.html';
@@ -1678,7 +1502,7 @@
 	module.exports = path;
 
 /***/ },
-/* 71 */
+/* 66 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1704,14 +1528,14 @@
 
 
 /***/ },
-/* 72 */
+/* 67 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 73 */,
-/* 74 */
+/* 68 */,
+/* 69 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-row/cms-row.html';
@@ -1720,7 +1544,7 @@
 	module.exports = path;
 
 /***/ },
-/* 75 */
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1737,14 +1561,14 @@
 
 
 /***/ },
-/* 76 */
+/* 71 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 77 */,
-/* 78 */
+/* 72 */,
+/* 73 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-cell/cms-table-cell.html';
@@ -1753,7 +1577,7 @@
 	module.exports = path;
 
 /***/ },
-/* 79 */
+/* 74 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1782,14 +1606,14 @@
 
 
 /***/ },
-/* 80 */
+/* 75 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 81 */,
-/* 82 */
+/* 76 */,
+/* 77 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-column/cms-table-column.html';
@@ -1798,7 +1622,7 @@
 	module.exports = path;
 
 /***/ },
-/* 83 */
+/* 78 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1814,14 +1638,14 @@
 
 
 /***/ },
-/* 84 */
+/* 79 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 85 */,
-/* 86 */
+/* 80 */,
+/* 81 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table/cms-table.html';
@@ -1830,7 +1654,7 @@
 	module.exports = path;
 
 /***/ },
-/* 87 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1857,198 +1681,14 @@
 
 
 /***/ },
-/* 88 */
+/* 83 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 89 */,
-/* 90 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('convertToNumber', function () {
-	    return {
-	      require: 'ngModel',
-	      link: function(scope, element, attrs, ngModel) {
-	        ngModel.$parsers.push(function(val) {
-	          return parseInt(val, 10);
-	        });
-	        ngModel.$formatters.push(function(val) {
-	          return '' + val;
-	        });
-	      }
-	    };
-	  });
-
-
-/***/ },
-/* 91 */
-/***/ function(module, exports) {
-
-	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
-	var html = "<a ng-transclude ui-sref=\"{{sref}}\"></a>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 92 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('sidebarNavItem', function () {
-	    return {
-	      templateUrl: 'components/sidebar-nav-item/sidebar-nav-item.html',
-	      restrict: 'E',
-	      scope: {
-	        'sref': '@'
-	      },
-	      transclude: true
-	    }
-	  });
-
-
-/***/ },
-/* 93 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 94 */,
-/* 95 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('uiSrefActiveIf', ['$state', function($state) {
-	    return {
-	        restrict: "A",
-	        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
-	            var state = $attrs.uiSrefActiveIf;
-
-	            function update() {
-	                if ( $state.includes(state) || $state.is(state) ) {
-	                    $element.addClass("active");
-	                } else {
-	                    $element.removeClass("active");
-	                }
-	            }
-
-	            $scope.$on('$stateChangeSuccess', update);
-	            update();
-	        }]
-	    };
-	}])
-
-
-/***/ },
-/* 96 */
-/***/ function(module, exports) {
-
-	var path = 'components/user-menu/user-menu.html';
-	var html = "<div class=\"dropdown\">\n  <button ng-if=\"currentUser\" type=\"button\" class=\"user-menu-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\n    <user-profile></user-profile>\n    <i class=\"user-menu-icon fa fa-ellipsis-v fa-2x\"></i>\n  </button>\n  <ul class=\"dropdown-menu user-menu-dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\n    <li><a ui-sref=\"logout\">Log Out</a></li>\n  </ul>\n</div>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 97 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('userMenu', function () {
-	    return {
-	      templateUrl: 'components/user-menu/user-menu.html',
-	      restrict: 'E',
-	      controller: function ($scope, CurrentUser) {
-	        function setCurrentUser () {
-	          $scope.currentUser = CurrentUser.getCurrentUser();
-	          console.log('setCurrentUser in user-menu', $scope.currentUser);
-	        }
-	        $scope.$on('userchange', setCurrentUser);
-	        setCurrentUser();
-	      }
-	    }
-	  });
-
-
-/***/ },
-/* 98 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 99 */,
-/* 100 */
-/***/ function(module, exports) {
-
-	var path = 'components/user-profile/user-profile.html';
-	var html = "<span style=\"background-color: {{userColor}};\">{{initials}}</span>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 101 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('userProfile', function () {
-	    return {
-	      templateUrl: 'components/user-profile/user-profile.html',
-	      restrict: 'E',
-	      controller: ['$scope', 'CurrentUser', 'md5', function ($scope, currentUser, md5) {
-	        $scope.setUser = function () {
-	          $scope.currentUser = currentUser.getCurrentUser();
-	          if ($scope.currentUser) {
-	            $scope.initials = currentUser.getCurrentUser().slice(0, 2);
-
-	            var hash = md5.createHash($scope.currentUser);
-	            var rgb = '#' + hash.substring(0,2) + hash.substring(2,4) + hash.substring(4,6);
-	            $scope.userColor = rgb;
-	          }
-	          else {
-	            $scope.currentUser = null;
-	            $scope.userColor = null;
-	            $scope.initials = null;
-	          }
-	        };
-	        $scope.$on('userchange', $scope.setUser);
-	        $scope.setUser();
-	      }]
-	    }
-	  });
-
-
-/***/ },
-/* 102 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */
+/* 84 */,
+/* 85 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2069,21 +1709,23 @@
 	      var apiEndpointVerify = '/api/token/verify';
 	      // host where auth endpoints are located
 	      var apiHost = '';
+	      // handlers to when an authentication failure occurs
+	      var authFailureHandlers = [];
+	      // handlers to fire when authentication succeeds
+	      var authSuccessHandlers = [];
 	      // HTTP codes this module should handle
 	      var handleHttpCodes = [401, 403];
-	      // callback called on successful login
-	      var loginCallback = function () {};
 	      // path to login page
 	      var loginPagePath = '';
 	      // url for logo to display on login page
 	      var logoUrl = '';
-	      // callback called on successful logout
-	      var logoutCallback = function () {};
 	      // list of regular expressions to match request urls, only matched urls will
 	      //  be intercepted successfully
 	      var matchers = [/.*/];
 	      // local storage key for token
 	      var tokenKey = 'authToken';
+	      // handlers to fire when unauthentication occurs (logout)
+	      var unauthHandlers = [];
 
 	      this.setAfterLoginPath = function (value) {
 	        if (_.isString(value)) {
@@ -2140,11 +1782,19 @@
 	        }
 	      };
 
-	      this.setLoginCallback = function (func) {
+	      this.addAuthFailureHandler = function (func) {
 	        if (_.isFunction(func)) {
-	          loginCallback = func;
+	          authFailureHandlers.push(func);
 	        } else {
-	          throw new TypeError('TokenAuthConfig.loginCallback must be a function!');
+	          throw new TypeError('TokenAuthConfig.addAuthFailureHandlers can only contain functions!');
+	        }
+	      };
+
+	      this.addAuthSuccessHandler = function (func) {
+	        if (_.isFunction(func)) {
+	          authSuccessHandlers.push(func);
+	        } else {
+	          throw new TypeError('TokenAuthConfig.authSuccessHandlers can only contain functions!');
 	        }
 	      };
 
@@ -2195,6 +1845,14 @@
 	        }
 	      };
 
+	      this.addUnauthHandler = function (func) {
+	        if (_.isFunction(func)) {
+	          unauthHandlers.push(func);
+	        } else {
+	          throw new TypeError('TokenAuthConfig.unauthHandlers can only contain functions!');
+	        }
+	      };
+
 	      this.$get = function () {
 	        return {
 	          getAfterLoginPath: _.constant(afterLoginPath),
@@ -2204,8 +1862,33 @@
 	          getLoginPagePath: _.constant(loginPagePath),
 	          getLogoUrl: _.constant(logoUrl),
 	          getTokenKey: _.constant(tokenKey),
-	          loginCallback: loginCallback,
-	          logoutCallback: logoutCallback,
+	          callAuthFailureHandlers: function (args) {
+	            if (!_.isArray(args)) {
+	              args = [args];
+	            }
+
+	            authFailureHandlers.forEach(function (handler) {
+	              handler.apply(null, args);
+	            });
+	          },
+	          callAuthSuccessHandlers: function (args) {
+	            if (!_.isArray(args)) {
+	              args = [args];
+	            }
+
+	            authSuccessHandlers.forEach(function (handler) {
+	              handler.apply(null, args);
+	            });
+	          },
+	          callUnauthHandlers: function (args) {
+	            if (!_.isArray(args)) {
+	              args = [args];
+	            }
+
+	            unauthHandlers.forEach(function (handler) {
+	              handler.apply(null, args);
+	            });
+	          },
 	          /**
 	           * Check if this an HTTP status code this library should handle.
 	           *
@@ -2248,7 +1931,7 @@
 
 
 /***/ },
-/* 115 */
+/* 86 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2340,16 +2023,16 @@
 
 
 /***/ },
-/* 116 */
+/* 87 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
-	var html = "<div>\n  <div class=\"login-header\">\n    <img ng-src=\"{{LOGO_URL}}\">\n  </div>\n  <div class=\"login-form\">\n    <p class=\"text-center welcome-text\">Welcome</p>\n    <form>\n      <div class=\"login-input username\">\n        <label>Username</label>\n        <input\n            type=\"text\"\n            class=\"form-control\"\n            ng-model=\"username\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <div class=\"login-input password\">\n        <label>Password</label>\n        <input\n            type=\"password\"\n            class=\"form-control\"\n            ng-model=\"password\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <alertbar></alertbar>\n      <button\n          class=\"btn add-btn btn-success\"\n          type=\"submit\"\n          ng-click=\"submitLogin()\">\n        <span>Sign in</span>\n      </button>\n    </form>\n    <a\n        class=\"contact\"\n        href=\"mailto:webtech@theonion.com\">\n      <div class=\"question-mark\">?</div>\n      <div class=\"contact-tech\">Contact Tech</div>\n    </a>\n  </div>\n</div>\n";
+	var html = "<div>\n  <div class=\"login-header\">\n    <img ng-src=\"{{ LOGO_URL }}\">\n  </div>\n  <div class=\"login-form\">\n    <p class=\"text-center welcome-text\">Welcome</p>\n    <form>\n      <div class=\"login-input username\">\n        <label>Username</label>\n        <input\n            type=\"text\"\n            class=\"form-control\"\n            ng-model=\"username\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <div class=\"login-input password\">\n        <label>Password</label>\n        <input\n            type=\"password\"\n            class=\"form-control\"\n            ng-model=\"password\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <alertbar></alertbar>\n      <button\n          class=\"btn add-btn btn-success\"\n          type=\"submit\"\n          ng-click=\"submitLogin()\">\n        <span>Sign in</span>\n      </button>\n    </form>\n    <a\n        class=\"contact\"\n        href=\"mailto:webtech@theonion.com\">\n      <div class=\"question-mark\">?</div>\n      <div class=\"contact-tech\">Contact Tech</div>\n    </a>\n  </div>\n</div>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 117 */
+/* 88 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2388,7 +2071,14 @@
 
 
 /***/ },
-/* 118 */
+/* 89 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 90 */,
+/* 91 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2431,21 +2121,17 @@
 	        return function () {
 	          forceAuthenticated();
 	          TokenAuthService.requestBufferRetry();
-
-	          // if we're currently on the login page, navigate away from it
-	          if ($location.path() === TokenAuthConfig.getLoginPagePath()) {
-	            $location.path(TokenAuthConfig.getAfterLoginPath());
-	          }
-
 	          deferred.resolve();
+	          TokenAuthService.callAuthSuccessHandlers();
 	        };
 	      };
 
 	      var noTokenFailure = function (deferred) {
 	        return function () {
 	          forceUnauthenticated();
-	          TokenAuthService.navToLogin();
+	          TokenAuthService.requestBufferClear();
 	          deferred.reject();
+	          TokenAuthService.callAuthFailureHandlers();
 	        };
 	      };
 
@@ -2453,7 +2139,7 @@
 	       * Token verification endpoint. Should be used as the initial request when
 	       *  a page loads to check if user is authenticated. All requests should be
 	       *  buffered until verify endpoint returns successfully.
-
+	       *
 	       * Because token verification is meant only to occur once when the page loads,
 	       *  subsequent calls to this function will return the promise from the original
 	       *  call.
@@ -2511,9 +2197,7 @@
 
 	      /**
 	       * Token refresh endpoint. Should be used for reauthenticating ajax requests
-	       *  that have responded with an unauthorized status code. In the event of
-	       *  an error status code returning from a refresh request, the user will
-	       *  be routed to the login page.
+	       *  that have responded with an unauthorized status code.
 	       *
 	       * @returns {promise} resolves when authenticated, rejects otherwise.
 	       */
@@ -2559,8 +2243,7 @@
 
 	      /**
 	       * Login endpoint. Should only be used where a user is providing a username
-	       *  and password to login. After a successful login, the user will be directed
-	       *  to the configured afterLoginPath location.
+	       *  and password to login.
 	       *
 	       * @param {string} username - username to use to login.
 	       * @param {string} password - password to use to login.
@@ -2580,17 +2263,20 @@
 	              username: username,
 	              password: password
 	            },
-	            {ignoreTokenAuth: true}
+	            {
+	              ignoreTokenAuth: true
+	            }
 	          )
 	          .success(function (response) {
 	            forceAuthenticated();
 	            localStorageService.set(TokenAuthConfig.getTokenKey(), response.token);
-	            $location.path(TokenAuthConfig.getAfterLoginPath());
-	            TokenAuthConfig.loginCallback();
+	// TODO : user needs to be set/passed into this handler somehow
+	            TokenAuthConfig.callAuthSuccessHandlers();
 	            login.resolve();
 	          })
 	          .catch(function () {
 	            forceUnauthenticated();
+	            TokenAuthConfig.callAuthFailureHandlers();
 	            login.reject();
 	          })
 	          .finally(function () {
@@ -2614,9 +2300,9 @@
 	       */
 	      TokenAuthService.logout = function () {
 	        forceUnauthenticated();
+	// TODO : user needs to be unset somehow
+	        TokenAuthConfig.callUnauthHandlers();
 	        localStorageService.remove(TokenAuthConfig.getTokenKey());
-	        $location.path(TokenAuthConfig.getLoginPagePath());
-	        TokenAuthConfig.logoutCallback();
 	      };
 
 	      /**
@@ -2662,21 +2348,13 @@
 	        TokenAuthService._requestBuffer = [];
 	      };
 
-	      /**
-	       * Clear request buffer and send user to login page.
-	       */
-	      TokenAuthService.navToLogin = function () {
-	        TokenAuthService.requestBufferClear();
-	        $location.path(TokenAuthConfig.getLoginPagePath());
-	      };
-
 	      return TokenAuthService;
 	    }
 	  ]);
 
 
 /***/ },
-/* 119 */
+/* 92 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2687,6 +2365,217 @@
 	  'cmsComponents.auth.loginForm'
 	]);
 
+
+/***/ },
+/* 93 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('convertToNumber', function () {
+	    return {
+	      require: 'ngModel',
+	      link: function(scope, element, attrs, ngModel) {
+	        ngModel.$parsers.push(function(val) {
+	          return parseInt(val, 10);
+	        });
+	        ngModel.$formatters.push(function(val) {
+	          return '' + val;
+	        });
+	      }
+	    };
+	  });
+
+
+/***/ },
+/* 94 */
+/***/ function(module, exports) {
+
+	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
+	var html = "<a ng-transclude ui-sref=\"{{sref}}\"></a>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 95 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('sidebarNavItem', function () {
+	    return {
+	      templateUrl: 'components/sidebar-nav-item/sidebar-nav-item.html',
+	      restrict: 'E',
+	      scope: {
+	        'sref': '@'
+	      },
+	      transclude: true
+	    }
+	  });
+
+
+/***/ },
+/* 96 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 97 */,
+/* 98 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('uiSrefActiveIf', ['$state', function($state) {
+	    return {
+	        restrict: "A",
+	        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+	            var state = $attrs.uiSrefActiveIf;
+
+	            function update() {
+	                if ( $state.includes(state) || $state.is(state) ) {
+	                    $element.addClass("active");
+	                } else {
+	                    $element.removeClass("active");
+	                }
+	            }
+
+	            $scope.$on('$stateChangeSuccess', update);
+	            update();
+	        }]
+	    };
+	}])
+
+
+/***/ },
+/* 99 */
+/***/ function(module, exports) {
+
+	var path = 'components/user-menu/user-menu.html';
+	var html = "<div class=\"dropdown\">\n  <button ng-if=\"currentUser\" type=\"button\" class=\"user-menu-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\n    <user-profile></user-profile>\n    <i class=\"user-menu-icon fa fa-ellipsis-v fa-2x\"></i>\n  </button>\n  <ul class=\"dropdown-menu user-menu-dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\n    <li><a ui-sref=\"logout\">Log Out</a></li>\n  </ul>\n</div>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 100 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('userMenu', function () {
+	    return {
+	      templateUrl: 'components/user-menu/user-menu.html',
+	      restrict: 'E',
+	      controller: function ($scope, CurrentUser) {
+	        function setCurrentUser () {
+	          $scope.currentUser = CurrentUser.getCurrentUser();
+	          console.log('setCurrentUser in user-menu', $scope.currentUser);
+	        }
+	        $scope.$on('userchange', setCurrentUser);
+	        setCurrentUser();
+	      }
+	    }
+	  });
+
+
+/***/ },
+/* 101 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 102 */,
+/* 103 */
+/***/ function(module, exports) {
+
+	var path = 'components/user-profile/user-profile.html';
+	var html = "<span style=\"background-color: {{userColor}};\">{{initials}}</span>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 104 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents')
+	  .directive('userProfile', function () {
+	    return {
+	      templateUrl: 'components/user-profile/user-profile.html',
+	      restrict: 'E',
+	      controller: ['$scope', 'CurrentUser', 'md5', function ($scope, currentUser, md5) {
+	        $scope.setUser = function () {
+	          $scope.currentUser = currentUser.getCurrentUser();
+	          if ($scope.currentUser) {
+	            $scope.initials = currentUser.getCurrentUser().slice(0, 2);
+
+	            var hash = md5.createHash($scope.currentUser);
+	            var rgb = '#' + hash.substring(0,2) + hash.substring(2,4) + hash.substring(4,6);
+	            $scope.userColor = rgb;
+	          }
+	          else {
+	            $scope.currentUser = null;
+	            $scope.userColor = null;
+	            $scope.initials = null;
+	          }
+	        };
+	        $scope.$on('userchange', $scope.setUser);
+	        $scope.setUser();
+	      }]
+	    }
+	  });
+
+
+/***/ },
+/* 105 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 106 */,
+/* 107 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.user.service', [])
+	  .service('CurrentUser', [
+	    'localStorageService', '$state', '$rootScope',
+	    function (localStorageService, $state, $rootScope) {
+	      this.currentUser = null;
+	      this.getCurrentUser = function () {
+	        return localStorageService.get('currentUser');
+	      };
+
+	      this.setCurrentUser = function (newCurrentUser) {
+	        localStorageService.set('currentUser', newCurrentUser);
+	        $rootScope.$broadcast('userchange');
+	      };
+
+	      this.logout = function () {
+	        this.currentUser = null;
+	        $rootScope.$broadcast('userchange');
+	        localStorageService.remove('authToken');
+	        localStorageService.remove('currentUser');
+	        $state.go('login');
+	      };
+	    }
+	  ]);
+
+
+/***/ },
+/* 108 */
+/***/ function(module, exports) {
+
+	
 
 /***/ }
 /******/ ]);

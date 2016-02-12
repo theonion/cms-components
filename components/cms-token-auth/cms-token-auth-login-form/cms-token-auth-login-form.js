@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('cmsComponents.auth.loginForm', [
-  'cmsComponents.auth.authService',
+  'cmsComponents.auth.service',
   'cmsComponents.templates'
 ])
   .directive('tokenAuthLoginForm', [
