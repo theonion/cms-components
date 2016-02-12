@@ -217,20 +217,20 @@
 		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 88,
 		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 89,
 		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 91,
-		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 108,
-		"./cms-token-auth/cms-token-auth.js": 92,
-		"./convert-to-number/convert-to-number.js": 93,
-		"./sidebar-nav-item/sidebar-nav-item.html": 94,
-		"./sidebar-nav-item/sidebar-nav-item.js": 95,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 96,
-		"./ui-sref-active-if/ui-sref-active-if.js": 98,
-		"./user-menu/user-menu.html": 99,
-		"./user-menu/user-menu.js": 100,
-		"./user-menu/user-menu.scss": 101,
-		"./user-profile/user-profile.html": 103,
-		"./user-profile/user-profile.js": 104,
-		"./user-profile/user-profile.scss": 105,
-		"./user/user.js": 107
+		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 92,
+		"./cms-token-auth/cms-token-auth.js": 93,
+		"./convert-to-number/convert-to-number.js": 94,
+		"./sidebar-nav-item/sidebar-nav-item.html": 95,
+		"./sidebar-nav-item/sidebar-nav-item.js": 96,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 97,
+		"./ui-sref-active-if/ui-sref-active-if.js": 99,
+		"./user-menu/user-menu.html": 100,
+		"./user-menu/user-menu.js": 101,
+		"./user-menu/user-menu.scss": 102,
+		"./user-profile/user-profile.html": 104,
+		"./user-profile/user-profile.js": 105,
+		"./user-profile/user-profile.scss": 106,
+		"./user/user.js": 108
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1937,7 +1937,7 @@
 	'use strict';
 
 	angular.module('cmsComponents.auth.interceptor', [
-	  'cmsComponents.auth.authService',
+	  'cmsComponents.auth.service',
 	  'cmsComponents.auth.config',
 	  'LocalStorageModule'
 	])
@@ -1956,7 +1956,6 @@
 	      };
 
 	      this.request = function (config) {
-	        var newConfig;
 
 	        if (!doIgnoreAuth(config) && TokenAuthConfig.shouldBeIntercepted(config.url)) {
 
@@ -1965,36 +1964,24 @@
 	          // need to inject service here, otherwise we get a circular $http dep
 	          var TokenAuthService = $injector.get('TokenAuthService');
 
-	          // check if we have a token, if not, prevent request from firing, send user to login
-	          if (token) {
-	            newConfig = TokenAuthService.tokenVerify()
-	              .then(function () {
-	                // add Authorization header
-	                config.headers = config.headers || {};
-	                config.headers.Authorization = 'JWT ' + token;
+	          return TokenAuthService.tokenVerify()
+	            .then(function () {
+	              // add Authorization header
+	              config.headers = config.headers || {};
+	              config.headers.Authorization = 'JWT ' + token;
 
-	                return config;
-	              })
-	              .catch(function () {
-	                // verification failed abort request
-	                abortRequest(config);
-	              });
-	          } else {
-	            // abort requests where there's no token
-	            abortRequest(config);
+	              return config;
+	            })
+	            .catch(function (error) {
+	              // verification failed abort request
+	              abortRequest(config);
 
-	            // navigate to login page
-	            TokenAuthService.navToLogin();
-
-	            // return aborted request
-	            newConfig = config;
-	          }
-	        } else {
-	          // this is a request not being intercepted, just return it
-	          newConfig = config;
+	              return $q.reject(error);
+	            });
 	        }
 
-	        return newConfig;
+	        // this is a request not being intercepted, just return it
+	        return config;
 	      };
 
 	      this.responseError = function (response) {
@@ -2038,7 +2025,7 @@
 	'use strict';
 
 	angular.module('cmsComponents.auth.loginForm', [
-	  'cmsComponents.auth.authService',
+	  'cmsComponents.auth.service',
 	  'cmsComponents.templates'
 	])
 	  .directive('tokenAuthLoginForm', [
@@ -2083,16 +2070,18 @@
 
 	'use strict';
 
-	angular.module('cmsComponents.auth.authService', [
+	angular.module('cmsComponents.auth.service', [
 	  'cmsComponents.auth.config',
+	  'cmsComponents.auth.user',
 	  'LocalStorageModule'
 	])
 	  .service('TokenAuthService', [
-	    '$q', '$location', '$http', 'localStorageService', 'TokenAuthConfig',
-	    function ($q, $location, $http, localStorageService, TokenAuthConfig) {
+	    '$q', '$http', 'localStorageService', 'CurrentUser', 'TokenAuthConfig',
+	    function ($q, $http, localStorageService, CurrentUser, TokenAuthConfig) {
 
 	      var TokenAuthService = this;
 	      var requestInProgress = false;
+
 	      // false if not verified at least once, otherwise promise that resolves when
 	      //  verification endpoint returns
 	      var $verified = false;
@@ -2104,7 +2093,10 @@
 	       *  besides the verify endpoint has been used to successfully authenticate.
 	       */
 	      var forceAuthenticated = function () {
-	        $verified = $q.defer();
+	        if (!$verified) {
+	          $verified = $q.defer();
+	        }
+
 	        $verified.resolve();
 	      };
 
@@ -2113,26 +2105,48 @@
 	       *  besides the verify endpoint has been used to unauthenticate.
 	       */
 	      var forceUnauthenticated = function () {
-	        $verified = $q.defer();
+	        if (!$verified) {
+	          $verified = $q.defer();
+	        }
+
 	        $verified.reject();
 	      };
 
 	      var authSuccess = function (deferred) {
 	        return function () {
-	          forceAuthenticated();
-	          TokenAuthService.requestBufferRetry();
-	          deferred.resolve();
-	          TokenAuthService.callAuthSuccessHandlers();
+	          return CurrentUser.$get()
+	            .then(function (user) {
+	              TokenAuthService.requestBufferRetry();
+
+	              TokenAuthConfig.callAuthSuccessHandlers(user);
+
+	              forceAuthenticated();
+	              deferred.resolve();
+	            })
+	            .catch(deferred.reject);
 	        };
 	      };
 
-	      var noTokenFailure = function (deferred) {
-	        return function () {
-	          forceUnauthenticated();
-	          TokenAuthService.requestBufferClear();
-	          deferred.reject();
-	          TokenAuthService.callAuthFailureHandlers();
+	      var loginAuthSuccess = function (deferred) {
+	        return function (loginResponse) {
+	            return CurrentUser.$get()
+	              .then(function (user) {
+	                localStorageService.set(TokenAuthConfig.getTokenKey(), loginResponse.data.token);
+
+	                TokenAuthConfig.callAuthSuccessHandlers(user);
+
+	                forceAuthenticated();
+	                deferred.resolve();
+	              })
+	              .catch(deferred.reject);
 	        };
+	      };
+
+	      var noTokenFailure = function () {
+	        forceUnauthenticated();
+	        TokenAuthService.requestBufferClear();
+	        CurrentUser.logout();
+	        TokenAuthConfig.callAuthFailureHandlers();
 	      };
 
 	      /**
@@ -2147,52 +2161,61 @@
 	       * @returns {promise} resolves when authenticated, rejects otherwise.
 	       */
 	      TokenAuthService.tokenVerify = function () {
-	        if (!$verified && !requestInProgress) {
-	          // verify has not been called yet, set it up
-	          $verified = $q.defer();
-
-	          // no currently running request, start a new one
-	          requestInProgress = true;
-
-	          var token = localStorageService.get(TokenAuthConfig.getTokenKey());
-	          if (token) {
-
-	            // has a token, fire off request
-	            $http.post(
-	              TokenAuthConfig.getApiEndpointVerify(),
-	              {token: token},
-	              {ignoreTokenAuth: true}
-	            )
-	            .then(authSuccess($verified))
-	            .catch(function (response) {
-	              // some error at the verify endpoint
-	              if (response.status === 400) {
-	                // this is an expired token, attempt refresh
-	                requestInProgress = false;
-	                TokenAuthService.tokenRefresh()
-	                  .then($verified.resolve)
-	                  .catch($verified.reject);
-	              } else if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
-	                // user is not authorized, send them to login page
-	                noTokenFailure($verified)();
-	              } else {
-	                // this is not an auth error, reject verification
-	                $verified.reject();
-	              }
-	            })
-	            .finally(function () {
-	              // reset request flag so other requests can go through
-	              requestInProgress = false;
-	            });
-	          } else {
-	            noTokenFailure($verified)();
-
-	            // reset request flag so other requests can go through
-	            requestInProgress = false;
-	          }
+	        if ($verified) {
+	          // already verified, return existing verification
+	          return $verified;
 	        }
 
-	        return $verified ? $verified.promise : $q.reject();
+	        if (requestInProgress) {
+	          // there's already an auth request going, reject
+	          return $q.reject();
+	        }
+
+	        // no currently running request, start a new one
+	        requestInProgress = true;
+
+	        // verify has not been called yet, set it up
+	        $verified = $q.defer();
+
+	        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+	        if (token) {
+	          $http.post(
+	            TokenAuthConfig.getApiEndpointVerify(),
+	            {
+	              token: token
+	            },
+	            {
+	              ignoreTokenAuth: true
+	            }
+	          )
+	          .then(authSuccess($verified))
+	          .catch(function (response) {
+
+	            if (response.status === 400) {
+	              // this is an expired token, attempt refresh
+	              requestInProgress = false;
+	              TokenAuthService.tokenRefresh()
+	                .then($verified.resolve)
+	                .catch($verified.reject);
+	            } else if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
+	              // user is not authorized, special failure
+	              // side-effect: reject $verified, this can probably be done better
+	              noTokenFailure();
+	            } else {
+	              // this is not an auth error, reject verification
+	              $verified.reject();
+	            }
+	          });
+	        } else {
+	          // side-effect: reject $verified, this can probably be done better
+	          noTokenFailure();
+	        }
+
+	        return $verified.promise
+	          .finally(function () {
+	            // reset request flag so other requests can go through
+	            requestInProgress = false;
+	          });
 	      };
 
 	      /**
@@ -2202,96 +2225,96 @@
 	       * @returns {promise} resolves when authenticated, rejects otherwise.
 	       */
 	      TokenAuthService.tokenRefresh = function () {
-	        var refresh = $q.defer();
-
-	        if (!requestInProgress) {
-	          // no currently running request, start a new one
-	          requestInProgress = true;
-	          TokenAuthService._pendingRefresh = refresh;
-
-	          var token = localStorageService.get(TokenAuthConfig.getTokenKey());
-	          if (token) {
-	            // has token, fire off request
-	            $http.post(
-	              TokenAuthConfig.getApiEndpointRefresh(),
-	              {token: token},
-	              {ignoreTokenAuth: true}
-	            )
-	            .success(authSuccess(refresh))
-	            .catch(noTokenFailure(refresh))
-	            .finally(function () {
-	              // reset request flag so other requests can go through
-	              requestInProgress = false;
-	            });
-	          } else {
-	            noTokenFailure(refresh)();
-
-	            // reset request flag so other requests can go through
-	            requestInProgress = false;
-	          }
-
-	        } else if (!TokenAuthService._pendingRefresh) {
-	          // there is a request happening, and it's not a refresh request, reject promise
-	          refresh.reject();
-	        } else {
-	          // request in progress and it's a refresh request, return existing promise
-	          refresh = TokenAuthService._pendingRefresh;
+	        if (requestInProgress) {
+	          // there's already an auth request going, reject
+	          return $q.reject();
 	        }
 
-	        return refresh.promise;
+	        // no currently running request, start a new one
+	        requestInProgress = true;
+
+	        var refresh = $q.defer();
+	        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+	        if (token) {
+	          $http.post(
+	            TokenAuthConfig.getApiEndpointRefresh(),
+	            {
+	              token: token
+	            },
+	            {
+	              ignoreTokenAuth: true
+	            }
+	          )
+	            .success(refresh.resolve)
+	            .catch(refresh.reject);
+	        } else {
+	          refresh.reject();
+	        }
+
+	        return refresh.promise
+	          .then(authSuccess(refresh))
+	          .catch(function (error) {
+	            noTokenFailure();
+
+	            return $q.reject(error);
+	          })
+	          .finally(function () {
+	            // reset request flag so other requests can go through
+	            requestInProgress = false;
+	          });
 	      };
 
 	      /**
 	       * Login endpoint. Should only be used where a user is providing a username
 	       *  and password to login.
 	       *
+	       * Makes an additional request to get current user info.
+	       *
+	       * Calls TokenAuthConfig.callAuthSuccessHandlers on success, and
+	       *  TokenAuthConfig.callAuthFailureHandlers on failure.
+	       *
+	       * Sets token key in local storage on success.
+	       *
 	       * @param {string} username - username to use to login.
 	       * @param {string} password - password to use to login.
-	       * @returns {promise} resolves when authenticated, rejects otherwise.
+	       * @returns {promise} resolves when fully authenticated, rejects otherwise.
 	       */
 	      TokenAuthService.login = function (username, password) {
+	        if (requestInProgress) {
+	          // there's already an auth request going, reject
+	          return $q.reject();
+	        }
+
+	        // no currently running request, start a new one
+	        requestInProgress = true;
+
 	        var login = $q.defer();
+	        $http.post(
+	          TokenAuthConfig.getApiEndpointAuth(),
+	          {
+	            username: username,
+	            password: password
+	          },
+	          {
+	            ignoreTokenAuth: true
+	          }
+	        )
+	          .then(login.resolve)
+	          .catch(login.reject);
 
-	        if (!requestInProgress) {
-	          // no currently running request, start a new one
-	          requestInProgress = true;
-	          TokenAuthService._pendingLogin = login;
-
-	          $http.post(
-	            TokenAuthConfig.getApiEndpointAuth(),
-	            {
-	              username: username,
-	              password: password
-	            },
-	            {
-	              ignoreTokenAuth: true
-	            }
-	          )
-	          .success(function (response) {
-	            forceAuthenticated();
-	            localStorageService.set(TokenAuthConfig.getTokenKey(), response.token);
-	// TODO : user needs to be set/passed into this handler somehow
-	            TokenAuthConfig.callAuthSuccessHandlers();
-	            login.resolve();
-	          })
-	          .catch(function () {
+	        return login.promise
+	          .then(loginAuthSuccess(login))
+	          .catch(function (error) {
 	            forceUnauthenticated();
+	            CurrentUser.logout();
 	            TokenAuthConfig.callAuthFailureHandlers();
-	            login.reject();
+
+	            return $q.reject(error);
 	          })
 	          .finally(function () {
 	            // reset request flag so other requests can go through
 	            requestInProgress = false;
 	          });
-	        } else if (!TokenAuthService._pendingLogin) {
-	          // there is a request happening, and it's not a login request, reject promise
-	          login.reject();
-	        } else {
-	          // request in progress and it's a login request, return existing promise
-	          login = TokenAuthService._pendingLogin;
-	        }
-
-	        return login.promise;
 	      };
 
 	      /**
@@ -2300,7 +2323,7 @@
 	       */
 	      TokenAuthService.logout = function () {
 	        forceUnauthenticated();
-	// TODO : user needs to be unset somehow
+	        CurrentUser.logout();
 	        TokenAuthConfig.callUnauthHandlers();
 	        localStorageService.remove(TokenAuthConfig.getTokenKey());
 	      };
@@ -2359,15 +2382,40 @@
 
 	'use strict';
 
-	angular.module('cmsComponents.auth', [
-	  'cmsComponents.auth.interceptor',
-	  'cmsComponents.auth.config',
-	  'cmsComponents.auth.loginForm'
-	]);
+	angular.module('cmsComponents.auth.user', [])
+	  .service('CurrentUser', [
+	    '$q',
+	    function ($q) {
+
+	      return {
+	        $get: function () {
+	// TODO : make a request to get the current user's info
+	          return $q.resolve();
+	        },
+	        logout: function () {
+	// TODO : remove user data
+	        }
+	      };
+	    }
+	  ]);
 
 
 /***/ },
 /* 93 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.auth', [
+	  'cmsComponents.auth.interceptor',
+	  'cmsComponents.auth.config',
+	  'cmsComponents.auth.loginForm',
+	  'cmsComponents.auth.user'
+	]);
+
+
+/***/ },
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2389,7 +2437,7 @@
 
 
 /***/ },
-/* 94 */
+/* 95 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -2398,7 +2446,7 @@
 	module.exports = path;
 
 /***/ },
-/* 95 */
+/* 96 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2417,14 +2465,14 @@
 
 
 /***/ },
-/* 96 */
+/* 97 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 97 */,
-/* 98 */
+/* 98 */,
+/* 99 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2452,7 +2500,7 @@
 
 
 /***/ },
-/* 99 */
+/* 100 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-menu/user-menu.html';
@@ -2461,7 +2509,7 @@
 	module.exports = path;
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2484,14 +2532,14 @@
 
 
 /***/ },
-/* 101 */
+/* 102 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 102 */,
-/* 103 */
+/* 103 */,
+/* 104 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-profile/user-profile.html';
@@ -2500,7 +2548,7 @@
 	module.exports = path;
 
 /***/ },
-/* 104 */
+/* 105 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2534,14 +2582,14 @@
 
 
 /***/ },
-/* 105 */
+/* 106 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 106 */,
-/* 107 */
+/* 107 */,
+/* 108 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2570,12 +2618,6 @@
 	    }
 	  ]);
 
-
-/***/ },
-/* 108 */
-/***/ function(module, exports) {
-
-	
 
 /***/ }
 /******/ ]);
