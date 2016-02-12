@@ -513,44 +513,48 @@ describe('Service: TokenAuthService', function () {
     });
   });
 
-  it('should have a logout function', function () {
-    var fail = sandbox.stub();
+  describe('logout', function () {
 
-    localStorageService.remove = sandbox.stub();
-    $location.path = sandbox.stub();
-    TokenAuthConfig.logoutCallback = sandbox.stub();
+    it('should logout current user', function () {
+      CurrentUser.logout = sandbox.stub();
 
-    TokenAuthService.logout();
+      TokenAuthService.logout();
 
-    // future verify requests now fail
-    TokenAuthService.tokenVerify().catch(fail);
-    $rootScope.$digest();
+      expect(CurrentUser.logout.calledOnce).to.be.true;
+    });
 
-    expect(fail.calledOnce).to.be.true;
-    expect(localStorageService.remove.withArgs(TokenAuthConfig.getTokenKey()).calledOnce).to.be.true;
-    expect($location.path.withArgs(TokenAuthConfig.getLoginPagePath()).calledOnce).to.be.true;
-    expect(TokenAuthConfig.logoutCallback.calledOnce).to.be.true;
+    it('should call unauth handlers', function () {
+      TokenAuthConfig.callUnauthHandlers = sandbox.stub();
+
+      TokenAuthService.logout();
+
+      expect(TokenAuthConfig.callUnauthHandlers.calledOnce).to.be.true;
+    });
+
+    it('should remove token from local storage', function () {
+      var key = 'some token key';
+      TokenAuthConfig.getTokenKey = sandbox.stub().returns(key);
+      localStorageService.remove = sandbox.stub().withArgs(key);
+
+      TokenAuthService.logout();
+
+      expect(TokenAuthConfig.getTokenKey.calledOnce).to.be.true;
+      expect(localStorageService.remove.calledOnce).to.be.true;
+    });
   });
 
-  it('should have a way to navigate to the login page', function () {
-    $location.path = sandbox.stub();
-    TokenAuthService.requestBufferClear = sandbox.stub();
+  describe('method interactions', function () {
 
-    TokenAuthService.navToLogin();
+    it('should not allow multiple token auth requests to occur', function () {
+      localStorageService.get = sandbox.stub().returns(testToken);
 
-    expect(TokenAuthService.requestBufferClear.calledOnce).to.be.true;
-    expect($location.path.withArgs(TokenAuthConfig.getLoginPagePath()).calledOnce).to.be.true;
-  });
+      TokenAuthService.tokenVerify();
+      TokenAuthService.tokenRefresh();
+      TokenAuthService.login('abc', '123');
 
-  it('should not allow multiple token auth requests to occur', function () {
-    localStorageService.get = sandbox.stub().returns(testToken);
-
-    TokenAuthService.tokenVerify();
-    TokenAuthService.tokenRefresh();
-    TokenAuthService.login('abc', '123');
-
-    // we should only get a request to the verify endpoint
-    requestVerify().respond(403);
-    $httpBackend.flush();
+      // we should only get a request to the verify endpoint
+      requestVerify().respond(403);
+      $httpBackend.flush();
+    });
   });
 });
