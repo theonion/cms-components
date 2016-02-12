@@ -58,17 +58,13 @@ describe('Interceptor: TokenAuthInterceptor', function () {
       expect(testRequestConfig.headers.Authorization).to.equal('JWT ' + token);
     });
 
-    it('should abort when no token in session, set path to login page, clear request buffer', function () {
-      var loginPagePath = '/some/path/to/login';
-
+    it('should abort when no token in session', function () {
       localStorageService.get = sinon.stub();
       TokenAuthConfig.shouldBeIntercepted = sinon.stub().returns(true);
-      TokenAuthConfig.getLoginPagePath = sinon.stub().returns(loginPagePath);
-      TokenAuthService.navToLogin = sinon.stub();
 
       TokenAuthInterceptor.request(testRequestConfig);
+      $rootScope.$digest();
 
-      expect(TokenAuthService.navToLogin.calledOnce).to.be.true;
       expect(testRequestConfig.headers).to.be.undefined;
       expect(testRequestConfig.timeout).to.be.a(typeof($q.defer().promise));
 
@@ -100,17 +96,23 @@ describe('Interceptor: TokenAuthInterceptor', function () {
       expect(TokenAuthConfig.shouldBeIntercepted.withArgs(url).calledOnce).to.be.true;
     });
 
-    it('should be ignored when ignore flag is provided', function () {
-      localStorageService.get = sinon.spy();
+    it('should be ignored when undefined config is given', function () {
+      TokenAuthService.tokenVerify = sinon.stub();
 
       // request config is undefined
       TokenAuthInterceptor.request();
 
+      expect(TokenAuthService.tokenVerify.calledOnce).to.be.false;
+    });
+
+    it('should be ignored when ignore flag is provided', function () {
+      TokenAuthService.tokenVerify = sinon.stub();
+
       // ignore provided directly on config
-      testRequestConfig.ignoreAuthModule = true;
+      testRequestConfig.ignoreTokenAuth = true;
       TokenAuthInterceptor.request(testRequestConfig);
 
-      expect(localStorageService.get.calledOnce).to.be.true;
+      expect(TokenAuthService.tokenVerify.calledOnce).to.be.false;
     });
 
     it('should delay requests until auth service is authenticated', function () {

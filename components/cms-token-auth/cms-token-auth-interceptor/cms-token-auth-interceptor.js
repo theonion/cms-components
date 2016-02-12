@@ -20,7 +20,6 @@ angular.module('cmsComponents.auth.interceptor', [
       };
 
       this.request = function (config) {
-        var newConfig;
 
         if (!doIgnoreAuth(config) && TokenAuthConfig.shouldBeIntercepted(config.url)) {
 
@@ -29,36 +28,24 @@ angular.module('cmsComponents.auth.interceptor', [
           // need to inject service here, otherwise we get a circular $http dep
           var TokenAuthService = $injector.get('TokenAuthService');
 
-          // check if we have a token, if not, prevent request from firing, send user to login
-          if (token) {
-            newConfig = TokenAuthService.tokenVerify()
-              .then(function () {
-                // add Authorization header
-                config.headers = config.headers || {};
-                config.headers.Authorization = 'JWT ' + token;
+          return TokenAuthService.tokenVerify()
+            .then(function () {
+              // add Authorization header
+              config.headers = config.headers || {};
+              config.headers.Authorization = 'JWT ' + token;
 
-                return config;
-              })
-              .catch(function () {
-                // verification failed abort request
-                abortRequest(config);
-              });
-          } else {
-            // abort requests where there's no token
-            abortRequest(config);
+              return config;
+            })
+            .catch(function (error) {
+              // verification failed abort request
+              abortRequest(config);
 
-            // navigate to login page
-            TokenAuthService.navToLogin();
-
-            // return aborted request
-            newConfig = config;
-          }
-        } else {
-          // this is a request not being intercepted, just return it
-          newConfig = config;
+              return $q.reject(error);
+            });
         }
 
-        return newConfig;
+        // this is a request not being intercepted, just return it
+        return config;
       };
 
       this.responseError = function (response) {
