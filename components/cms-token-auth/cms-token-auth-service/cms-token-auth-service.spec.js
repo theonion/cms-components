@@ -60,19 +60,22 @@ describe('Service: TokenAuthService', function () {
 
     it('should return existing verification promise if one has already fired', function () {
       localStorageService.get = sandbox.stub().returns(testToken);
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
       sandbox.spy($http, 'post');
       requestVerify().respond(200);
 
-      TokenAuthService.tokenVerify();
+      var verify = TokenAuthService.tokenVerify();
       TokenAuthService.tokenVerify();
       $httpBackend.flush();
 
       expect($http.post.calledOnce).to.be.true;
+      expect(verify.then).to.be.defined;
     });
 
     it('should reject if an auth request is currently pending', function () {
       var fail = sandbox.stub();
       localStorageService.get = sandbox.stub().returns(testToken);
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
       requestRefresh().respond(200);
 
       TokenAuthService.tokenRefresh();
@@ -208,6 +211,7 @@ describe('Service: TokenAuthService', function () {
 
     it('should resolve on success', function () {
       var success = sandbox.stub();
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
       localStorageService.get = sandbox.stub().returns(testToken);
       requestRefresh().respond(200);
 
@@ -279,6 +283,7 @@ describe('Service: TokenAuthService', function () {
     it('should reject if another request is currently pending', function () {
       var fail = sandbox.stub();
       localStorageService.get = sandbox.stub().returns(testToken);
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
 
       TokenAuthService.tokenRefresh();
       TokenAuthService.tokenRefresh().catch(fail);
@@ -289,32 +294,46 @@ describe('Service: TokenAuthService', function () {
       expect(fail.calledOnce).to.be.true;
     });
 
-    it('should clear the request buffer on failure', function () {
-      TokenAuthService.requestBufferClear = sandbox.stub();
+    describe('when no token in storage', function () {
 
-      TokenAuthService.tokenRefresh();
-      $rootScope.$digest();
+      beforeEach(function () {
+        TokenAuthService.requestBufferClear = sandbox.stub();
+        CurrentUser.logout = sandbox.stub();
+        TokenAuthConfig.callAuthFailureHandlers = sandbox.stub();
+      });
 
-      expect(TokenAuthService.requestBufferClear.calledOnce).to.be.true;
-    });
+      it('should clear the request buffer', function () {
 
-    it('should logout the current user on failure', function () {
-      CurrentUser.logout = sandbox.stub();
+        TokenAuthService.tokenRefresh();
+        $rootScope.$digest();
 
-      TokenAuthService.tokenRefresh();
-      $rootScope.$digest();
+        expect(TokenAuthService.requestBufferClear.calledOnce).to.be.true;
+      });
 
-      expect(CurrentUser.logout.calledOnce).to.be.true;
-    });
+      it('should logout the current user', function () {
 
-    it('should call auth failure handlers on failure', function () {
+        TokenAuthService.tokenRefresh();
+        $rootScope.$digest();
 
-      TokenAuthConfig.callAuthFailureHandlers = sandbox.stub();
+        expect(CurrentUser.logout.calledOnce).to.be.true;
+      });
 
-      TokenAuthService.tokenRefresh();
-      $rootScope.$digest();
+      it('should call auth failure handlers', function () {
 
-      expect(TokenAuthConfig.callAuthFailureHandlers.calledOnce).to.be.true;
+        TokenAuthService.tokenRefresh();
+        $rootScope.$digest();
+
+        expect(TokenAuthConfig.callAuthFailureHandlers.calledOnce).to.be.true;
+      });
+
+      it('should return a rejected promise', function () {
+        var fail = sandbox.stub();
+
+        TokenAuthService.tokenRefresh().catch(fail);
+        $rootScope.$digest();
+
+        expect(fail.calledOnce).to.be.true;
+      });
     });
   });
 
@@ -424,6 +443,7 @@ describe('Service: TokenAuthService', function () {
     var password = '123';
 
     it('should setup auth token in local storage', function () {
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
 
       TokenAuthService.login(username, password);
       $httpBackend.expectPOST(
@@ -466,7 +486,6 @@ describe('Service: TokenAuthService', function () {
 
       TokenAuthConfig.callAuthFailureHandlers = sandbox.stub();
 
-      // TokenAuthService.login(username, password).catch(fail);
       TokenAuthService.login(username, password).catch(fail);
 
       $httpBackend.expectPOST(
@@ -502,6 +521,7 @@ describe('Service: TokenAuthService', function () {
 
     it('should reject if another request is currently pending', function () {
       var fail = sandbox.stub();
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
 
       TokenAuthService.login(username, password);
       TokenAuthService.login(username, password).catch(fail);

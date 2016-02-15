@@ -1,17 +1,40 @@
 'use strict';
 
-angular.module('cmsComponents.auth.user', [])
+angular.module('cmsComponents.auth.user', [
+  'cmsComponents.auth.config'
+])
   .service('CurrentUser', [
-    '$q',
-    function ($q) {
+    '$http', '$q', 'TokenAuthConfig',
+    function ($http, $q, TokenAuthConfig) {
+      var data = {
+        user: null
+      };
+
+      var handlers = {
+        logout: []
+      };
 
       return {
         $get: function () {
-// TODO : make a request to get the current user's info
-          return $q.resolve();
+          if (data.user === null) {
+            return $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
+              .then(function (response) {
+                data.user = response.data;
+                return data.user;
+              });
+          }
+
+          return $q.resolve(data.user);
+        },
+        addLogoutHandler: function (func) {
+          handlers.logout.push(func);
         },
         logout: function () {
-// TODO : remove user data
+          data.user = null;
+
+          handlers.logout.forEach(function (handler) {
+            handler();
+          });
         }
       };
     }

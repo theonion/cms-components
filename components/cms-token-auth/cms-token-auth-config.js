@@ -12,6 +12,8 @@ angular.module('cmsComponents.auth.config', [
       var apiEndpointAuth = '/api/token/auth';
       // endpoint for token refresh
       var apiEndpointRefresh = '/api/token/refresh';
+      // endpoint for current user data
+      var apiEndpointCurrentUser = '/api/me';
       // endpoint for token verification
       var apiEndpointVerify = '/api/token/verify';
       // host where auth endpoints are located
@@ -63,6 +65,14 @@ angular.module('cmsComponents.auth.config', [
           apiEndpointVerify = value;
         } else {
           throw new TypeError('TokenAuthConfig.apiEndpointVerify must be a string!');
+        }
+      };
+
+      this.setApiEndpointCurrentUser = function (value) {
+        if (_.isString(value)) {
+          apiEndpointCurrentUser = value;
+        } else {
+          throw new TypeError('TokenAuthConfig.apiEndpointCurrentUser must be a string!');
         }
       };
 
@@ -165,6 +175,7 @@ angular.module('cmsComponents.auth.config', [
           getAfterLoginPath: _.constant(afterLoginPath),
           getApiEndpointAuth: _.constant(apiHost + apiEndpointAuth),
           getApiEndpointRefresh: _.constant(apiHost + apiEndpointRefresh),
+          getApiEndpointCurrentUser: _.constant(apiHost + apiEndpointCurrentUser),
           getApiEndpointVerify: _.constant(apiHost + apiEndpointVerify),
           getLoginPagePath: _.constant(loginPagePath),
           getLogoUrl: _.constant(logoUrl),

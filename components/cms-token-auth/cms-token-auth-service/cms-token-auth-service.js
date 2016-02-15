@@ -12,72 +12,51 @@ angular.module('cmsComponents.auth.service', [
       var TokenAuthService = this;
       var requestInProgress = false;
 
-      // false if not verified at least once, otherwise promise that resolves when
-      //  verification endpoint returns
-      var $verified = false;
+      var verification = (function () {
+        var defer = null;
+
+        return {
+          build: function () {
+            defer = $q.defer();
+
+            return this.promise();
+          },
+          exists: function () {
+            return defer !== null;
+          },
+          promise: function () {
+            return defer.promise;
+          },
+          resolve: function (success) {
+            if (!this.exists()) {
+              this.build();
+            }
+
+            defer.resolve(success);
+
+            return this.promise();
+          },
+          reject: function (error) {
+            if (!this.exists()) {
+              this.build();
+            }
+
+            defer.reject(error)
+
+            return this.promise();
+          },
+          rejectAndClear: function (error) {
+            TokenAuthService.requestBufferClear();
+            CurrentUser.logout();
+
+            TokenAuthConfig.callAuthFailureHandlers();
+
+            return this.reject(error);
+          }
+        }
+      } ());
 
       TokenAuthService._requestBuffer = [];
-
-      /**
-       * Force verification promise to be resolved. Used whenever an endpoint
-       *  besides the verify endpoint has been used to successfully authenticate.
-       */
-      var forceAuthenticated = function () {
-        if (!$verified) {
-          $verified = $q.defer();
-        }
-
-        $verified.resolve();
-      };
-
-      /**
-       * Force verification promise to be rejected. Used whenever an endpoint
-       *  besides the verify endpoint has been used to unauthenticate.
-       */
-      var forceUnauthenticated = function () {
-        if (!$verified) {
-          $verified = $q.defer();
-        }
-
-        $verified.reject();
-      };
-
-      var authSuccess = function (deferred) {
-        return function () {
-          return CurrentUser.$get()
-            .then(function (user) {
-              TokenAuthService.requestBufferRetry();
-
-              TokenAuthConfig.callAuthSuccessHandlers(user);
-
-              forceAuthenticated();
-              deferred.resolve();
-            })
-            .catch(deferred.reject);
-        };
-      };
-
-      var loginAuthSuccess = function (deferred) {
-        return function (loginResponse) {
-            return CurrentUser.$get()
-              .then(function (user) {
-                localStorageService.set(TokenAuthConfig.getTokenKey(), loginResponse.data.token);
-
-                TokenAuthConfig.callAuthSuccessHandlers(user);
-
-                forceAuthenticated();
-                deferred.resolve();
-              })
-              .catch(deferred.reject);
-        };
-      };
-
-      var noTokenFailure = function () {
-        forceUnauthenticated();
-        TokenAuthService.requestBufferClear();
-        CurrentUser.logout();
-        TokenAuthConfig.callAuthFailureHandlers();
-      };
 
       /**
        * Token verification endpoint. Should be used as the initial request when
@@ -91,57 +70,65 @@ angular.module('cmsComponents.auth.service', [
        * @returns {promise} resolves when authenticated, rejects otherwise.
        */
       TokenAuthService.tokenVerify = function () {
-        if ($verified) {
+        if (verification.exists()) {
           // already verified, return existing verification
-          return $verified;
+          return verification.promise();
         }
 
         if (requestInProgress) {
-          // there's already an auth request going, reject
-          return $q.reject();
+          // there's already an auth request going, reject verification
+          return verification.reject();
+        }
+
+        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+        if (!token) {
+          // no token in storage, reject verification
+          return verification.rejectAndClear('session expired');
         }
 
         // no currently running request, start a new one
         requestInProgress = true;
 
-        // verify has not been called yet, set it up
-        $verified = $q.defer();
+        verification.build();
 
-        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
-        if (token) {
-          $http.post(
-            TokenAuthConfig.getApiEndpointVerify(),
-            {
-              token: token
-            },
-            {
-              ignoreTokenAuth: true
-            }
-          )
-          .then(authSuccess($verified))
+        $http.post(
+          TokenAuthConfig.getApiEndpointVerify(),
+          {
+            token: token
+          },
+          {
+            ignoreTokenAuth: true
+          }
+        )
+          .then(function () {
+            return CurrentUser.$get()
+              .then(function (user) {
+                TokenAuthService.requestBufferRetry();
+
+                TokenAuthConfig.callAuthSuccessHandlers(user);
+
+                return verification.resolve();
+              });
+          })
           .catch(function (response) {
+            var promise;
 
             if (response.status === 400) {
               // this is an expired token, attempt refresh
               requestInProgress = false;
-              TokenAuthService.tokenRefresh()
-                .then($verified.resolve)
-                .catch($verified.reject);
+              promise = TokenAuthService.tokenRefresh();
             } else if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
-              // user is not authorized, special failure
-              // side-effect: reject $verified, this can probably be done better
-              noTokenFailure();
+              // user is not authorized, reject everything, user needs to login
+              promise = verification.rejectAndClear();
             } else {
               // this is not an auth error, reject verification
-              $verified.reject();
+              promise = verification.reject();
             }
-          });
-        } else {
-          // side-effect: reject $verified, this can probably be done better
-          noTokenFailure();
-        }
 
-        return $verified.promise
+            return promise;
+          });
+
+        return verification.promise()
           .finally(function () {
             // reset request flag so other requests can go through
             requestInProgress = false;
@@ -160,33 +147,36 @@ angular.module('cmsComponents.auth.service', [
           return $q.reject();
         }
 
+        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
+        if (!token) {
+          // no token in storage, reject
+          return verification.rejectAndClear('session expired');
+        }
+
         // no currently running request, start a new one
         requestInProgress = true;
 
-        var refresh = $q.defer();
-        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
-        if (token) {
-          $http.post(
-            TokenAuthConfig.getApiEndpointRefresh(),
-            {
-              token: token
-            },
-            {
-              ignoreTokenAuth: true
-            }
-          )
-            .success(refresh.resolve)
-            .catch(refresh.reject);
-        } else {
-          refresh.reject();
-        }
+        return $http.post(
+          TokenAuthConfig.getApiEndpointRefresh(),
+          {
+            token: token
+          },
+          {
+            ignoreTokenAuth: true
+          }
+        )
+          .then(function () {
+            return CurrentUser.$get()
+              .then(function (user) {
+                TokenAuthService.requestBufferRetry();
 
-        return refresh.promise
-          .then(authSuccess(refresh))
+                TokenAuthConfig.callAuthSuccessHandlers(user);
+
+                return verification.resolve();
+              });
+          })
           .catch(function (error) {
-            noTokenFailure();
-
-            return $q.reject(error);
+            return verification.rejectAndClear(error);
           })
           .finally(function () {
             // reset request flag so other requests can go through
@@ -218,8 +208,7 @@ angular.module('cmsComponents.auth.service', [
         // no currently running request, start a new one
         requestInProgress = true;
 
-        var login = $q.defer();
-        $http.post(
+        return $http.post(
           TokenAuthConfig.getApiEndpointAuth(),
           {
             username: username,
@@ -229,17 +218,21 @@ angular.module('cmsComponents.auth.service', [
             ignoreTokenAuth: true
           }
         )
-          .then(login.resolve)
-          .catch(login.reject);
+          .then(function (loginResponse) {
+            return CurrentUser.$get()
+              .then(function (user) {
+                localStorageService.set(TokenAuthConfig.getTokenKey(), loginResponse.data.token);
 
-        return login.promise
-          .then(loginAuthSuccess(login))
+                TokenAuthConfig.callAuthSuccessHandlers(user);
+
+                return verification.resolve();
+              });
+          })
           .catch(function (error) {
-            forceUnauthenticated();
             CurrentUser.logout();
             TokenAuthConfig.callAuthFailureHandlers();
 
-            return $q.reject(error);
+            return verification.reject(error);
           })
           .finally(function () {
             // reset request flag so other requests can go through
@@ -252,10 +245,11 @@ angular.module('cmsComponents.auth.service', [
        *  login page.
        */
       TokenAuthService.logout = function () {
-        forceUnauthenticated();
         CurrentUser.logout();
         TokenAuthConfig.callUnauthHandlers();
         localStorageService.remove(TokenAuthConfig.getTokenKey());
+
+        return verification.reject();
       };
 
       /**
@@ -286,7 +280,7 @@ angular.module('cmsComponents.auth.service', [
             .catch(function (response) {
               if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
                 // have one failure, abort all other requests
-                abort.resolve();
+                return abort.resolve();
               }
             });
          });
