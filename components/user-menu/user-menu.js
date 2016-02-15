@@ -6,11 +6,12 @@ angular.module('cmsComponents')
       templateUrl: 'components/user-menu/user-menu.html',
       restrict: 'E',
       controller: function ($scope, CurrentUser) {
-        function setCurrentUser () {
+        var setCurrentUser = function () {
           $scope.currentUser = CurrentUser.getCurrentUser();
-          console.log('setCurrentUser in user-menu', $scope.currentUser);
-        }
+        };
+
         $scope.$on('userchange', setCurrentUser);
+
         setCurrentUser();
       }
     }
