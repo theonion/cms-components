@@ -7,6 +7,7 @@ describe('Interceptor: TokenAuthInterceptor', function () {
   var $location;
   var $q;
   var $rootScope;
+  var $templateCache;
   var localStorageService;
   var TokenAuthConfig;
   var TokenAuthInterceptor;
@@ -17,11 +18,13 @@ describe('Interceptor: TokenAuthInterceptor', function () {
   beforeEach(function () {
     angular.mock.module('cmsComponents.auth.interceptor');
 
-    inject(function (_$location_, _$q_, _$rootScope_, _localStorageService_,
-        _TokenAuthConfig_, _TokenAuthInterceptor_, _TokenAuthService_) {
+    inject(function (_$location_, _$q_, _$rootScope_, _$templateCache_,
+        _localStorageService_, _TokenAuthConfig_, _TokenAuthInterceptor_,
+        _TokenAuthService_) {
       $location = _$location_;
       $q = _$q_;
       $rootScope = _$rootScope_;
+      $templateCache = _$templateCache_;
       localStorageService = _localStorageService_;
       TokenAuthConfig = _TokenAuthConfig_;
       TokenAuthInterceptor = _TokenAuthInterceptor_;
@@ -136,6 +139,20 @@ describe('Interceptor: TokenAuthInterceptor', function () {
 
       expect(config1.headers.Authorization).to.equal('JWT ' + token);
       expect(config2.headers.Authorization).to.equal('JWT ' + token);
+    });
+
+    it('should ignore requests handled by $templateCache', function () {
+      var templateUrl = 'some/cached/template.html';
+      var config = {
+        method: 'GET',
+        url: templateUrl
+      };
+
+      TokenAuthService.tokenVerify = sinon.stub().returns($q.resolve());
+      $templateCache.put(templateUrl, '<fun-html></fun-html>');
+      TokenAuthInterceptor.request(config);
+
+      expect(TokenAuthService.tokenVerify.callCount).to.equal(0);
     });
   });
 

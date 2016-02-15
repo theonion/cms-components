@@ -6,11 +6,17 @@ angular.module('cmsComponents.auth.interceptor', [
   'LocalStorageModule'
 ])
   .service('TokenAuthInterceptor', [
-    '$injector', '$q', 'localStorageService', 'TokenAuthConfig',
-    function ($injector, $q, localStorageService, TokenAuthConfig) {
+    '$injector', '$q', '$templateCache', 'localStorageService', 'TokenAuthConfig',
+    function ($injector, $q, $templateCache, localStorageService, TokenAuthConfig) {
 
       var doIgnoreAuth = function (config) {
         return Boolean(!config || config.ignoreTokenAuth);
+      };
+
+      var isTemplateRequest = function (config) {
+        return config &&
+            config.method === 'GET' &&
+            typeof $templateCache.get(config.url) !== 'undefined';
       };
 
       var abortRequest = function (config) {
@@ -20,8 +26,9 @@ angular.module('cmsComponents.auth.interceptor', [
       };
 
       this.request = function (config) {
-
-        if (!doIgnoreAuth(config) && TokenAuthConfig.shouldBeIntercepted(config.url)) {
+        if (!doIgnoreAuth(config) &&
+            !isTemplateRequest(config) &&
+            TokenAuthConfig.shouldBeIntercepted(config.url)) {
 
           // get token from storage
           var token = localStorageService.get(TokenAuthConfig.getTokenKey());
