@@ -215,20 +215,21 @@
 		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 87,
 		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 88,
 		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 89,
-		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 91,
-		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 92,
-		"./cms-token-auth/cms-token-auth.js": 93,
-		"./convert-to-number/convert-to-number.js": 94,
-		"./sidebar-nav-item/sidebar-nav-item.html": 95,
-		"./sidebar-nav-item/sidebar-nav-item.js": 96,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 97,
-		"./ui-sref-active-if/ui-sref-active-if.js": 99,
-		"./user-menu/user-menu.html": 100,
-		"./user-menu/user-menu.js": 101,
-		"./user-menu/user-menu.scss": 102,
-		"./user-profile/user-profile.html": 104,
-		"./user-profile/user-profile.js": 105,
-		"./user-profile/user-profile.scss": 106
+		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 91,
+		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 92,
+		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 93,
+		"./cms-token-auth/cms-token-auth.js": 94,
+		"./convert-to-number/convert-to-number.js": 95,
+		"./sidebar-nav-item/sidebar-nav-item.html": 96,
+		"./sidebar-nav-item/sidebar-nav-item.js": 97,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 98,
+		"./ui-sref-active-if/ui-sref-active-if.js": 100,
+		"./user-menu/user-menu.html": 101,
+		"./user-menu/user-menu.js": 102,
+		"./user-menu/user-menu.scss": 103,
+		"./user-profile/user-profile.html": 105,
+		"./user-profile/user-profile.js": 106,
+		"./user-profile/user-profile.scss": 107
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1256,28 +1257,13 @@
 
 	'use strict';
 
-	angular.module('cmsComponents.cmsLayout', [
-	  'cmsComponents.auth.user'
-	])
+	angular.module('cmsComponents.cmsLayout', [])
 	  .directive('cmsLayout', [
 	    function () {
 	      return {
 	        templateUrl: 'components/cms-layout/cms-layout.html',
 	        restrict: 'E',
-	        transclude: true,
-	        controller: [
-	          '$scope', 'CurrentUser',
-	          function ($scope, CurrentUser) {
-	            CurrentUser.$get()
-	              .then(function (user) {
-	                $scope.currentUser = user;
-	              });
-
-	            CurrentUser.addLogoutHandler(function () {
-	              $scope.currentUser = null;
-	            });
-	          }
-	        ]
+	        transclude: true
 	      }
 	    }
 	  ]);
@@ -2016,7 +2002,7 @@
 
 	        if (!doIgnoreAuth(config) &&
 	            TokenAuthConfig.shouldBeIntercepted(config.url) &&
-	            !response.status || TokenAuthConfig.isStatusCodeToHandle(response.status)) {
+	            (!response.status || TokenAuthConfig.isStatusCodeToHandle(response.status))) {
 
 	          // need to inject service here, otherwise we get a circular $http dep
 	          var TokenAuthService = $injector.get('TokenAuthService');
@@ -2097,6 +2083,40 @@
 
 	'use strict';
 
+	angular.module('cmsComponents.auth.loginRequiredWrapper', [
+	  'cmsComponents.auth.user'
+	])
+	  .directive('cmsLoginRequiredWrapper', [
+	    function () {
+	      return {
+	        template: '<ng-transclude ng-if="currentUser"></ng-transclude>',
+	        restrict: 'E',
+	        transclude: true,
+	        controller: [
+	          '$scope', 'CurrentUser',
+	          function ($scope, CurrentUser) {
+	            CurrentUser.$get();
+
+	            CurrentUser.addLoginHandler(function (user) {
+	              $scope.currentUser = user;
+	            });
+
+	            CurrentUser.addLogoutHandler(function () {
+	              $scope.currentUser = null;
+	            });
+	          }
+	        ]
+	      }
+	    }
+	  ]);
+
+
+/***/ },
+/* 92 */
+/***/ function(module, exports) {
+
+	'use strict';
+
 	angular.module('cmsComponents.auth.service', [
 	  'cmsComponents.auth.config',
 	  'cmsComponents.auth.user',
@@ -2108,51 +2128,8 @@
 
 	      var TokenAuthService = this;
 	      var requestInProgress = false;
-
-	// TODO : remove
-	      // var verification = (function () {
-	      //   var defer = null;
-	      //
-	      //   return {
-	      //     build: function () {
-	      //       defer = $q.defer();
-	      //
-	      //       return this.promise();
-	      //     },
-	      //     exists: function () {
-	      //       return defer !== null;
-	      //     },
-	      //     promise: function () {
-	      //       return defer.promise;
-	      //     },
-	      //     resolve: function (success) {
-	      //       if (!this.exists()) {
-	      //         this.build();
-	      //       }
-	      //
-	      //       defer.resolve(success);
-	      //
-	      //       return this.promise();
-	      //     },
-	      //     reject: function (error) {
-	      //       if (!this.exists()) {
-	      //         this.build();
-	      //       }
-	      //
-	      //       defer.reject(error)
-	      //
-	      //       return this.promise();
-	      //     },
-	      //     rejectAndClear: function (error) {
-	      //       TokenAuthService.requestBufferClear();
-	      //       CurrentUser.logout();
-	      //
-	      //       TokenAuthConfig.callAuthFailureHandlers();
-	      //
-	      //       return this.reject(error);
-	      //     }
-	      //   }
-	      // } ());
+	      var verifiedAtLeastOnce = false;
+	      var verificationInProgress = false;
 
 	      var clearAuth = function () {
 	        TokenAuthService.requestBufferClear();
@@ -2163,8 +2140,6 @@
 
 	      TokenAuthService._requestBuffer = [];
 
-	      var verifiedAtLeastOnce = false;
-	      var verificationInProgress = false;
 	      /**
 	       * Token verification endpoint. Should be used as the initial request when
 	       *  a page loads to check if user is authenticated. All requests should be
@@ -2184,10 +2159,10 @@
 	        }
 
 	        if (verificationInProgress) {
+	          // already doing verification, just return that promise
 	          return verificationInProgress;
 	        }
 
-	// TODO : might need to return verification here
 	        if (requestInProgress) {
 	          // there's already an auth request going, reject verification
 	          return $q.reject();
@@ -2212,8 +2187,7 @@
 	            ignoreTokenAuth: true
 	          }
 	        )
-	          .then(function (tokenResponse) {
-	            localStorageService.set(TokenAuthConfig.getTokenKey(), tokenResponse.data.token);
+	          .then(function () {
 	            verifiedAtLeastOnce = true;
 	            return CurrentUser.$get()
 	              .then(function (user) {
@@ -2412,7 +2386,7 @@
 
 
 /***/ },
-/* 92 */
+/* 93 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2428,6 +2402,7 @@
 	      };
 
 	      var handlers = {
+	        login: [],
 	        logout: []
 	      };
 
@@ -2437,11 +2412,19 @@
 	            return $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
 	              .then(function (response) {
 	                data.user = response.data;
+
+	                handlers.login.forEach(function (handler) {
+	                  handler(data.user);
+	                });
+
 	                return data.user;
 	              });
 	          }
 
 	          return $q.resolve(data.user);
+	        },
+	        addLoginHandler: function (func) {
+	          handlers.login.push(func);
 	        },
 	        addLogoutHandler: function (func) {
 	          handlers.logout.push(func);
@@ -2459,7 +2442,7 @@
 
 
 /***/ },
-/* 93 */
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2468,12 +2451,13 @@
 	  'cmsComponents.auth.interceptor',
 	  'cmsComponents.auth.config',
 	  'cmsComponents.auth.loginForm',
+	  'cmsComponents.auth.loginRequiredWrapper',
 	  'cmsComponents.auth.user'
 	]);
 
 
 /***/ },
-/* 94 */
+/* 95 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2495,7 +2479,7 @@
 
 
 /***/ },
-/* 95 */
+/* 96 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -2504,7 +2488,7 @@
 	module.exports = path;
 
 /***/ },
-/* 96 */
+/* 97 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2523,14 +2507,14 @@
 
 
 /***/ },
-/* 97 */
+/* 98 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 98 */,
-/* 99 */
+/* 99 */,
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2558,7 +2542,7 @@
 
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-menu/user-menu.html';
@@ -2567,7 +2551,7 @@
 	module.exports = path;
 
 /***/ },
-/* 101 */
+/* 102 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2591,14 +2575,14 @@
 
 
 /***/ },
-/* 102 */
+/* 103 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 103 */,
-/* 104 */
+/* 104 */,
+/* 105 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-profile/user-profile.html';
@@ -2607,7 +2591,7 @@
 	module.exports = path;
 
 /***/ },
-/* 105 */
+/* 106 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2641,7 +2625,7 @@
 
 
 /***/ },
-/* 106 */
+/* 107 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

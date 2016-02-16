@@ -11,6 +11,7 @@ angular.module('cmsComponents.auth.user', [
       };
 
       var handlers = {
+        login: [],
         logout: []
       };
 
@@ -20,11 +21,19 @@ angular.module('cmsComponents.auth.user', [
             return $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
               .then(function (response) {
                 data.user = response.data;
+
+                handlers.login.forEach(function (handler) {
+                  handler(data.user);
+                });
+
                 return data.user;
               });
           }
 
           return $q.resolve(data.user);
+        },
+        addLoginHandler: function (func) {
+          handlers.login.push(func);
         },
         addLogoutHandler: function (func) {
           handlers.logout.push(func);
