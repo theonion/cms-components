@@ -195,41 +195,42 @@
 		"./cms-modal/cms-modal.html": 61,
 		"./cms-modal/cms-modal.js": 62,
 		"./cms-modal/cms-modal.scss": 63,
-		"./cms-partial/cms-partial.html": 65,
-		"./cms-partial/cms-partial.js": 66,
-		"./cms-partial/cms-partial.scss": 67,
-		"./cms-row/cms-row.html": 69,
-		"./cms-row/cms-row.js": 70,
-		"./cms-row/cms-row.scss": 71,
-		"./cms-table-cell/cms-table-cell.html": 73,
-		"./cms-table-cell/cms-table-cell.js": 74,
-		"./cms-table-cell/cms-table-cell.scss": 75,
-		"./cms-table-column/cms-table-column.html": 77,
-		"./cms-table-column/cms-table-column.js": 78,
-		"./cms-table-column/cms-table-column.scss": 79,
-		"./cms-table/cms-table.html": 81,
-		"./cms-table/cms-table.js": 82,
-		"./cms-table/cms-table.scss": 83,
-		"./cms-token-auth/cms-token-auth-config.js": 85,
-		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 86,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 87,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 88,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 89,
-		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 91,
-		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 92,
-		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 93,
-		"./cms-token-auth/cms-token-auth.js": 94,
-		"./convert-to-number/convert-to-number.js": 95,
-		"./sidebar-nav-item/sidebar-nav-item.html": 96,
-		"./sidebar-nav-item/sidebar-nav-item.js": 97,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 98,
-		"./ui-sref-active-if/ui-sref-active-if.js": 100,
-		"./user-menu/user-menu.html": 101,
-		"./user-menu/user-menu.js": 102,
-		"./user-menu/user-menu.scss": 103,
-		"./user-profile/user-profile.html": 105,
-		"./user-profile/user-profile.js": 106,
-		"./user-profile/user-profile.scss": 107
+		"./cms-nav-user/cms-nav-user.html": 65,
+		"./cms-nav-user/cms-nav-user.js": 66,
+		"./cms-nav-user/cms-nav-user.scss": 67,
+		"./cms-partial/cms-partial.html": 69,
+		"./cms-partial/cms-partial.js": 70,
+		"./cms-partial/cms-partial.scss": 71,
+		"./cms-row/cms-row.html": 73,
+		"./cms-row/cms-row.js": 74,
+		"./cms-row/cms-row.scss": 75,
+		"./cms-table-cell/cms-table-cell.html": 77,
+		"./cms-table-cell/cms-table-cell.js": 78,
+		"./cms-table-cell/cms-table-cell.scss": 79,
+		"./cms-table-column/cms-table-column.html": 81,
+		"./cms-table-column/cms-table-column.js": 82,
+		"./cms-table-column/cms-table-column.scss": 83,
+		"./cms-table/cms-table.html": 85,
+		"./cms-table/cms-table.js": 86,
+		"./cms-table/cms-table.scss": 87,
+		"./cms-token-auth/cms-token-auth-config.js": 89,
+		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 90,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 91,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 92,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 93,
+		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 95,
+		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 96,
+		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 97,
+		"./cms-token-auth/cms-token-auth.js": 98,
+		"./convert-to-number/convert-to-number.js": 99,
+		"./filters/filters-user-display-name/filters-user-display-name.js": 100,
+		"./sidebar-nav-item/sidebar-nav-item.html": 101,
+		"./sidebar-nav-item/sidebar-nav-item.js": 102,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 103,
+		"./ui-sref-active-if/ui-sref-active-if.js": 105,
+		"./user-menu/user-menu.html": 106,
+		"./user-menu/user-menu.js": 107,
+		"./user-menu/user-menu.scss": 108
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1490,13 +1491,68 @@
 /* 65 */
 /***/ function(module, exports) {
 
+	var path = 'components/cms-nav-user/cms-nav-user.html';
+	var html = "<div\n    uib-dropdown\n    dropdown-append-to-body>\n  <button\n      class=\"cms-nav-user-menu-opener\"\n      uib-dropdown-toggle>\n    <span>Hi,</span>\n    <span class=\"cms-nav-user-name\">{{ user | userDisplay }}</span>\n    <i class=\"fa fa-angle-down\"></i>\n  </button>\n  <ul\n      uib-dropdown-menu\n      role=\"menu\"\n      aria-labelledby=\"btn-append-to-body\"\n      class=\"dropdown-menu nav-menu-dropdown-menu\">\n    <li>\n      <a ui-sref=\"logout\">\n        <i class=\"fa fa-power-off\"></i>\n        <span>Log Out</span>\n      </a>\n    </li>\n  </ul>\n</div>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 66 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.navUser', [
+	  'cmsComponents.auth.user',
+	  'cmsComponents.filters.userDisplay'
+	])
+	  .directive('cmsNavUser', function () {
+	    return {
+	      templateUrl: 'components/cms-nav-user/cms-nav-user.html',
+	      restrict: 'E',
+	      controller: [
+	        '$rootScope', '$scope', 'CurrentUser',
+	        function ($rootScope, $scope, CurrentUser) {
+
+	          var onLogin = function (user) {
+	            $scope.user = user;
+	          };
+
+	          var onLogout = function () {
+	            $scope.user = null;
+	          };
+
+	          CurrentUser.addLoginHandler(onLogin);
+	          CurrentUser.addLogoutHandler(onLogout);
+
+	          $scope.$on('$destroy', function () {
+	            CurrentUser.removeLoginHandler(onLogin);
+	            CurrentUser.removeLogoutHandler(onLogout);
+	          });
+	        }
+	      ]
+	    }
+	  });
+
+
+/***/ },
+/* 67 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 68 */,
+/* 69 */
+/***/ function(module, exports) {
+
 	var path = 'components/cms-partial/cms-partial.html';
 	var html = "<span>Calling from cms-partial</span>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 66 */
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1522,14 +1578,14 @@
 
 
 /***/ },
-/* 67 */
+/* 71 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 68 */,
-/* 69 */
+/* 72 */,
+/* 73 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-row/cms-row.html';
@@ -1538,7 +1594,7 @@
 	module.exports = path;
 
 /***/ },
-/* 70 */
+/* 74 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1555,14 +1611,14 @@
 
 
 /***/ },
-/* 71 */
+/* 75 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 72 */,
-/* 73 */
+/* 76 */,
+/* 77 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-cell/cms-table-cell.html';
@@ -1571,7 +1627,7 @@
 	module.exports = path;
 
 /***/ },
-/* 74 */
+/* 78 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1600,14 +1656,14 @@
 
 
 /***/ },
-/* 75 */
+/* 79 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 76 */,
-/* 77 */
+/* 80 */,
+/* 81 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-column/cms-table-column.html';
@@ -1616,7 +1672,7 @@
 	module.exports = path;
 
 /***/ },
-/* 78 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1632,14 +1688,14 @@
 
 
 /***/ },
-/* 79 */
+/* 83 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 80 */,
-/* 81 */
+/* 84 */,
+/* 85 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table/cms-table.html';
@@ -1648,7 +1704,7 @@
 	module.exports = path;
 
 /***/ },
-/* 82 */
+/* 86 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1675,14 +1731,14 @@
 
 
 /***/ },
-/* 83 */
+/* 87 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 84 */,
-/* 85 */
+/* 88 */,
+/* 89 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1936,7 +1992,7 @@
 
 
 /***/ },
-/* 86 */
+/* 90 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2023,16 +2079,16 @@
 
 
 /***/ },
-/* 87 */
+/* 91 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
-	var html = "<div>\n  <div class=\"login-header\">\n    <img ng-src=\"{{ LOGO_URL }}\">\n  </div>\n  <div class=\"login-form\">\n    <p class=\"text-center welcome-text\">Welcome</p>\n    <form>\n      <div class=\"login-input username\">\n        <label>Username</label>\n        <input\n            type=\"text\"\n            class=\"form-control\"\n            ng-model=\"username\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <div class=\"login-input password\">\n        <label>Password</label>\n        <input\n            type=\"password\"\n            class=\"form-control\"\n            ng-model=\"password\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <alertbar></alertbar>\n      <button\n          class=\"btn add-btn btn-success\"\n          type=\"submit\"\n          ng-click=\"submitLogin()\">\n        <span>Sign in</span>\n      </button>\n    </form>\n    <a\n        class=\"contact\"\n        href=\"mailto:webtech@theonion.com\">\n      <div class=\"question-mark\">?</div>\n      <div class=\"contact-tech\">Contact Tech</div>\n    </a>\n  </div>\n</div>\n";
+	var html = "<div>\n  <div class=\"login-header\">\n    <img ng-src=\"{{ LOGO_URL }}\">\n  </div>\n  <div class=\"login-form\">\n    <p class=\"text-center welcome-text\">Welcome</p>\n    <form>\n      <div class=\"login-input username\">\n        <label>Username</label>\n        <input\n            tabindex=\"0\"\n            type=\"text\"\n            class=\"form-control\"\n            ng-model=\"username\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <div class=\"login-input password\">\n        <label>Password</label>\n        <input\n            type=\"password\"\n            class=\"form-control\"\n            ng-model=\"password\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <alertbar></alertbar>\n      <button\n          class=\"btn add-btn btn-success\"\n          type=\"submit\"\n          ng-click=\"submitLogin()\">\n        <span>Sign in</span>\n      </button>\n    </form>\n    <a\n        class=\"contact\"\n        href=\"mailto:webtech@theonion.com\">\n      <div class=\"question-mark\">?</div>\n      <div class=\"contact-tech\">Contact Tech</div>\n    </a>\n  </div>\n</div>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 88 */
+/* 92 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2071,14 +2127,14 @@
 
 
 /***/ },
-/* 89 */
+/* 93 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 90 */,
-/* 91 */
+/* 94 */,
+/* 95 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2089,7 +2145,7 @@
 	  .directive('cmsLoginRequiredWrapper', [
 	    function () {
 	      return {
-	        template: '<ng-transclude ng-if="currentUser"></ng-transclude>',
+	        template: '<ng-transclude ng-if="user"></ng-transclude>',
 	        restrict: 'E',
 	        transclude: true,
 	        controller: [
@@ -2097,12 +2153,20 @@
 	          function ($scope, CurrentUser) {
 	            CurrentUser.$get();
 
-	            CurrentUser.addLoginHandler(function (user) {
-	              $scope.currentUser = user;
-	            });
+	            var onLogin = function (user) {
+	              $scope.user = user;
+	            };
 
-	            CurrentUser.addLogoutHandler(function () {
-	              $scope.currentUser = null;
+	            var onLogout = function () {
+	              $scope.user = null;
+	            };
+
+	            CurrentUser.addLoginHandler(onLogin);
+	            CurrentUser.addLogoutHandler(onLogout);
+
+	            $scope.$on('$destroy', function () {
+	              CurrentUser.removeLoginHandler(onLogin);
+	              CurrentUser.removeLogoutHandler(onLogout);
 	            });
 	          }
 	        ]
@@ -2112,7 +2176,7 @@
 
 
 /***/ },
-/* 92 */
+/* 96 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2386,7 +2450,7 @@
 
 
 /***/ },
-/* 93 */
+/* 97 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2411,7 +2475,7 @@
 	          if (data.user === null) {
 	            return $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
 	              .then(function (response) {
-	                data.user = response.data;
+	                data.user = response.data.results[0];
 
 	                handlers.login.forEach(function (handler) {
 	                  handler(data.user);
@@ -2429,6 +2493,18 @@
 	        addLogoutHandler: function (func) {
 	          handlers.logout.push(func);
 	        },
+	        removeLoginHandler: function (func) {
+	          var index = handlers.login.indexOf(func);
+	          if (index >= 0) {
+	            handlers.login.splice(index, 1);
+	          }
+	        },
+	        removeLogoutHandler: function (func) {
+	          var index = handlers.logout.indexOf(func);
+	          if (index >= 0) {
+	            handlers.logout.splice(index, 1);
+	          }
+	        },
 	        logout: function () {
 	          data.user = null;
 
@@ -2442,7 +2518,7 @@
 
 
 /***/ },
-/* 94 */
+/* 98 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2457,7 +2533,7 @@
 
 
 /***/ },
-/* 95 */
+/* 99 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2479,7 +2555,35 @@
 
 
 /***/ },
-/* 96 */
+/* 100 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.filters.userDisplay', [])
+	  .filter('userDisplay', [
+	    function () {
+	      return function (user) {
+	        var name = '';
+
+	        if (user) {
+	          if (user.full_name) {
+	            name = user.full_name;
+	          } else if (user.first_name && user.last_name) {
+	            name = user.first_name + ' ' + user.last_name;
+	          } else {
+	            name = user.username;
+	          }
+	        }
+
+	        return name;
+	      };
+	    }
+	  ]);
+
+
+/***/ },
+/* 101 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -2488,7 +2592,7 @@
 	module.exports = path;
 
 /***/ },
-/* 97 */
+/* 102 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2507,14 +2611,14 @@
 
 
 /***/ },
-/* 98 */
+/* 103 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 99 */,
-/* 100 */
+/* 104 */,
+/* 105 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2542,7 +2646,7 @@
 
 
 /***/ },
-/* 101 */
+/* 106 */
 /***/ function(module, exports) {
 
 	var path = 'components/user-menu/user-menu.html';
@@ -2551,7 +2655,7 @@
 	module.exports = path;
 
 /***/ },
-/* 102 */
+/* 107 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2575,57 +2679,7 @@
 
 
 /***/ },
-/* 103 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 104 */,
-/* 105 */
-/***/ function(module, exports) {
-
-	var path = 'components/user-profile/user-profile.html';
-	var html = "<span style=\"background-color: {{userColor}};\">{{initials}}</span>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 106 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('userProfile', function () {
-	    return {
-	      templateUrl: 'components/user-profile/user-profile.html',
-	      restrict: 'E',
-	      controller: ['$scope', 'CurrentUser', 'md5', function ($scope, currentUser, md5) {
-	        $scope.setUser = function () {
-	          $scope.currentUser = currentUser.getCurrentUser();
-	          if ($scope.currentUser) {
-	            $scope.initials = currentUser.getCurrentUser().slice(0, 2);
-
-	            var hash = md5.createHash($scope.currentUser);
-	            var rgb = '#' + hash.substring(0,2) + hash.substring(2,4) + hash.substring(4,6);
-	            $scope.userColor = rgb;
-	          }
-	          else {
-	            $scope.currentUser = null;
-	            $scope.userColor = null;
-	            $scope.initials = null;
-	          }
-	        };
-	        $scope.$on('userchange', $scope.setUser);
-	        $scope.setUser();
-	      }]
-	    }
-	  });
-
-
-/***/ },
-/* 107 */
+/* 108 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

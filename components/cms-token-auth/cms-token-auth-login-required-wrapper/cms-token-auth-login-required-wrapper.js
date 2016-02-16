@@ -6,7 +6,7 @@ angular.module('cmsComponents.auth.loginRequiredWrapper', [
   .directive('cmsLoginRequiredWrapper', [
     function () {
       return {
-        template: '<ng-transclude ng-if="currentUser"></ng-transclude>',
+        template: '<ng-transclude ng-if="user"></ng-transclude>',
         restrict: 'E',
         transclude: true,
         controller: [
@@ -14,12 +14,20 @@ angular.module('cmsComponents.auth.loginRequiredWrapper', [
           function ($scope, CurrentUser) {
             CurrentUser.$get();
 
-            CurrentUser.addLoginHandler(function (user) {
-              $scope.currentUser = user;
-            });
+            var onLogin = function (user) {
+              $scope.user = user;
+            };
 
-            CurrentUser.addLogoutHandler(function () {
-              $scope.currentUser = null;
+            var onLogout = function () {
+              $scope.user = null;
+            };
+
+            CurrentUser.addLoginHandler(onLogin);
+            CurrentUser.addLogoutHandler(onLogout);
+
+            $scope.$on('$destroy', function () {
+              CurrentUser.removeLoginHandler(onLogin);
+              CurrentUser.removeLogoutHandler(onLogout);
             });
           }
         ]

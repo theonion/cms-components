@@ -20,7 +20,7 @@ angular.module('cmsComponents.auth.user', [
           if (data.user === null) {
             return $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
               .then(function (response) {
-                data.user = response.data;
+                data.user = response.data.results[0];
 
                 handlers.login.forEach(function (handler) {
                   handler(data.user);
@@ -37,6 +37,18 @@ angular.module('cmsComponents.auth.user', [
         },
         addLogoutHandler: function (func) {
           handlers.logout.push(func);
+        },
+        removeLoginHandler: function (func) {
+          var index = handlers.login.indexOf(func);
+          if (index >= 0) {
+            handlers.login.splice(index, 1);
+          }
+        },
+        removeLogoutHandler: function (func) {
+          var index = handlers.logout.indexOf(func);
+          if (index >= 0) {
+            handlers.logout.splice(index, 1);
+          }
         },
         logout: function () {
           data.user = null;

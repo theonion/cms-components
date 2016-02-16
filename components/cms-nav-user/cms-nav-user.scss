@@ -1,0 +1,13 @@
+@import 'directive';
+@import 'mixins';
+
+cms-nav-user {
+
+  .cms-nav-user-menu-opener {
+    @include button-unstyled();
+  }
+
+  .cms-nav-user-name {
+    font-weight: bold;
+  }
+}
