@@ -1998,11 +1998,10 @@
 
 	              return config;
 	            })
-	            .catch(function (error) {
+	            .catch(function () {
 	              // verification failed abort request
 	              abortRequest(config);
-
-	              return $q.reject(error);
+	              return $q.reject(config);
 	            });
 	        }
 
@@ -2013,15 +2012,17 @@
 	      this.responseError = function (response) {
 	        // only deal with an error if auth module is not ignored, this is a url
 	        //  to deal with and the response code is unauthorized
-	        if (!doIgnoreAuth(response.config) &&
-	            TokenAuthConfig.shouldBeIntercepted(response.config.url) &&
-	            TokenAuthConfig.isStatusCodeToHandle(response.status)) {
+	        var config = response.config ? response.config : response;
+
+	        if (!doIgnoreAuth(config) &&
+	            TokenAuthConfig.shouldBeIntercepted(config.url) &&
+	            !response.status || TokenAuthConfig.isStatusCodeToHandle(response.status)) {
 
 	          // need to inject service here, otherwise we get a circular $http dep
 	          var TokenAuthService = $injector.get('TokenAuthService');
 
 	          // append request to buffer to retry later
-	          TokenAuthService.requestBufferPush(response.config);
+	          TokenAuthService.requestBufferPush(config);
 
 	          // attempt to refresh token
 	          TokenAuthService.tokenRefresh();
@@ -2108,52 +2109,62 @@
 	      var TokenAuthService = this;
 	      var requestInProgress = false;
 
-	      var verification = (function () {
-	        var defer = null;
+	// TODO : remove
+	      // var verification = (function () {
+	      //   var defer = null;
+	      //
+	      //   return {
+	      //     build: function () {
+	      //       defer = $q.defer();
+	      //
+	      //       return this.promise();
+	      //     },
+	      //     exists: function () {
+	      //       return defer !== null;
+	      //     },
+	      //     promise: function () {
+	      //       return defer.promise;
+	      //     },
+	      //     resolve: function (success) {
+	      //       if (!this.exists()) {
+	      //         this.build();
+	      //       }
+	      //
+	      //       defer.resolve(success);
+	      //
+	      //       return this.promise();
+	      //     },
+	      //     reject: function (error) {
+	      //       if (!this.exists()) {
+	      //         this.build();
+	      //       }
+	      //
+	      //       defer.reject(error)
+	      //
+	      //       return this.promise();
+	      //     },
+	      //     rejectAndClear: function (error) {
+	      //       TokenAuthService.requestBufferClear();
+	      //       CurrentUser.logout();
+	      //
+	      //       TokenAuthConfig.callAuthFailureHandlers();
+	      //
+	      //       return this.reject(error);
+	      //     }
+	      //   }
+	      // } ());
 
-	        return {
-	          build: function () {
-	            defer = $q.defer();
+	      var clearAuth = function () {
+	        TokenAuthService.requestBufferClear();
+	        CurrentUser.logout();
 
-	            return this.promise();
-	          },
-	          exists: function () {
-	            return defer !== null;
-	          },
-	          promise: function () {
-	            return defer.promise;
-	          },
-	          resolve: function (success) {
-	            if (!this.exists()) {
-	              this.build();
-	            }
-
-	            defer.resolve(success);
-
-	            return this.promise();
-	          },
-	          reject: function (error) {
-	            if (!this.exists()) {
-	              this.build();
-	            }
-
-	            defer.reject(error)
-
-	            return this.promise();
-	          },
-	          rejectAndClear: function (error) {
-	            TokenAuthService.requestBufferClear();
-	            CurrentUser.logout();
-
-	            TokenAuthConfig.callAuthFailureHandlers();
-
-	            return this.reject(error);
-	          }
-	        }
-	      } ());
+	        TokenAuthConfig.callAuthFailureHandlers();
+	      };
 
 	      TokenAuthService._requestBuffer = [];
 
+	      var verifiedAtLeastOnce = false;
+	      var verificationInProgress = false;
 	      /**
 	       * Token verification endpoint. Should be used as the initial request when
 	       *  a page loads to check if user is authenticated. All requests should be
@@ -2166,28 +2177,33 @@
 	       * @returns {promise} resolves when authenticated, rejects otherwise.
 	       */
 	      TokenAuthService.tokenVerify = function () {
-	        if (verification.exists()) {
-	          // already verified, return existing verification
-	          return verification.promise();
+
+	        if (verifiedAtLeastOnce) {
+	          // we only call this verify endpoint one time
+	          return $q.resolve();
 	        }
 
+	        if (verificationInProgress) {
+	          return verificationInProgress;
+	        }
+
+	// TODO : might need to return verification here
 	        if (requestInProgress) {
 	          // there's already an auth request going, reject verification
-	          return verification.reject();
+	          return $q.reject();
 	        }
 
 	        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
 	        if (!token) {
 	          // no token in storage, reject verification
-	          return verification.rejectAndClear('session expired');
+	          clearAuth();
+	          return $q.reject('session expired');
 	        }
 
 	        // no currently running request, start a new one
 	        requestInProgress = true;
 
-	        verification.build();
-
-	        $http.post(
+	        verificationInProgress = $http.post(
 	          TokenAuthConfig.getApiEndpointVerify(),
 	          {
 	            token: token
@@ -2196,14 +2212,13 @@
 	            ignoreTokenAuth: true
 	          }
 	        )
-	          .then(function () {
+	          .then(function (tokenResponse) {
+	            localStorageService.set(TokenAuthConfig.getTokenKey(), tokenResponse.data.token);
+	            verifiedAtLeastOnce = true;
 	            return CurrentUser.$get()
 	              .then(function (user) {
 	                TokenAuthService.requestBufferRetry();
-
 	                TokenAuthConfig.callAuthSuccessHandlers(user);
-
-	                return verification.resolve();
 	              });
 	          })
 	          .catch(function (response) {
@@ -2212,23 +2227,27 @@
 	            if (response.status === 400) {
 	              // this is an expired token, attempt refresh
 	              requestInProgress = false;
-	              promise = TokenAuthService.tokenRefresh();
+	              promise = TokenAuthService.tokenRefresh()
+	                .then(function () {
+	                  verifiedAtLeastOnce = true;
+	                });
 	            } else if (TokenAuthConfig.isStatusCodeToHandle(response.status)) {
 	              // user is not authorized, reject everything, user needs to login
-	              promise = verification.rejectAndClear();
+	              clearAuth();
+	              promise = $q.reject('not authorized');
 	            } else {
 	              // this is not an auth error, reject verification
-	              promise = verification.reject();
+	              promise = $q.reject();
 	            }
 
 	            return promise;
-	          });
-
-	        return verification.promise()
+	          })
 	          .finally(function () {
 	            // reset request flag so other requests can go through
 	            requestInProgress = false;
 	          });
+
+	        return verificationInProgress;
 	      };
 
 	      /**
@@ -2246,7 +2265,8 @@
 	        var token = localStorageService.get(TokenAuthConfig.getTokenKey());
 	        if (!token) {
 	          // no token in storage, reject
-	          return verification.rejectAndClear('session expired');
+	          clearAuth();
+	          return $q.reject('session expired');
 	        }
 
 	        // no currently running request, start a new one
@@ -2261,18 +2281,18 @@
 	            ignoreTokenAuth: true
 	          }
 	        )
-	          .then(function () {
+	          .then(function (tokenResponse) {
+	            localStorageService.set(TokenAuthConfig.getTokenKey(), tokenResponse.data.token);
+	            verifiedAtLeastOnce = true;
 	            return CurrentUser.$get()
 	              .then(function (user) {
 	                TokenAuthService.requestBufferRetry();
-
 	                TokenAuthConfig.callAuthSuccessHandlers(user);
-
-	                return verification.resolve();
 	              });
 	          })
 	          .catch(function (error) {
-	            return verification.rejectAndClear(error);
+	            clearAuth();
+	            return $q.reject(error);
 	          })
 	          .finally(function () {
 	            // reset request flag so other requests can go through
@@ -2314,21 +2334,18 @@
 	            ignoreTokenAuth: true
 	          }
 	        )
-	          .then(function (loginResponse) {
+	          .then(function (tokenResponse) {
+	            localStorageService.set(TokenAuthConfig.getTokenKey(), tokenResponse.data.token);
+	            verifiedAtLeastOnce = true;
 	            return CurrentUser.$get()
 	              .then(function (user) {
-	                localStorageService.set(TokenAuthConfig.getTokenKey(), loginResponse.data.token);
-
 	                TokenAuthConfig.callAuthSuccessHandlers(user);
-
-	                return verification.resolve();
 	              });
 	          })
 	          .catch(function (error) {
 	            CurrentUser.logout();
 	            TokenAuthConfig.callAuthFailureHandlers();
-
-	            return verification.reject(error);
+	            return $q.reject(error);
 	          })
 	          .finally(function () {
 	            // reset request flag so other requests can go through
@@ -2344,8 +2361,6 @@
 	        CurrentUser.logout();
 	        TokenAuthConfig.callUnauthHandlers();
 	        localStorageService.remove(TokenAuthConfig.getTokenKey());
-
-	        return verification.reject();
 	      };
 
 	      /**

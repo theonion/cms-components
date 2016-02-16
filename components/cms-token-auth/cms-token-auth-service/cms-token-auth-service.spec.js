@@ -76,7 +76,7 @@ describe('Service: TokenAuthService', function () {
       var fail = sandbox.stub();
       localStorageService.get = sandbox.stub().returns(testToken);
       CurrentUser.$get = sandbox.stub().returns($q.resolve());
-      requestRefresh().respond(200);
+      requestRefresh().respond(200, {});
 
       TokenAuthService.tokenRefresh();
       TokenAuthService.tokenVerify().catch(fail);
@@ -213,7 +213,7 @@ describe('Service: TokenAuthService', function () {
       var success = sandbox.stub();
       CurrentUser.$get = sandbox.stub().returns($q.resolve());
       localStorageService.get = sandbox.stub().returns(testToken);
-      requestRefresh().respond(200);
+      requestRefresh().respond(200, {});
 
       TokenAuthService.tokenRefresh().then(success);
       $httpBackend.flush();
@@ -224,7 +224,7 @@ describe('Service: TokenAuthService', function () {
     it('should get the current user on success', function () {
       localStorageService.get = sandbox.stub().returns(testToken);
       CurrentUser.$get = sandbox.stub().returns($q.resolve());
-      requestRefresh().respond(200);
+      requestRefresh().respond(200, {});
 
       TokenAuthService.tokenRefresh();
       $httpBackend.flush();
@@ -236,7 +236,7 @@ describe('Service: TokenAuthService', function () {
       TokenAuthService.requestBufferRetry = sandbox.stub();
       localStorageService.get = sandbox.stub().returns(testToken);
       CurrentUser.$get = sandbox.stub().returns($q.resolve());
-      requestRefresh().respond(200);
+      requestRefresh().respond(200, {});
 
       TokenAuthService.tokenRefresh();
       $httpBackend.flush();
@@ -250,7 +250,7 @@ describe('Service: TokenAuthService', function () {
       TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub().withArgs(fakeUser);
       CurrentUser.$get = sandbox.stub().returns($q.resolve(fakeUser));
       localStorageService.get = sandbox.stub().returns(testToken);
-      requestRefresh().respond(200);
+      requestRefresh().respond(200, {});
 
       TokenAuthService.tokenRefresh();
       $httpBackend.flush();

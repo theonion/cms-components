@@ -200,7 +200,7 @@ describe('Interceptor: TokenAuthInterceptor', function () {
       TokenAuthInterceptor.responseError(response);
 
       // ignore provided directly on config
-      response.config = {ignoreAuthModule: true};
+      response.config = {ignoreTokenAuth: true};
       TokenAuthInterceptor.responseError(response);
 
       expect(TokenAuthService.requestBufferPush.calledOnce).to.be.true;
