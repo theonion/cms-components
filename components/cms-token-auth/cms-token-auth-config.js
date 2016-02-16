@@ -131,14 +131,6 @@ angular.module('cmsComponents.auth.config', [
         }
       };
 
-      this.setLogoutCallback = function (func) {
-        if (_.isFunction(func)) {
-          logoutCallback = func;
-        } else {
-          throw new TypeError('TokenAuthConfig.logoutCallback must be a function!');
-        }
-      };
-
       this.setMatchers = function (matcherList) {
         if (_.isArray(matcherList)) {
           // check that all the items are regex

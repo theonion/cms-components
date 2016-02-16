@@ -20,8 +20,9 @@ A login component that interacts with [django-rest-framework-jwt](https://github
 
 1. Wherever logout occurs, be sure to call the `logout` cleanup method:
   ```js
-    TokenAuthServiceProvider.$get().logout();
+    TokenAuthService.logout();
   ```
+  Alternatively, you can route to the logout directive provided as `cms-token-auth-logout`, which will call the logout method.
 
 1. Configure `TokenAuthConfig` itself:
   ```js
@@ -31,6 +32,7 @@ A login component that interacts with [django-rest-framework-jwt](https://github
         function (TokenAuthConfigProvider) {
           TokenAuthConfigProvider.setLogoUrl('myLogo.png');
           TokenAuthConfigProvider.setApiHost('mysite.com');
+          ...
         }
       ]);
   ```
@@ -43,12 +45,12 @@ A login component that interacts with [django-rest-framework-jwt](https://github
   | setApiEndpointAuth | Endpoint for token `auth`. | `'/api/token/auth'` |
   | setApiEndpointReferesh | Endpoint for token `refresh`. | `'/api/token/refresh` |
   | setApiEndpointVerify | Endpoint for token `verify`. | `'/api/token/verify'` |
+  | setApiEndpointCurrentUser | Endpoint for current user data. | `/api/me` |
   | setApiHost | Host where endpoints are located. | `''` |
   | setHandleHttpCodes | Takes an `Array` of HTTP codes to handle with this token auth library. | `[401, 403]` |
   | addAuthFailureHandler | Takes a function to run when authorization fails. | N/A |
   | addAuthSuccessHandler | Takes a function to run when authorization succeeds. Function will recieve the `CurrentUser` object. | N/A |
   | setLogoUrl | Url of logo to use on login page. | `''` |
-  | setLogoutCallback | Callback to execute when logout occurs. | `function () {}` |
   | setMatchers | List of regular expressions to match request URLs. Only matched URLs will be intercepted. | `[/.*/]` |
   | setTokenKey | Local storage key where token is stored. | `'authToken'` |
   | addUnauthHandler | Takes a function to run when manual unauthorization occurrs (logout). | N/A |

@@ -187,8 +187,6 @@
 		"./cms-legend/cms-legend.html": 50,
 		"./cms-legend/cms-legend.js": 51,
 		"./cms-legend/cms-legend.scss": 52,
-		"./cms-logout/logout.html": 59,
-		"./cms-logout/logout.js": 60,
 		"./cms-modal/cms-modal.html": 61,
 		"./cms-modal/cms-modal.js": 62,
 		"./cms-modal/cms-modal.scss": 63,
@@ -1313,45 +1311,8 @@
 /* 56 */,
 /* 57 */,
 /* 58 */,
-/* 59 */
-/***/ function(module, exports) {
-
-	var path = 'components/cms-logout/logout.html';
-	var html = "";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 60 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents.logout', [
-	  'cmsComponents.auth.authService'
-	])
-	  .directive('cmsLogout', [
-	    function () {
-	      return {
-	        restrict: 'E',
-	        templateUrl: 'components/cms-logout/logout.html',
-	        controller: [
-	          '$state', 'TokenAuthService', 'CurrentUser', 'BettyService',
-	          function ($state, TokenAuthService, CurrentUser, BettyService) {
-
-	            TokenAuthService.logout();
-
-	            CurrentUser.setCurrentUser(null);
-	            BettyService.updateBettyConfig();
-	            $state.go('login');
-	          }
-	        ]
-	      }
-	    }
-	  ]);
-
-
-/***/ },
+/* 59 */,
+/* 60 */,
 /* 61 */
 /***/ function(module, exports) {
 
@@ -1817,14 +1778,6 @@
 	          logoUrl = value;
 	        } else {
 	          throw new TypeError('TokenAuthConfig.logoUrl must be a string!');
-	        }
-	      };
-
-	      this.setLogoutCallback = function (func) {
-	        if (_.isFunction(func)) {
-	          logoutCallback = func;
-	        } else {
-	          throw new TypeError('TokenAuthConfig.logoutCallback must be a function!');
 	        }
 	      };
 
