@@ -5,5 +5,6 @@ angular.module('cmsComponents.auth', [
   'cmsComponents.auth.config',
   'cmsComponents.auth.loginForm',
   'cmsComponents.auth.loginRequiredWrapper',
+  'cmsComponents.auth.logout',
   'cmsComponents.auth.user'
 ]);

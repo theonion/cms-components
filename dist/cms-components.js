@@ -216,6 +216,7 @@
 		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 92,
 		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 93,
 		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 95,
+		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 110,
 		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 96,
 		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 97,
 		"./cms-token-auth/cms-token-auth.js": 98,
@@ -2480,6 +2481,7 @@
 	  'cmsComponents.auth.config',
 	  'cmsComponents.auth.loginForm',
 	  'cmsComponents.auth.loginRequiredWrapper',
+	  'cmsComponents.auth.logout',
 	  'cmsComponents.auth.user'
 	]);
 
@@ -2635,6 +2637,31 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 109 */,
+/* 110 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.auth.logout', [
+	  'cmsComponents.auth.service'
+	])
+	  .directive('cmsTokenAuthLogout', [
+	    function () {
+	      return {
+	        restrict: 'E',
+	        controller: [
+	          'TokenAuthService',
+	          function (TokenAuthService) {
+	            TokenAuthService.logout();
+	          }
+	        ]
+	      }
+	    }
+	  ]);
+
 
 /***/ }
 /******/ ]);
