@@ -2028,7 +2028,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
-	var html = "<img\n    class=\"login-logo\"\n    ng-if=\"LOGO_URL\"\n    ng-src=\"{{ LOGO_URL }}\">\n<div class=\"login-form\">\n  <form>\n    <div class=\"login-input username\">\n      <label>Username</label>\n      <input\n          tabindex=\"0\"\n          type=\"text\"\n          class=\"form-control\"\n          ng-model=\"username\"\n          autofocus\n          required>\n      <div\n          class=\"alert alert-danger required-label\"\n          ng-class=\"submitted\">\n        Required\n      </div>\n    </div>\n    <div class=\"login-input password\">\n      <label>Password</label>\n      <input\n          type=\"password\"\n          class=\"form-control\"\n          ng-model=\"password\"\n          required>\n      <div\n          class=\"alert alert-danger required-label\"\n          ng-class=\"submitted\">\n        Required\n      </div>\n    </div>\n    <alertbar></alertbar>\n    <button\n        class=\"btn add-btn btn-success\"\n        type=\"submit\"\n        ng-click=\"submitLogin()\">\n      <span>Sign in</span>\n    </button>\n  </form>\n  <a\n      class=\"contact\"\n      href=\"mailto:webtech@theonion.com\">\n    <i class=\"fa fa-paper-plane\"></i>\n    <div class=\"contact-tech\">Contact Tech</div>\n  </a>\n</div>\n";
+	var html = "<img\n    class=\"login-logo\"\n    ng-if=\"LOGO_URL\"\n    ng-src=\"{{ LOGO_URL }}\">\n\n<form name=\"loginForm\">\n  <div\n      class=\"alert alert-danger\"\n      ng-show=\"loginForm.$submitted && loginForm.$invalid\">\n    <i class=\"fa fa-exclamation-triangle\"></i>\n    <span>Username and password required!</span>\n  </div>\n\n  <div\n      class=\"alert alert-danger\"\n      ng-show=\"loginForm.$submitted && loginForm.$valid && loginErrorFromServer\">\n    <i class=\"fa fa-exclamation-triangle\"></i>\n    <span>{{ loginErrorFromServer }}</span>\n  </div>\n\n  <div\n      class=\"form-group\"\n      ng-class=\"{'has-error': loginForm.$submitted && loginForm.username.$invalid}\">\n    <label class=\"control-label\">Username</label>\n    <input\n        tabindex=\"0\"\n        type=\"text\"\n        class=\"form-control\"\n        name=\"username\"\n        ng-model=\"username\"\n        ng-change=\"clearLoginErrorFromServer()\"\n        autofocus\n        required>\n  </div>\n  <div\n      class=\"form-group\"\n      ng-class=\"{'has-error': loginForm.$submitted && loginForm.password.$invalid}\">\n    <label class=\"control-label\">Password</label>\n    <input\n        type=\"password\"\n        class=\"form-control\"\n        name=\"password\"\n        ng-model=\"password\"\n        ng-change=\"clearLoginErrorFromServer()\"\n        required>\n  </div>\n  <alertbar></alertbar>\n  <button\n      class=\"btn add-btn btn-success\"\n      type=\"submit\"\n      ng-click=\"submitLogin()\">\n    <span>Sign in</span>\n  </button>\n\n  <a\n      class=\"contact\"\n      href=\"mailto:webtech@theonion.com\">\n    <i class=\"fa fa-paper-plane\"></i>\n    <div class=\"contact-tech\">Contact Tech</div>\n  </a>\n</form>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -2049,16 +2049,23 @@
 	          '$scope', 'TokenAuthService', 'TokenAuthConfig',
 	          function ($scope, TokenAuthService, TokenAuthConfig) {
 
-	            $scope.username = '';
-	            $scope.password = '';
-	            $scope.submitted = '';
 	            $scope.LOGO_URL = TokenAuthConfig.getLogoUrl();
 
+	            $scope.username = '';
+	            $scope.password = '';
+
+	            $scope.clearLoginErrorFromServer = function () {
+	              $scope.loginErrorFromServer = null;
+	            };
+
 	            $scope.submitLogin = function () {
-	              $scope.submitted = 'submitted';
+	              $scope.loginErrorFromServer = null;
 
 	              if(!_.isEmpty($scope.username) && !_.isEmpty($scope.password)) {
-	                TokenAuthService.login($scope.username, $scope.password);
+	                TokenAuthService.login($scope.username, $scope.password)
+	                  .catch(function (error) {
+	                    $scope.loginErrorFromServer = error.data.non_field_errors[0];
+	                  });
 	              }
 	            };
 	          }

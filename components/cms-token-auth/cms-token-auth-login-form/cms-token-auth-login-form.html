@@ -2,48 +2,60 @@
     class="login-logo"
     ng-if="LOGO_URL"
     ng-src="{{ LOGO_URL }}">
-<div class="login-form">
-  <form>
-    <div class="login-input username">
-      <label>Username</label>
-      <input
-          tabindex="0"
-          type="text"
-          class="form-control"
-          ng-model="username"
-          autofocus
-          required>
-      <div
-          class="alert alert-danger required-label"
-          ng-class="submitted">
-        Required
-      </div>
-    </div>
-    <div class="login-input password">
-      <label>Password</label>
-      <input
-          type="password"
-          class="form-control"
-          ng-model="password"
-          required>
-      <div
-          class="alert alert-danger required-label"
-          ng-class="submitted">
-        Required
-      </div>
-    </div>
-    <alertbar></alertbar>
-    <button
-        class="btn add-btn btn-success"
-        type="submit"
-        ng-click="submitLogin()">
-      <span>Sign in</span>
-    </button>
-  </form>
+
+<form name="loginForm">
+  <div
+      class="alert alert-danger"
+      ng-show="loginForm.$submitted && loginForm.$invalid">
+    <i class="fa fa-exclamation-triangle"></i>
+    <span>Username and password required!</span>
+  </div>
+
+  <div
+      class="alert alert-danger"
+      ng-show="loginForm.$submitted && loginForm.$valid && loginErrorFromServer">
+    <i class="fa fa-exclamation-triangle"></i>
+    <span>{{ loginErrorFromServer }}</span>
+  </div>
+
+  <div
+      class="form-group"
+      ng-class="{'has-error': loginForm.$submitted && loginForm.username.$invalid}">
+    <label class="control-label">Username</label>
+    <input
+        tabindex="0"
+        type="text"
+        class="form-control"
+        name="username"
+        ng-model="username"
+        ng-change="clearLoginErrorFromServer()"
+        autofocus
+        required>
+  </div>
+  <div
+      class="form-group"
+      ng-class="{'has-error': loginForm.$submitted && loginForm.password.$invalid}">
+    <label class="control-label">Password</label>
+    <input
+        type="password"
+        class="form-control"
+        name="password"
+        ng-model="password"
+        ng-change="clearLoginErrorFromServer()"
+        required>
+  </div>
+  <alertbar></alertbar>
+  <button
+      class="btn add-btn btn-success"
+      type="submit"
+      ng-click="submitLogin()">
+    <span>Sign in</span>
+  </button>
+
   <a
       class="contact"
       href="mailto:webtech@theonion.com">
     <i class="fa fa-paper-plane"></i>
     <div class="contact-tech">Contact Tech</div>
   </a>
-</div>
+</form>
