@@ -591,13 +591,6 @@ cms-layout {
   bottom: 0;
   left: 0; }
   cms-layout .cms-layout-topbar {
-    height: 50px;
-    position: absolute;
-    top: 0;
-    left: 160px;
-    right: 0;
-    background: white;
-    z-index: 2;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-flex;
@@ -608,10 +601,22 @@ cms-layout {
     -webkit-align-items: center;
     -moz-align-items: center;
     align-items: center;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    left: 160px;
+    right: 0;
+    background: white;
+    z-index: 2;
     border-bottom: 1px solid #f6f6f6;
     padding: 5px 0; }
-    cms-layout .cms-layout-topbar > user-menu {
-      margin-left: 1em;
+    cms-layout .cms-layout-topbar > cms-nav-user {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      margin-left: auto;
       margin-right: 1em; }
   cms-layout .cms-layout-sidebar {
     background: #f6f6f6;
