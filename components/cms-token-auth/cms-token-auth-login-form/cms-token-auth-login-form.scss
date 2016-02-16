@@ -1,102 +1,105 @@
 @import 'colors';
 @import 'mixins';
 
-.login-container {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-color: $white;
-  position:fixed;
-  height:100%;
-  left:0;
-  top:0;
-  width:100%;
-  color: $login-gray;
+cms-token-auth-login-form {
+  display: block;
 
-  .login-header {
-    height: 70px;
+  img.login-logo {
+    display: block;
+    margin: auto;
+    max-width: 20%;
+  }
+
+  .login-container {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
     background-color: $white;
-    padding-top: 8px;
-    box-shadow: 1px 0 1px;
-
-    img {
-      @include center-block;
-      max-height: 40px;
-    }
-  }
-}
-
-.login-form {
-  @include center-block;
-  background: $lt-gray;
-  margin-top: 85px;
-  width: 400px;
-  padding: 3rem;
-
-  .welcome-text {
-    color: black;
-    font-size: 20px;
-    margin-bottom: 25px;
-  }
-
-  .required-label {
-    display: none;
-  }
-
-  .login-input {
-    margin: 5px 0 15px 0;
-  }
-
-  button,
-  input {
-    border-radius: 0;
-    width: 100%;
-    margin-top: 4px;
-  }
-
-  input {
-    &.ng-invalid {
-      border-color: $body-gray;
-    }
-
-    &.ng-invalid + .required-label.submitted {
-      display: inline-block;
-      border-radius: 0;
-      font-size: 12px;
-    }
-  }
-
-  button {
-    @include button-color('background-color', save);
-    border: none;
-    height: 40px;
-  }
-
-  .alert-status .alert {
-    border-radius: 0;
-    padding: 5px 0;
-  }
-
-  .contact {
-    @include center-block;
-    width: 115px;
-    padding: 15px 0 0 0;
-    cursor: pointer;
-    text-decoration: none;
     color: $login-gray;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
 
-    .question-mark {
-      @include circle(17px);
-      border: 1px solid $login-gray;
-      display: inline-block;
+    .login-header {
+      background-color: $white;
+      box-shadow: 1px 0 1px;
+      height: 70px;
+      padding-top: 8px;
       text-align: center;
+
+      img {
+        @include center-block;
+
+        max-width: 20%;
+      }
+    }
+  }
+
+  .login-form {
+    @include center-block;
+
+    background: $lt-gray;
+    margin-top: 75px;
+    padding: 3rem;
+    width: 400px;
+
+    .required-label {
+      display: none;
     }
 
-    .contact-tech {
-      line-height: 19px;
-      display: inline-block;
-      margin-left: 7px;
+    .login-input {
+      margin: 5px 0 15px 0;
+    }
+
+    button,
+    input {
+      border-radius: 0;
+      margin-top: 4px;
+      width: 100%;
+    }
+
+    input {
+      &.ng-invalid {
+        border-color: $body-gray;
+      }
+
+      &.ng-invalid + .required-label.submitted {
+        border-radius: 0;
+        display: inline-block;
+        font-size: 12px;
+      }
+    }
+
+    button {
+      @include button-color('background-color', save);
+
+      border: none;
+      height: 40px;
+    }
+
+    .alert-status .alert {
+      border-radius: 0;
+      padding: 5px 0;
+    }
+
+    .contact {
+      @include center-block;
+
+      color: $login-gray;
+      cursor: pointer;
+      padding: 15px 0 0 0;
+      text-decoration: none;
+      width: 115px;
+
+      .contact-tech {
+        display: inline-block;
+        line-height: 19px;
+        margin-left: 7px;
+      }
     }
   }
 }

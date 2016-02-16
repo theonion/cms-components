@@ -187,9 +187,6 @@
 		"./cms-legend/cms-legend.html": 50,
 		"./cms-legend/cms-legend.js": 51,
 		"./cms-legend/cms-legend.scss": 52,
-		"./cms-login/login.html": 55,
-		"./cms-login/login.js": 56,
-		"./cms-login/login.scss": 57,
 		"./cms-logout/logout.html": 59,
 		"./cms-logout/logout.js": 60,
 		"./cms-modal/cms-modal.html": 61,
@@ -1311,61 +1308,9 @@
 /***/ },
 /* 53 */,
 /* 54 */,
-/* 55 */
-/***/ function(module, exports) {
-
-	var path = 'components/cms-login/login.html';
-	var html = "<div class=\"login-container\">\n  <div class=\"login-form\">\n    <p class=\"text-center welcome-text\">Welcome</p>\n    <form>\n      <div class=\"login-input username\">\n        <label>Username</label>\n        <input type=\"text\" class=\"form-control\" ng-model=\"username\" required>\n        <div class=\"alert alert-danger required-label\" ng-class=\"submitted\">Required</div>\n      </div>\n      <div class=\"login-input password\">\n        <label>Password</label>\n        <input type=\"password\" class=\"form-control\" ng-model=\"password\" required>\n        <div class=\"alert alert-danger required-label\" ng-class=\"submitted\">Required</div>\n      </div>\n      <alertbar></alertbar>\n      <button class=\"btn add-btn btn-success\" type=\"submit\" ng-click=\"submitLogin()\">\n        <span>Sign in</span>\n      </button>\n    </form>\n    <a class=\"contact\" href=\"mailto:webtech@theonion.com\">\n      <div class=\"question-mark\">?</div>\n      <div class=\"contact-tech\">Contact Tech</div>\n    </a>\n  </div>\n</div>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 56 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	.directive('cmsLogin', function () {
-	  return {
-	    restrict: 'E',
-	    templateUrl: 'components/cms-login/login.html',
-	    controller: ['$scope', '$location', 'authService', 'CurrentUser', 'BettyService',
-	    function ($scope, $location, authService, CurrentUser, BettyService) {
-
-	      $scope.init = function () {
-	        $scope.username = '';
-	        $scope.password = '';
-	        $scope.submitted = '';
-	      };
-
-	      $scope.submitLogin = function () {
-	        $scope.submitted = 'submitted';
-	        if (!_.isEmpty($scope.username) && !_.isEmpty($scope.password)) {
-	          authService.login($scope.username, $scope.password)
-	            .then($scope.userLoggedIn);
-	        }
-	      };
-
-	      $scope.userLoggedIn = function () {
-	        CurrentUser.setCurrentUser($scope.username);
-	        BettyService.updateBettyConfig();
-	        $location.path('/');
-	      };
-
-	      $scope.init();
-	    }]
-	  }
-	});
-
-
-/***/ },
-/* 57 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
+/* 55 */,
+/* 56 */,
+/* 57 */,
 /* 58 */,
 /* 59 */
 /***/ function(module, exports) {
@@ -2083,7 +2028,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
-	var html = "<div>\n  <div class=\"login-header\">\n    <img ng-src=\"{{ LOGO_URL }}\">\n  </div>\n  <div class=\"login-form\">\n    <p class=\"text-center welcome-text\">Welcome</p>\n    <form>\n      <div class=\"login-input username\">\n        <label>Username</label>\n        <input\n            tabindex=\"0\"\n            type=\"text\"\n            class=\"form-control\"\n            ng-model=\"username\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <div class=\"login-input password\">\n        <label>Password</label>\n        <input\n            type=\"password\"\n            class=\"form-control\"\n            ng-model=\"password\"\n            required>\n        <div\n            class=\"alert alert-danger required-label\"\n            ng-class=\"submitted\">\n          Required\n        </div>\n      </div>\n      <alertbar></alertbar>\n      <button\n          class=\"btn add-btn btn-success\"\n          type=\"submit\"\n          ng-click=\"submitLogin()\">\n        <span>Sign in</span>\n      </button>\n    </form>\n    <a\n        class=\"contact\"\n        href=\"mailto:webtech@theonion.com\">\n      <div class=\"question-mark\">?</div>\n      <div class=\"contact-tech\">Contact Tech</div>\n    </a>\n  </div>\n</div>\n";
+	var html = "<img\n    class=\"login-logo\"\n    ng-if=\"LOGO_URL\"\n    ng-src=\"{{ LOGO_URL }}\">\n<div class=\"login-form\">\n  <form>\n    <div class=\"login-input username\">\n      <label>Username</label>\n      <input\n          tabindex=\"0\"\n          type=\"text\"\n          class=\"form-control\"\n          ng-model=\"username\"\n          autofocus\n          required>\n      <div\n          class=\"alert alert-danger required-label\"\n          ng-class=\"submitted\">\n        Required\n      </div>\n    </div>\n    <div class=\"login-input password\">\n      <label>Password</label>\n      <input\n          type=\"password\"\n          class=\"form-control\"\n          ng-model=\"password\"\n          required>\n      <div\n          class=\"alert alert-danger required-label\"\n          ng-class=\"submitted\">\n        Required\n      </div>\n    </div>\n    <alertbar></alertbar>\n    <button\n        class=\"btn add-btn btn-success\"\n        type=\"submit\"\n        ng-click=\"submitLogin()\">\n      <span>Sign in</span>\n    </button>\n  </form>\n  <a\n      class=\"contact\"\n      href=\"mailto:webtech@theonion.com\">\n    <i class=\"fa fa-paper-plane\"></i>\n    <div class=\"contact-tech\">Contact Tech</div>\n  </a>\n</div>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -2097,7 +2042,7 @@
 	  'cmsComponents.auth.service',
 	  'cmsComponents.templates'
 	])
-	  .directive('tokenAuthLoginForm', [
+	  .directive('cmsTokenAuthLoginForm', [
 	    function () {
 	      return {
 	        controller: [

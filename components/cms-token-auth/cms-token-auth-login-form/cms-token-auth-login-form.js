@@ -4,7 +4,7 @@ angular.module('cmsComponents.auth.loginForm', [
   'cmsComponents.auth.service',
   'cmsComponents.templates'
 ])
-  .directive('tokenAuthLoginForm', [
+  .directive('cmsTokenAuthLoginForm', [
     function () {
       return {
         controller: [
