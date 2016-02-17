@@ -1,5 +1,18 @@
 # cms-components Change Log
 
+<!-- markdown-toc -->
+
+- [0.4.0](#040)
+  * [New](#new)
+  * [Updated](#updated)
+  * [Breaking](#breaking)
+    + [Token Auth](#token-auth)
+    + [Other Components](#other-components)
+    + [Styling](#styling)
+
+<!-- markdown-toc-stop -->
+**Note**: update table of contents with `./scripts/update-changelog-toc`.
+
 ## 0.4.0
 **PR [#6](https://github.com/theonion/cms-components/pull/6)**
 
