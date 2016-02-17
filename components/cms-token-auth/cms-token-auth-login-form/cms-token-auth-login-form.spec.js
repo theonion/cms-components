@@ -1,23 +1,26 @@
 'use strict';
 
 describe('Directive: TokenAuthLoginForm', function () {
-  require('../cms-token-auth');
+  require('../cms-token-auth-service/cms-token-auth-service');
   require('./cms-token-auth-login-form');
 
+  var $q;
   var $scope;
   var TokenAuthConfig;
   var TokenAuthService;
 
   beforeEach(function () {
-    angular.mock.module('cmsComponents.auth');
+    angular.mock.module('cmsComponents.auth.loginForm');
+    angular.mock.module('cmsComponents.auth.service');
 
-    inject(function (_TokenAuthConfig_, _TokenAuthService_, $compile, $rootScope) {
+    inject(function (_$q_, _TokenAuthConfig_, _TokenAuthService_, $compile, $rootScope) {
 
+      $q = _$q_;
       TokenAuthConfig = _TokenAuthConfig_;
       TokenAuthService = _TokenAuthService_;
 
       var $directiveScope = $rootScope.$new();
-      var element = $compile('<token-auth-login-form></token-auth-login-form>')($directiveScope);
+      var element = $compile('<cms-token-auth-login-form></cms-token-auth-login-form>')($directiveScope);
       $directiveScope.$digest();
       $scope = element.isolateScope();
     });
@@ -26,7 +29,6 @@ describe('Directive: TokenAuthLoginForm', function () {
   it('should set some scope variables', function () {
     expect($scope.username).to.equal('');
     expect($scope.password).to.equal('');
-    expect($scope.submitted).to.equal('');
     expect($scope.LOGO_URL).to.equal(TokenAuthConfig.getLogoUrl());
   });
 
@@ -34,7 +36,7 @@ describe('Directive: TokenAuthLoginForm', function () {
     $scope.username = 'abc';
     $scope.password = '123';
 
-    TokenAuthService.login = sinon.stub();
+    TokenAuthService.login = sinon.stub().returns($q.resolve());
 
     $scope.submitLogin();
 

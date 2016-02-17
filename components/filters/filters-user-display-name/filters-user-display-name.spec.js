@@ -1,31 +1,33 @@
 'use strict';
 
 describe('Filter: userDisplay', function () {
+  require('./filters-user-display-name');
 
-  // load the filter's module
-  beforeEach(module('filters.userDisplay'));
+  var userDisplay;
 
-  // initialize a new instance of the filter before each test
-  var user;
-  beforeEach(inject(function ($filter) {
-    user = $filter('userDisplay');
-  }));
+  beforeEach(function () {
+    angular.mock.module('cmsComponents.filters.userDisplay');
+
+    inject(function ($filter) {
+      userDisplay = $filter('userDisplay');
+    });
+  });
 
   it('should return empty string when there is no user', function () {
-    expect(user(null)).toBe('');
+    expect(userDisplay(null)).to.equal('');
   });
 
   it('should return first and last name when present', function () {
-    expect(user({
+    expect(userDisplay({
       first_name: 'First',
       last_name: 'Last'
-    })).toBe('First Last');
+    })).to.equal('First Last');
   });
 
   it('should return username when no first and last name', function () {
-    expect(user({
+    expect(userDisplay({
       username: 'username'
-    })).toBe('username');
+    })).to.equal('username');
   });
 
 });

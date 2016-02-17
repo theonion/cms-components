@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: TokenAuthService', function () {
-  require('../cms-token-auth');
   require('../cms-token-auth-config');
   require('../cms-token-auth-user/cms-token-auth-user');
   require('./cms-token-auth-service');
@@ -33,7 +32,7 @@ describe('Service: TokenAuthService', function () {
   };
 
   beforeEach(function () {
-    angular.mock.module('cmsComponents.auth');
+    angular.mock.module('cmsComponents.auth.service');
 
     inject(function (_$http_, _$httpBackend_, _$location_, _$q_, _$rootScope_,
         _localStorageService_, _TokenAuthConfig_, _TokenAuthService_, _CurrentUser_) {
