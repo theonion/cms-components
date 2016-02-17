@@ -43,6 +43,32 @@ describe('Directive: TokenAuthLoginForm', function () {
     expect(TokenAuthService.login.withArgs($scope.username, $scope.password).calledOnce).to.be.true;
   });
 
+  it('should keep server error messages on scope', function () {
+    var errorMsg = 'some error from the server';
+
+    $scope.username = 'hello';
+    $scope.password = '123';
+    TokenAuthService.login = sinon.stub().returns($q.reject({
+      data: {
+        non_field_errors: [errorMsg]
+      }
+    }));
+
+    $scope.submitLogin();
+    $scope.$digest();
+
+    expect($scope.loginErrorFromServer).to.equal(errorMsg);
+  });
+
+  it('should have a function to clear login errors recieved from server', function () {
+
+    $scope.loginErrorFromServer = 'some error message';
+
+    $scope.clearLoginErrorFromServer();
+
+    expect($scope.loginErrorFromServer).to.equal(null);
+  });
+
   it('should not login when username or password is blank', function () {
     TokenAuthService.login = sinon.stub();
 
