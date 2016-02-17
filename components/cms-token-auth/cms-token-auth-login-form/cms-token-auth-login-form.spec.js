@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: TokenAuthLoginForm', function () {
+describe('Directive: CmsTokenAuthLoginForm', function () {
   require('../cms-token-auth-service/cms-token-auth-service');
   require('./cms-token-auth-login-form');
 
