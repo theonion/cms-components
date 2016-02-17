@@ -1,9 +1,9 @@
 # cms-components Change Log
 
 ## 0.4.0
-PR [https://github.com/theonion/cms-components/pull/6](#6)
+PR [#6](https://github.com/theonion/cms-components/pull/6)
 
-Moves [https://github.com/theonion/token-auth-frontend](theonion/token-auth-frontend) into this library and cleans up related components.
+Moves [theonion/token-auth-frontend](https://github.com/theonion/token-auth-frontend) into this library and cleans up related components.
 
 ### New
 
