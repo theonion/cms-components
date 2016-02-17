@@ -7,11 +7,14 @@ cms-layout {
   right: 0;
   bottom: 0;
   left: 0;
-  
+
   $topbar-height: 50px;
   $sidebar-width: 160px;
 
   .cms-layout-topbar {
+    @include flexbox;
+    @include align-items(center);
+
     height: $topbar-height;
     position: absolute;
     top: 0;
@@ -19,13 +22,13 @@ cms-layout {
     right: 0;
     background: white;
     z-index: 2;
-    @include flexbox;
-    @include align-items(center);
     border-bottom: 1px solid $lt-gray;
     padding: 5px 0;
 
-    & > user-menu {
-      margin-left: 1em;
+    & > cms-nav-user {
+      @include flexbox;
+
+      margin-left: auto;
       margin-right: 1em;
     }
   }
