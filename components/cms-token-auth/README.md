@@ -18,6 +18,8 @@ A login component that interacts with [django-rest-framework-jwt](https://github
   ```
   Which will cause the first required authentication request to fire.
 
+1. Provide a route to the login directive provided as `cms-token-auth-login-form`, which will bring users to the login page.
+
 1. Wherever logout occurs, be sure to call the `logout` cleanup method:
   ```js
     TokenAuthService.logout();
@@ -32,6 +34,15 @@ A login component that interacts with [django-rest-framework-jwt](https://github
         function (TokenAuthConfigProvider) {
           TokenAuthConfigProvider.setLogoUrl('myLogo.png');
           TokenAuthConfigProvider.setApiHost('mysite.com');
+          TokenAuthConfigProvider.addAuthFailureHandler(function () {
+            // TODO : route to your login path here
+          });
+          TokenAuthConfigProvider.addAuthSuccessHandler(function () {
+            // TODO : route to your landing path here
+          });
+          TokenAuthConfigProvider.addUnauthHandler(function () {
+            // TODO : route to your login path here
+          });
           ...
         }
       ]);
