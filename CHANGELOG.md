@@ -2,16 +2,34 @@
 
 <!-- markdown-toc -->
 
+- [0.4.1](#041)
+  * [Added](#added)
+  * [Updated](#updated)
 - [0.4.0](#040)
   * [New](#new)
-  * [Updated](#updated)
+  * [Updated](#updated-1)
   * [Breaking](#breaking)
     + [Token Auth](#token-auth)
     + [Other Components](#other-components)
     + [Styling](#styling)
 
 <!-- markdown-toc-stop -->
-**Note**: update table of contents with `./scripts/update-changelog-toc`.
+
+<sub>**Note**: update table of contents with `./scripts/update-changelog-toc`.</sub>
+
+## 0.4.1
+**PR [#7](https://github.com/theonion/cms-components/pull/7)**
+
+Hotfixes to accommodate `bulbs-cms-2`'s new dep on this project in [bulbs-cms-2#16](https://github.com/theonion/bulbs-cms-2/pull/16).
+
+### Added
+
+1. Chainable configurations for `TokenAuthConfig`.
+
+### Updated
+
+1. User is now retrieved directly from response instead of unpacked from an array. Reflects tunic changes made @ https://github.com/theonion/tunic/pull/29.
+1. Using `addLoginHandler`/`addLogoutHandler` after a successful login/logout, will cause that handler to fire immediately.
 
 ## 0.4.0
 **PR [#6](https://github.com/theonion/cms-components/pull/6)**
