@@ -921,29 +921,3 @@ sidebar-nav-item.active > a, sidebar-nav-item.active > a:hover {
 sidebar-nav-item a:hover {
   text-decoration: none;
   color: #469bff; }
-user-menu, user-menu * {
-  opacity: 1 !important; }
-
-user-menu .user-menu-toggle {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  align-items: center;
-  border: none;
-  background: transparent;
-  outline: 0; }
-
-user-menu .user-menu-icon {
-  margin-left: 0.25em;
-  color: #C7C7C7;
-  font-size: 1.8em; }
-
-user-menu .user-menu-dropdown-menu {
-  right: 0;
-  left: initial; }

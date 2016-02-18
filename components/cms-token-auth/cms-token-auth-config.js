@@ -42,6 +42,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.afterLoginPath must be a string!');
         }
+        return this;
       };
 
       this.setApiEndpointAuth = function (value) {
@@ -50,6 +51,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.apiEndpointAuth must be a string!');
         }
+        return this;
       };
 
       this.setApiEndpointRefresh = function (value) {
@@ -58,6 +60,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.apiEndpointRefresh must be a string!');
         }
+        return this;
       };
 
       this.setApiEndpointVerify = function (value) {
@@ -66,6 +69,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.apiEndpointVerify must be a string!');
         }
+        return this;
       };
 
       this.setApiEndpointCurrentUser = function (value) {
@@ -74,6 +78,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.apiEndpointCurrentUser must be a string!');
         }
+        return this;
       };
 
       this.setApiHost = function (value) {
@@ -82,6 +87,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.apiHost must be a string!');
         }
+        return this;
       };
 
       this.setHandleHttpCodes = function (httpCodesList) {
@@ -97,6 +103,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.handleHttpCodes must be an array!');
         }
+        return this;
       };
 
       this.addAuthFailureHandler = function (func) {
@@ -105,6 +112,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.addAuthFailureHandlers can only contain functions!');
         }
+        return this;
       };
 
       this.addAuthSuccessHandler = function (func) {
@@ -113,6 +121,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.authSuccessHandlers can only contain functions!');
         }
+        return this;
       };
 
       this.setLoginPagePath = function (value) {
@@ -121,6 +130,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.loginPagePath must be a string!');
         }
+        return this;
       };
 
       this.setLogoUrl = function (value) {
@@ -129,6 +139,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.logoUrl must be a string!');
         }
+        return this;
       };
 
       this.setMatchers = function (matcherList) {
@@ -144,6 +155,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.matchers must be an array!');
         }
+        return this;
       };
 
       this.setTokenKey = function (value) {
@@ -152,6 +164,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.tokenKey must be a string!');
         }
+        return this;
       };
 
       this.addUnauthHandler = function (func) {
@@ -160,6 +173,7 @@ angular.module('cmsComponents.auth.config', [
         } else {
           throw new TypeError('TokenAuthConfig.unauthHandlers can only contain functions!');
         }
+        return this;
       };
 
       this.$get = function () {

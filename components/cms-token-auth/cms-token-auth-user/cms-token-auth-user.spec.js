@@ -4,6 +4,7 @@ describe('Service: CurrentUser', function () {
   require('./cms-token-auth-user');
 
   var $httpBackend;
+  var $rootScope;
   var CurrentUser;
   var fakeUrl = '/some/me/endpoint';
   var fakeUser = {
@@ -15,17 +16,16 @@ describe('Service: CurrentUser', function () {
 
   var prepRequest = function (status, userData) {
     return $httpBackend.expectGET(fakeUrl)
-      .respond(status, {
-        results: [userData]
-      });
+      .respond(status, userData);
   };
 
   beforeEach(function () {
     angular.mock.module('cmsComponents.auth.user');
 
-    inject(function (_$httpBackend_, _CurrentUser_, TokenAuthConfig) {
+    inject(function (_$httpBackend_, _$rootScope_, _CurrentUser_, TokenAuthConfig) {
 
       $httpBackend = _$httpBackend_;
+      $rootScope = _$rootScope_;
       CurrentUser = _CurrentUser_;
 
       TokenAuthConfig.getApiEndpointCurrentUser = sinon.stub().returns(fakeUrl);
@@ -124,14 +124,47 @@ describe('Service: CurrentUser', function () {
       expect(handler.callCount).to.equal(0);
     });
 
+    it('should call handler immediately if successful login already occurred', function () {
+      var handler = sinon.stub();
+
+      prepRequest(200);
+
+      CurrentUser.$get();
+      $httpBackend.flush();
+      CurrentUser.addLoginHandler(handler);
+      $rootScope.$digest();
+
+      expect(handler.calledOnce).to.be.true;
+    });
+
     it('should provide a way to remove a logout handler', function () {
       var handler = sinon.stub();
 
       CurrentUser.addLogoutHandler(handler);
       CurrentUser.removeLogoutHandler(handler);
       CurrentUser.logout();
+      $rootScope.$digest();
 
       expect(handler.callCount).to.equal(0);
+    });
+
+    it('should call handler immediately if successful logout already occurred', function () {
+      var handler = sinon.stub();
+
+      CurrentUser.logout();
+      CurrentUser.addLogoutHandler(handler);
+      $rootScope.$digest();
+
+      expect(handler.calledOnce).to.be.true;
+    });
+
+    it('should not immediately call logout handlers', function () {
+      var handler = sinon.stub();
+
+      CurrentUser.addLogoutHandler(handler);
+      $rootScope.$digest();
+
+      expect(handler.calledOnce).to.be.false;
     });
   });
 });

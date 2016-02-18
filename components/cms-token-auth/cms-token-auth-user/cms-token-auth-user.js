@@ -16,15 +16,16 @@ angular.module('cmsComponents.auth.user', [
       };
 
       var lastRequest = null;
+      var lastLogout = null;
 
       return {
         $get: function () {
           if (!lastRequest) {
             lastRequest = $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
               .then(function (response) {
-// HACK TODO : server should return one user object, not a list of one user
-                data.user = response.data.results[0];
+                data.user = response.data;
 
+                lastLogout = null;
                 handlers.login.forEach(function (handler) {
                   handler(data.user);
                 });
@@ -41,9 +42,17 @@ angular.module('cmsComponents.auth.user', [
         },
         addLoginHandler: function (func) {
           handlers.login.push(func);
+
+          if (lastRequest) {
+            lastRequest.then(func);
+          }
         },
         addLogoutHandler: function (func) {
           handlers.logout.push(func);
+
+          if (lastLogout) {
+            lastLogout.then(func);
+          }
         },
         removeLoginHandler: function (func) {
           var index = handlers.login.indexOf(func);
@@ -58,13 +67,18 @@ angular.module('cmsComponents.auth.user', [
           }
         },
         logout: function () {
-          lastRequest = null;
+          if (!lastLogout) {
+            lastLogout = $q.resolve();
 
-          data.user = null;
+            data.user = null;
 
-          handlers.logout.forEach(function (handler) {
-            handler();
-          });
+            lastRequest = null;
+            handlers.logout.forEach(function (handler) {
+              handler();
+            });
+          }
+
+          return lastLogout;
         }
       };
     }
