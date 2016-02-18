@@ -187,46 +187,43 @@
 		"./cms-legend/cms-legend.html": 50,
 		"./cms-legend/cms-legend.js": 51,
 		"./cms-legend/cms-legend.scss": 52,
-		"./cms-modal/cms-modal.html": 61,
-		"./cms-modal/cms-modal.js": 62,
-		"./cms-modal/cms-modal.scss": 63,
-		"./cms-nav-user/cms-nav-user.html": 65,
-		"./cms-nav-user/cms-nav-user.js": 66,
-		"./cms-nav-user/cms-nav-user.scss": 67,
-		"./cms-partial/cms-partial.html": 69,
-		"./cms-partial/cms-partial.js": 70,
-		"./cms-partial/cms-partial.scss": 71,
-		"./cms-row/cms-row.html": 73,
-		"./cms-row/cms-row.js": 74,
-		"./cms-row/cms-row.scss": 75,
-		"./cms-table-cell/cms-table-cell.html": 77,
-		"./cms-table-cell/cms-table-cell.js": 78,
-		"./cms-table-cell/cms-table-cell.scss": 79,
-		"./cms-table-column/cms-table-column.html": 81,
-		"./cms-table-column/cms-table-column.js": 82,
-		"./cms-table-column/cms-table-column.scss": 83,
-		"./cms-table/cms-table.html": 85,
-		"./cms-table/cms-table.js": 86,
-		"./cms-table/cms-table.scss": 87,
-		"./cms-token-auth/cms-token-auth-config.js": 89,
-		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 90,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 91,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 92,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 93,
-		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 95,
-		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 110,
-		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 96,
-		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 97,
-		"./cms-token-auth/cms-token-auth.js": 98,
-		"./convert-to-number/convert-to-number.js": 99,
-		"./filters/filters-user-display-name/filters-user-display-name.js": 100,
-		"./sidebar-nav-item/sidebar-nav-item.html": 101,
-		"./sidebar-nav-item/sidebar-nav-item.js": 102,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 103,
-		"./ui-sref-active-if/ui-sref-active-if.js": 105,
-		"./user-menu/user-menu.html": 106,
-		"./user-menu/user-menu.js": 107,
-		"./user-menu/user-menu.scss": 108
+		"./cms-modal/cms-modal.html": 55,
+		"./cms-modal/cms-modal.js": 56,
+		"./cms-modal/cms-modal.scss": 57,
+		"./cms-nav-user/cms-nav-user.html": 59,
+		"./cms-nav-user/cms-nav-user.js": 60,
+		"./cms-nav-user/cms-nav-user.scss": 61,
+		"./cms-partial/cms-partial.html": 63,
+		"./cms-partial/cms-partial.js": 64,
+		"./cms-partial/cms-partial.scss": 65,
+		"./cms-row/cms-row.html": 67,
+		"./cms-row/cms-row.js": 68,
+		"./cms-row/cms-row.scss": 69,
+		"./cms-table-cell/cms-table-cell.html": 71,
+		"./cms-table-cell/cms-table-cell.js": 72,
+		"./cms-table-cell/cms-table-cell.scss": 73,
+		"./cms-table-column/cms-table-column.html": 75,
+		"./cms-table-column/cms-table-column.js": 76,
+		"./cms-table-column/cms-table-column.scss": 77,
+		"./cms-table/cms-table.html": 79,
+		"./cms-table/cms-table.js": 80,
+		"./cms-table/cms-table.scss": 81,
+		"./cms-token-auth/cms-token-auth-config.js": 83,
+		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 84,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 85,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 86,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 87,
+		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 89,
+		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 90,
+		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 91,
+		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 92,
+		"./cms-token-auth/cms-token-auth.js": 93,
+		"./convert-to-number/convert-to-number.js": 94,
+		"./filters/filters-user-display-name/filters-user-display-name.js": 95,
+		"./sidebar-nav-item/sidebar-nav-item.html": 96,
+		"./sidebar-nav-item/sidebar-nav-item.js": 97,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 98,
+		"./ui-sref-active-if/ui-sref-active-if.js": 100
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1307,13 +1304,7 @@
 /***/ },
 /* 53 */,
 /* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */
+/* 55 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-modal/cms-modal.html';
@@ -1322,7 +1313,7 @@
 	module.exports = path;
 
 /***/ },
-/* 62 */
+/* 56 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1388,14 +1379,14 @@
 
 
 /***/ },
-/* 63 */
+/* 57 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 64 */,
-/* 65 */
+/* 58 */,
+/* 59 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-nav-user/cms-nav-user.html';
@@ -1404,7 +1395,7 @@
 	module.exports = path;
 
 /***/ },
-/* 66 */
+/* 60 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1443,14 +1434,14 @@
 
 
 /***/ },
-/* 67 */
+/* 61 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 68 */,
-/* 69 */
+/* 62 */,
+/* 63 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-partial/cms-partial.html';
@@ -1459,7 +1450,7 @@
 	module.exports = path;
 
 /***/ },
-/* 70 */
+/* 64 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1485,14 +1476,14 @@
 
 
 /***/ },
-/* 71 */
+/* 65 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 72 */,
-/* 73 */
+/* 66 */,
+/* 67 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-row/cms-row.html';
@@ -1501,7 +1492,7 @@
 	module.exports = path;
 
 /***/ },
-/* 74 */
+/* 68 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1518,14 +1509,14 @@
 
 
 /***/ },
-/* 75 */
+/* 69 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 76 */,
-/* 77 */
+/* 70 */,
+/* 71 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-cell/cms-table-cell.html';
@@ -1534,7 +1525,7 @@
 	module.exports = path;
 
 /***/ },
-/* 78 */
+/* 72 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1563,14 +1554,14 @@
 
 
 /***/ },
-/* 79 */
+/* 73 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 80 */,
-/* 81 */
+/* 74 */,
+/* 75 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-column/cms-table-column.html';
@@ -1579,7 +1570,7 @@
 	module.exports = path;
 
 /***/ },
-/* 82 */
+/* 76 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1595,14 +1586,14 @@
 
 
 /***/ },
-/* 83 */
+/* 77 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 84 */,
-/* 85 */
+/* 78 */,
+/* 79 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table/cms-table.html';
@@ -1611,7 +1602,7 @@
 	module.exports = path;
 
 /***/ },
-/* 86 */
+/* 80 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1638,14 +1629,14 @@
 
 
 /***/ },
-/* 87 */
+/* 81 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 88 */,
-/* 89 */
+/* 82 */,
+/* 83 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1692,6 +1683,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.afterLoginPath must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.setApiEndpointAuth = function (value) {
@@ -1700,6 +1692,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.apiEndpointAuth must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.setApiEndpointRefresh = function (value) {
@@ -1708,6 +1701,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.apiEndpointRefresh must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.setApiEndpointVerify = function (value) {
@@ -1716,6 +1710,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.apiEndpointVerify must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.setApiEndpointCurrentUser = function (value) {
@@ -1724,6 +1719,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.apiEndpointCurrentUser must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.setApiHost = function (value) {
@@ -1732,6 +1728,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.apiHost must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.setHandleHttpCodes = function (httpCodesList) {
@@ -1747,6 +1744,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.handleHttpCodes must be an array!');
 	        }
+	        return this;
 	      };
 
 	      this.addAuthFailureHandler = function (func) {
@@ -1755,6 +1753,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.addAuthFailureHandlers can only contain functions!');
 	        }
+	        return this;
 	      };
 
 	      this.addAuthSuccessHandler = function (func) {
@@ -1763,6 +1762,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.authSuccessHandlers can only contain functions!');
 	        }
+	        return this;
 	      };
 
 	      this.setLoginPagePath = function (value) {
@@ -1771,6 +1771,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.loginPagePath must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.setLogoUrl = function (value) {
@@ -1779,6 +1780,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.logoUrl must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.setMatchers = function (matcherList) {
@@ -1794,6 +1796,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.matchers must be an array!');
 	        }
+	        return this;
 	      };
 
 	      this.setTokenKey = function (value) {
@@ -1802,6 +1805,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.tokenKey must be a string!');
 	        }
+	        return this;
 	      };
 
 	      this.addUnauthHandler = function (func) {
@@ -1810,6 +1814,7 @@
 	        } else {
 	          throw new TypeError('TokenAuthConfig.unauthHandlers can only contain functions!');
 	        }
+	        return this;
 	      };
 
 	      this.$get = function () {
@@ -1891,7 +1896,7 @@
 
 
 /***/ },
-/* 90 */
+/* 84 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1978,7 +1983,7 @@
 
 
 /***/ },
-/* 91 */
+/* 85 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
@@ -1987,7 +1992,7 @@
 	module.exports = path;
 
 /***/ },
-/* 92 */
+/* 86 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2033,14 +2038,14 @@
 
 
 /***/ },
-/* 93 */
+/* 87 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 94 */,
-/* 95 */
+/* 88 */,
+/* 89 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2082,7 +2087,31 @@
 
 
 /***/ },
-/* 96 */
+/* 90 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.auth.logout', [
+	  'cmsComponents.auth.service'
+	])
+	  .directive('cmsTokenAuthLogout', [
+	    function () {
+	      return {
+	        restrict: 'E',
+	        controller: [
+	          'TokenAuthService',
+	          function (TokenAuthService) {
+	            TokenAuthService.logout();
+	          }
+	        ]
+	      }
+	    }
+	  ]);
+
+
+/***/ },
+/* 91 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2356,7 +2385,7 @@
 
 
 /***/ },
-/* 97 */
+/* 92 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2376,28 +2405,44 @@
 	        logout: []
 	      };
 
+	      var lastRequest = null;
+	      var lastLogout = null;
+
 	      return {
 	        $get: function () {
-	          if (data.user === null) {
-	            return $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
+	          if (!lastRequest) {
+	            lastRequest = $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
 	              .then(function (response) {
-	                data.user = response.data.results[0];
+	                data.user = response.data;
 
+	                lastLogout = null;
 	                handlers.login.forEach(function (handler) {
 	                  handler(data.user);
 	                });
 
 	                return data.user;
+	              })
+	              .catch(function (error) {
+	                lastRequest = null;
+	                return $q.reject(error);
 	              });
 	          }
 
-	          return $q.resolve(data.user);
+	          return lastRequest;
 	        },
 	        addLoginHandler: function (func) {
 	          handlers.login.push(func);
+
+	          if (lastRequest) {
+	            lastRequest.then(func);
+	          }
 	        },
 	        addLogoutHandler: function (func) {
 	          handlers.logout.push(func);
+
+	          if (lastLogout) {
+	            lastLogout.then(func);
+	          }
 	        },
 	        removeLoginHandler: function (func) {
 	          var index = handlers.login.indexOf(func);
@@ -2412,11 +2457,18 @@
 	          }
 	        },
 	        logout: function () {
-	          data.user = null;
+	          if (!lastLogout) {
+	            lastLogout = $q.resolve();
 
-	          handlers.logout.forEach(function (handler) {
-	            handler();
-	          });
+	            data.user = null;
+
+	            lastRequest = null;
+	            handlers.logout.forEach(function (handler) {
+	              handler();
+	            });
+	          }
+
+	          return lastLogout;
 	        }
 	      };
 	    }
@@ -2424,7 +2476,7 @@
 
 
 /***/ },
-/* 98 */
+/* 93 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2440,7 +2492,7 @@
 
 
 /***/ },
-/* 99 */
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2462,7 +2514,7 @@
 
 
 /***/ },
-/* 100 */
+/* 95 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2490,7 +2542,7 @@
 
 
 /***/ },
-/* 101 */
+/* 96 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -2499,7 +2551,7 @@
 	module.exports = path;
 
 /***/ },
-/* 102 */
+/* 97 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2518,14 +2570,14 @@
 
 
 /***/ },
-/* 103 */
+/* 98 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 104 */,
-/* 105 */
+/* 99 */,
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2550,70 +2602,6 @@
 	        }]
 	    };
 	}])
-
-
-/***/ },
-/* 106 */
-/***/ function(module, exports) {
-
-	var path = 'components/user-menu/user-menu.html';
-	var html = "<div class=\"dropdown\">\n  <button ng-if=\"currentUser\" type=\"button\" class=\"user-menu-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\n    <user-profile></user-profile>\n    <i class=\"user-menu-icon fa fa-ellipsis-v fa-2x\"></i>\n  </button>\n  <ul class=\"dropdown-menu user-menu-dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\n    <li><a ui-sref=\"logout\">Log Out</a></li>\n  </ul>\n</div>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 107 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('userMenu', function () {
-	    return {
-	      templateUrl: 'components/user-menu/user-menu.html',
-	      restrict: 'E',
-	      controller: function ($scope, CurrentUser) {
-	        var setCurrentUser = function () {
-	          $scope.currentUser = CurrentUser.getCurrentUser();
-	        };
-
-	        $scope.$on('userchange', setCurrentUser);
-
-	        setCurrentUser();
-	      }
-	    }
-	  });
-
-
-/***/ },
-/* 108 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 109 */,
-/* 110 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents.auth.logout', [
-	  'cmsComponents.auth.service'
-	])
-	  .directive('cmsTokenAuthLogout', [
-	    function () {
-	      return {
-	        restrict: 'E',
-	        controller: [
-	          'TokenAuthService',
-	          function (TokenAuthService) {
-	            TokenAuthService.logout();
-	          }
-	        ]
-	      }
-	    }
-	  ]);
 
 
 /***/ }
