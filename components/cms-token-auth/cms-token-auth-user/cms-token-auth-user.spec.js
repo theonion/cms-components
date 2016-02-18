@@ -15,9 +15,7 @@ describe('Service: CurrentUser', function () {
 
   var prepRequest = function (status, userData) {
     return $httpBackend.expectGET(fakeUrl)
-      .respond(status, {
-        results: [userData]
-      });
+      .respond(status, userData);
   };
 
   beforeEach(function () {

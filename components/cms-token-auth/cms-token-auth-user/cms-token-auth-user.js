@@ -22,8 +22,7 @@ angular.module('cmsComponents.auth.user', [
           if (!lastRequest) {
             lastRequest = $http.get(TokenAuthConfig.getApiEndpointCurrentUser())
               .then(function (response) {
-// HACK TODO : server should return one user object, not a list of one user
-                data.user = response.data.results[0];
+                data.user = response.data;
 
                 handlers.login.forEach(function (handler) {
                   handler(data.user);
