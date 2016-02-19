@@ -24,8 +24,6 @@ angular.module('cmsComponents.auth.config', [
       var authSuccessHandlers = [];
       // HTTP codes this module should handle
       var handleHttpCodes = [401, 403];
-      // path to login page
-      var loginPagePath = '';
       // url for logo to display on login page
       var logoUrl = '';
       // list of regular expressions to match request urls, only matched urls will
@@ -124,15 +122,6 @@ angular.module('cmsComponents.auth.config', [
         return this;
       };
 
-      this.setLoginPagePath = function (value) {
-        if (_.isString(value)) {
-          loginPagePath = value;
-        } else {
-          throw new TypeError('TokenAuthConfig.loginPagePath must be a string!');
-        }
-        return this;
-      };
-
       this.setLogoUrl = function (value) {
         if (_.isString(value)) {
           logoUrl = value;
@@ -183,7 +172,6 @@ angular.module('cmsComponents.auth.config', [
           getApiEndpointRefresh: _.constant(apiHost + apiEndpointRefresh),
           getApiEndpointCurrentUser: _.constant(apiHost + apiEndpointCurrentUser),
           getApiEndpointVerify: _.constant(apiHost + apiEndpointVerify),
-          getLoginPagePath: _.constant(loginPagePath),
           getLogoUrl: _.constant(logoUrl),
           getTokenKey: _.constant(tokenKey),
           callAuthFailureHandlers: function (args) {
