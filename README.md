@@ -6,7 +6,7 @@ A repository to park onionstudios cms components for a while until we figure out
 Install cms-components.
 
 ```json
-"cms-components": "https://0469c955e10241b40fffe0225e29a3c238aadf69@github.com/theonion/cms-components.git#<version>",
+"cms-components": "https://github.com/theonion/cms-components.git#<version>",
 ```
 
 ### Install ui-router
