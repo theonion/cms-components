@@ -151,18 +151,8 @@ describe('Service: TokenAuthService', function () {
         expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
       });
 
-      it('should retry request buffer independent of current user request', function () {
-        TokenAuthService.requestBufferRetry = sandbox.stub();
-
-        CurrentUser.$get = sandbox.stub().returns($q.reject({status: 404}));
-        TokenAuthService.tokenVerify();
-        $httpBackend.flush();
-
-        expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
-      });
-
-      it('should call auth success handlers with user', function () {
-        TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub().withArgs(fakeUser);
+      it('should call auth success handlers', function () {
+        TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub();
 
         TokenAuthService.tokenVerify();
         $httpBackend.flush();
@@ -253,23 +243,9 @@ describe('Service: TokenAuthService', function () {
       expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
     });
 
-    it('should retry request buffer even if user request not finished on success', function () {
-      TokenAuthService.requestBufferRetry = sandbox.stub();
-      localStorageService.get = sandbox.stub().returns(testToken);
-      CurrentUser.$get = sandbox.stub().returns($q.reject({status: 404}));
-      requestRefresh().respond(200, {});
-
-      TokenAuthService.tokenRefresh();
-      $httpBackend.flush();
-
-      expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
-    });
-
-    it('should call auth success handlers with user on success', function () {
-      var fakeUser = {};
-
-      TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub().withArgs(fakeUser);
-      CurrentUser.$get = sandbox.stub().returns($q.resolve(fakeUser));
+    it('should call auth success handlers on success', function () {
+      TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub();
+      CurrentUser.$get = sandbox.stub().returns($q.resolve());
       localStorageService.get = sandbox.stub().returns(testToken);
       requestRefresh().respond(200, {});
 

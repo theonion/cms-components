@@ -6,8 +6,8 @@ angular.module('cmsComponents.auth.service', [
   'LocalStorageModule'
 ])
   .service('TokenAuthService', [
-    '$q', '$http', 'localStorageService', 'CurrentUser', 'TokenAuthConfig',
-    function ($q, $http, localStorageService, CurrentUser, TokenAuthConfig) {
+    '$q', '$http', 'CurrentUser', 'localStorageService', 'TokenAuthConfig',
+    function ($q, $http, CurrentUser, localStorageService, TokenAuthConfig) {
 
       var TokenAuthService = this;
       var requestInProgress = false;
@@ -16,9 +16,8 @@ angular.module('cmsComponents.auth.service', [
 
       var clearAuth = function () {
         TokenAuthService.requestBufferClear();
-        CurrentUser.logout();
-
         TokenAuthConfig.callAuthFailureHandlers();
+        CurrentUser.logout();
       };
 
       TokenAuthService._requestBuffer = [];
@@ -73,10 +72,8 @@ angular.module('cmsComponents.auth.service', [
           .then(function () {
             verifiedAtLeastOnce = true;
             TokenAuthService.requestBufferRetry();
-            return CurrentUser.$get()
-              .then(function (user) {
-                TokenAuthConfig.callAuthSuccessHandlers(user);
-              });
+            TokenAuthConfig.callAuthSuccessHandlers();
+            CurrentUser.$get();
           })
           .catch(function (response) {
             var promise;
@@ -142,10 +139,8 @@ angular.module('cmsComponents.auth.service', [
             localStorageService.set(TokenAuthConfig.getTokenKey(), tokenResponse.data.token);
             verifiedAtLeastOnce = true;
             TokenAuthService.requestBufferRetry();
-            return CurrentUser.$get()
-              .then(function (user) {
-                TokenAuthConfig.callAuthSuccessHandlers(user);
-              });
+            TokenAuthConfig.callAuthSuccessHandlers();
+            CurrentUser.$get();
           })
           .catch(function (error) {
             clearAuth();
@@ -160,8 +155,6 @@ angular.module('cmsComponents.auth.service', [
       /**
        * Login endpoint. Should only be used where a user is providing a username
        *  and password to login.
-       *
-       * Makes an additional request to get current user info.
        *
        * Calls TokenAuthConfig.callAuthSuccessHandlers on success, and
        *  TokenAuthConfig.callAuthFailureHandlers on failure.
@@ -194,10 +187,8 @@ angular.module('cmsComponents.auth.service', [
           .then(function (tokenResponse) {
             localStorageService.set(TokenAuthConfig.getTokenKey(), tokenResponse.data.token);
             verifiedAtLeastOnce = true;
-            return CurrentUser.$get()
-              .then(function (user) {
-                TokenAuthConfig.callAuthSuccessHandlers(user);
-              });
+            TokenAuthConfig.callAuthSuccessHandlers();
+            CurrentUser.$get();
           })
           .catch(function (error) {
             CurrentUser.logout();

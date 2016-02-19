@@ -2,16 +2,18 @@
 
 <!-- markdown-toc -->
 
+- [0.5.0](#050)
+  * [Breaking](#breaking)
 - [0.4.2](#042)
   * [Fixed](#fixed)
-  * [Breaking](#breaking)
+  * [Breaking](#breaking-1)
 - [0.4.1](#041)
   * [Added](#added)
   * [Updated](#updated)
 - [0.4.0](#040)
   * [New](#new)
   * [Updated](#updated-1)
-  * [Breaking](#breaking-1)
+  * [Breaking](#breaking-2)
     + [Token Auth](#token-auth)
     + [Other Components](#other-components)
     + [Styling](#styling)
@@ -19,6 +21,14 @@
 <!-- markdown-toc-stop -->
 
 <sub>**Note**: update table of contents with `./scripts/update-changelog-toc`.</sub>
+
+## 0.5.0
+
+Hotfix for the way `TokenAuthService` calls `CurrentUser.$get`. Should actually fix locking issue.
+
+### Breaking
+
+1. Auth success handlers will no longer receive user object.
 
 ## 0.4.2
 **PR [#8](https://github.com/theonion/cms-components/pull/8)**

@@ -61,7 +61,7 @@ A login component that interacts with [django-rest-framework-jwt](https://github
   | `setApiHost` | Host where endpoints are located. | `''` |
   | `setHandleHttpCodes` | Takes an `Array` of HTTP codes to handle with this token auth library. | `[401, 403]` |
   | `addAuthFailureHandler` | Takes a function to run when authorization fails. | N/A |
-  | `addAuthSuccessHandler` | Takes a function to run when authorization succeeds. Function will recieve the `CurrentUser` object. | N/A |
+  | `addAuthSuccessHandler` | Takes a function to run when authorization succeeds. | N/A |
   | `setLogoUrl` | Url of logo to use on login page. | `''` |
   | `setMatchers` | List of regular expressions to match request URLs. Only matched URLs will be intercepted. | `[/.*/]` |
   | `setTokenKey` | Local storage key where token is stored. | `'authToken'` |
