@@ -2,13 +2,16 @@
 
 <!-- markdown-toc -->
 
+- [0.4.2](#042)
+  * [Fixed](#fixed)
+  * [Breaking](#breaking)
 - [0.4.1](#041)
   * [Added](#added)
   * [Updated](#updated)
 - [0.4.0](#040)
   * [New](#new)
   * [Updated](#updated-1)
-  * [Breaking](#breaking)
+  * [Breaking](#breaking-1)
     + [Token Auth](#token-auth)
     + [Other Components](#other-components)
     + [Styling](#styling)
@@ -16,6 +19,19 @@
 <!-- markdown-toc-stop -->
 
 <sub>**Note**: update table of contents with `./scripts/update-changelog-toc`.</sub>
+
+## 0.4.2
+**PR [#8](https://github.com/theonion/cms-components/pull/8)**
+
+More hotfixes for `bulbs-cms-2`.
+
+### Fixed
+
+1. Avoid condition where a `CurrentUser.$get` request before a `TokenAuthService.tokenVerify` would lock up the token auth logic.
+
+### Breaking
+
+1. Removed unused `loginPagePath` variable and associated methods from `TokenAuthConfig`.
 
 ## 0.4.1
 **PR [#7](https://github.com/theonion/cms-components/pull/7)**
