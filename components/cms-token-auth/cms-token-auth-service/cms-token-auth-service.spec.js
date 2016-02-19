@@ -151,6 +151,16 @@ describe('Service: TokenAuthService', function () {
         expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
       });
 
+      it('should retry request buffer independent of current user request', function () {
+        TokenAuthService.requestBufferRetry = sandbox.stub();
+
+        CurrentUser.$get = sandbox.stub().returns($q.reject({status: 404}));
+        TokenAuthService.tokenVerify();
+        $httpBackend.flush();
+
+        expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
+      });
+
       it('should call auth success handlers with user', function () {
         TokenAuthConfig.callAuthSuccessHandlers = sandbox.stub().withArgs(fakeUser);
 
@@ -235,6 +245,18 @@ describe('Service: TokenAuthService', function () {
       TokenAuthService.requestBufferRetry = sandbox.stub();
       localStorageService.get = sandbox.stub().returns(testToken);
       CurrentUser.$get = sandbox.stub().returns($q.resolve());
+      requestRefresh().respond(200, {});
+
+      TokenAuthService.tokenRefresh();
+      $httpBackend.flush();
+
+      expect(TokenAuthService.requestBufferRetry.calledOnce).to.be.true;
+    });
+
+    it('should retry request buffer even if user request not finished on success', function () {
+      TokenAuthService.requestBufferRetry = sandbox.stub();
+      localStorageService.get = sandbox.stub().returns(testToken);
+      CurrentUser.$get = sandbox.stub().returns($q.reject({status: 404}));
       requestRefresh().respond(200, {});
 
       TokenAuthService.tokenRefresh();
