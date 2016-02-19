@@ -1665,8 +1665,6 @@
 	      var authSuccessHandlers = [];
 	      // HTTP codes this module should handle
 	      var handleHttpCodes = [401, 403];
-	      // path to login page
-	      var loginPagePath = '';
 	      // url for logo to display on login page
 	      var logoUrl = '';
 	      // list of regular expressions to match request urls, only matched urls will
@@ -1765,15 +1763,6 @@
 	        return this;
 	      };
 
-	      this.setLoginPagePath = function (value) {
-	        if (_.isString(value)) {
-	          loginPagePath = value;
-	        } else {
-	          throw new TypeError('TokenAuthConfig.loginPagePath must be a string!');
-	        }
-	        return this;
-	      };
-
 	      this.setLogoUrl = function (value) {
 	        if (_.isString(value)) {
 	          logoUrl = value;
@@ -1824,7 +1813,6 @@
 	          getApiEndpointRefresh: _.constant(apiHost + apiEndpointRefresh),
 	          getApiEndpointCurrentUser: _.constant(apiHost + apiEndpointCurrentUser),
 	          getApiEndpointVerify: _.constant(apiHost + apiEndpointVerify),
-	          getLoginPagePath: _.constant(loginPagePath),
 	          getLogoUrl: _.constant(logoUrl),
 	          getTokenKey: _.constant(tokenKey),
 	          callAuthFailureHandlers: function (args) {
@@ -2188,9 +2176,9 @@
 	        )
 	          .then(function () {
 	            verifiedAtLeastOnce = true;
+	            TokenAuthService.requestBufferRetry();
 	            return CurrentUser.$get()
 	              .then(function (user) {
-	                TokenAuthService.requestBufferRetry();
 	                TokenAuthConfig.callAuthSuccessHandlers(user);
 	              });
 	          })
@@ -2257,9 +2245,9 @@
 	          .then(function (tokenResponse) {
 	            localStorageService.set(TokenAuthConfig.getTokenKey(), tokenResponse.data.token);
 	            verifiedAtLeastOnce = true;
+	            TokenAuthService.requestBufferRetry();
 	            return CurrentUser.$get()
 	              .then(function (user) {
-	                TokenAuthService.requestBufferRetry();
 	                TokenAuthConfig.callAuthSuccessHandlers(user);
 	              });
 	          })

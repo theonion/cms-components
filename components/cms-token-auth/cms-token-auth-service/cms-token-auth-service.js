@@ -72,9 +72,9 @@ angular.module('cmsComponents.auth.service', [
         )
           .then(function () {
             verifiedAtLeastOnce = true;
+            TokenAuthService.requestBufferRetry();
             return CurrentUser.$get()
               .then(function (user) {
-                TokenAuthService.requestBufferRetry();
                 TokenAuthConfig.callAuthSuccessHandlers(user);
               });
           })
@@ -141,9 +141,9 @@ angular.module('cmsComponents.auth.service', [
           .then(function (tokenResponse) {
             localStorageService.set(TokenAuthConfig.getTokenKey(), tokenResponse.data.token);
             verifiedAtLeastOnce = true;
+            TokenAuthService.requestBufferRetry();
             return CurrentUser.$get()
               .then(function (user) {
-                TokenAuthService.requestBufferRetry();
                 TokenAuthConfig.callAuthSuccessHandlers(user);
               });
           })
