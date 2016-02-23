@@ -71,12 +71,14 @@
 	    renderToRoot: function toRoot(options) {
 	      options.views = {
 	        'cmsLayoutViewport@': {
+	          template: options.template,
 	          templateUrl: options.templateUrl,
 	          controller: options.controller,
 	          templateProvider: options.templateProvider
 	        }
 	      };
 
+	      delete options.template;
 	      delete options.templateUrl;
 	      delete options.controller;
 	      delete options.templateProvider;
@@ -943,7 +945,7 @@
 	            ($scope.glyphClass || 'fa') + ' ' +
 	            ($scope.glyphPrefix || 'fa') + '-' +
 	            ($scope.glyph || 'question-circle') + ' ' +
-	            ($scope.glyphSize);
+	            ($scope.glyphSize || '');
 	        $scope.iconIsBefore = $scope.glyphPos !== 'after';
 	      }
 	    }

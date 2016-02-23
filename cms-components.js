@@ -14,12 +14,14 @@ cmsComponents.provider('$render', function () {
     renderToRoot: function toRoot(options) {
       options.views = {
         'cmsLayoutViewport@': {
+          template: options.template,
           templateUrl: options.templateUrl,
           controller: options.controller,
           templateProvider: options.templateProvider
         }
       };
 
+      delete options.template;
       delete options.templateUrl;
       delete options.controller;
       delete options.templateProvider;
