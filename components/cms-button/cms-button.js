@@ -21,7 +21,7 @@ angular.module('cmsComponents')
             ($scope.glyphClass || 'fa') + ' ' +
             ($scope.glyphPrefix || 'fa') + '-' +
             ($scope.glyph || 'question-circle') + ' ' +
-            ($scope.glyphSize);
+            ($scope.glyphSize || '');
         $scope.iconIsBefore = $scope.glyphPos !== 'after';
       }
     }
