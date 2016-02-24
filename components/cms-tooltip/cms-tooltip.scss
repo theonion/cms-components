@@ -1,0 +1,46 @@
+@import 'colors';
+@import 'mixins';
+
+[cms-tooltip-opener]:hover + cms-tooltip {
+  opacity: 1;
+}
+
+cms-tooltip {
+  @include ease(opacity, 0.3s);
+
+  opacity: 0;
+  margin-left: 5px;
+  pointer-events: none;
+  position: absolute;
+  width: auto;
+  z-index: 1000;
+
+  &:before {
+    border-style: solid;
+    border-width: 5px 10px 5px 5px;
+    border-color: transparent palette(error, base) transparent transparent;
+    bottom: 4px;
+    content: " ";
+    height: 0;
+    left: -15px;
+    position: absolute;
+    top: 8px;
+    width: 0;
+  }
+
+  > .cms-tooltip-text {
+
+    border-radius: 2.5px;
+    display: block;
+    height: auto;
+    padding: 0.2em 0.5em;
+  }
+
+  &.invalid {
+
+    .cms-tooltip-text {
+      background-color: palette(error, base);
+      color: palette(white, base);
+    }
+  }
+}
