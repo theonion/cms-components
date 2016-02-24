@@ -58,7 +58,8 @@
 	'use strict';
 
 	var cmsComponents = angular.module('cmsComponents', [
-	  'cmsComponents.auth'
+	  'cmsComponents.auth',
+	  'cmsComponents.input'
 	]);
 
 	cmsComponents.provider('$render', function () {
@@ -220,6 +221,8 @@
 		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 91,
 		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 92,
 		"./cms-token-auth/cms-token-auth.js": 93,
+		"./cms-tooltip/cms-tooltip.js": 101,
+		"./cms-tooltip/cms-tooltip.scss": 102,
 		"./convert-to-number/convert-to-number.js": 94,
 		"./filters/filters-user-display-name/filters-user-display-name.js": 95,
 		"./sidebar-nav-item/sidebar-nav-item.html": 96,
@@ -1207,7 +1210,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-input/cms-input.html';
-	var html = "<label>\n  <span class=\"cms-input-title\">\n    {{title}}\n  </span>\n  <span class=\"cms-input-control\">\n    <ng-transclude></ng-transclude>\n  </span>\n</label>\n";
+	var html = "<label>\n  <span class=\"cms-input-label\">\n    <span class=\"cms-input-label-item cms-input-title\">{{ title }}</span>\n    <span\n        class=\"cms-input-label-item cms-input-error\"\n        ng-repeat=\"(message, doShow) in inputErrors()\"\n        ng-if=\"doShow\">\n      <i\n          class=\"fa fa-exclamation-triangle\"\n          cms-tooltip-opener>\n      </i>\n      <cms-tooltip\n          class=\"invalid\"\n          cms-tooltip-text=\"{{ message }}\">\n      </cms-tooltip>\n    </span>\n  </span>\n  <ng-transclude class=\"cms-input-control\"></ng-transclude>\n</label>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -1217,19 +1220,22 @@
 
 	'use strict';
 
-	angular.module('cmsComponents')
-	  .directive('cmsInput', function () {
-	    return {
-	      templateUrl: 'components/cms-input/cms-input.html',
-	      restrict: 'E',
-	      scope: {
-	        title: '@'
-	      },
-	      transclude: true,
-	      controller: ['$scope', '$controller', function ($scope, $controller) {
-	      }]
+	angular.module('cmsComponents.input', [
+	  'cmsComponents.tooltip'
+	])
+	  .directive('cmsInput', [
+	    function () {
+	      return {
+	        templateUrl: 'components/cms-input/cms-input.html',
+	        restrict: 'E',
+	        scope: {
+	          title: '@',
+	          inputErrors: '&'
+	        },
+	        transclude: true
+	      }
 	    }
-	  });
+	  ]);
 
 
 /***/ },
@@ -2585,6 +2591,41 @@
 	    };
 	}])
 
+
+/***/ },
+/* 101 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.tooltip', [])
+	  .directive('cmsTooltip', function () {
+	    return {
+	      template: '<span class="cms-tooltip-text">{{ text }}</span>',
+	      restrict: 'E',
+	      scope: {
+	        text: '@cmsTooltipText'
+	      },
+	      link: function (scope, elements) {
+	        elements.siblings('[cms-tooltip-opener]').hover(function (e) {
+	          var $target = angular.element(e.target);
+
+	          var left = $target[0].offsetLeft + $target.width() + 10;
+	          var top = $target[0].offsetTop - $target.height() / 2;
+
+	          elements.css('left', left);
+	          elements.css('top', top);
+	        });
+	      }
+	    }
+	  });
+
+
+/***/ },
+/* 102 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

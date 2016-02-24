@@ -1,21 +1,33 @@
 @import 'sass-toolkit/utils/flexbox';
+
 @import 'colors';
-@import 'typography';
 @import 'mixins';
+@import 'typography';
 
 cms-input {
   display: block;
-  margin-bottom:2em;
+  margin-bottom: 2em;
 
   & > label {
     @include flexbox;
     @include flex-direction(column);
-    
+
+    .cms-input-label {
+      @include flexbox;
+      @include flex-direction(row);
+
+      margin-bottom: 0.2em;
+    }
+
+    .cms-input-label-item {
+      margin-right: 0.5em;
+    }
+
     .cms-input-title {
       @include text-bold;
+
       text-transform: uppercase;
       font-weight: normal;
-      margin-bottom:.2em;
     }
 
     .input-group-addon {
@@ -23,20 +35,38 @@ cms-input {
     }
 
     .input-group-btn .btn {
-      padding: 12px; 
+      padding: 12px;
     }
 
     .cms-input-control {
       display: inline-block;
+
       & > input[type], textarea {
         width: 100%;
       }
 
       & > input[type=checkbox] {
-        width: 1.5em;
         border: none;
         box-shadow: none;
         margin-right: 1em;
+        width: 1.5em;
+      }
+    }
+  }
+
+  &.invalid {
+
+    .cms-input-title {
+      color: palette(error, base);
+    }
+
+    .cms-input-error {
+      color: palette(error, base);
+    }
+
+    .cms-input-control {
+      input {
+        border-color: palette(error, base);
       }
     }
   }
@@ -53,6 +83,7 @@ cms-input {
       @include flexbox;
     }
   }
+
   &[type=select] > label > span > input {
     display: none;
   }
