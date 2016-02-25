@@ -11,6 +11,7 @@ $glyph-margin: 0.4em;
   font-size: 14px;
   outline:0;
   padding: 0.6em 1.5em;
+  width: 100%;
 
   & > * {
     @include align-self(center);

@@ -199,7 +199,6 @@
 		"./cms-partial/cms-partial.html": 63,
 		"./cms-partial/cms-partial.js": 64,
 		"./cms-partial/cms-partial.scss": 65,
-		"./cms-row/cms-row.html": 67,
 		"./cms-row/cms-row.js": 68,
 		"./cms-row/cms-row.scss": 69,
 		"./cms-table-cell/cms-table-cell.html": 71,
@@ -1492,15 +1491,7 @@
 
 /***/ },
 /* 66 */,
-/* 67 */
-/***/ function(module, exports) {
-
-	var path = 'components/cms-row/cms-row.html';
-	var html = "<span>Calling from cms-row</span>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
+/* 67 */,
 /* 68 */
 /***/ function(module, exports) {
 
@@ -1509,7 +1500,6 @@
 	angular.module('cmsComponents')
 	  .directive('cmsRow', function () {
 	    return {
-	      //templateUrl: 'components/cms-row/cms-row.html',
 	      template: '<ng-transclude></ng-transclude>',
 	      restrict: 'E',
 	      transclude: true

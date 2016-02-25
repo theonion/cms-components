@@ -177,6 +177,7 @@ cms-button {
     font-size: 14px;
     outline: 0;
     padding: 0.6em 1.5em;
+    width: 100%;
     background-color: #21cc9c; }
     cms-button > button.success-action > * {
       -webkit-align-self: center;
@@ -202,6 +203,7 @@ cms-button {
     font-size: 14px;
     outline: 0;
     padding: 0.6em 1.5em;
+    width: 100%;
     background-color: #4b9dfc;
     font-weight: normal; }
     cms-button > button.friendly-action > * {
@@ -228,6 +230,7 @@ cms-button {
     font-size: 14px;
     outline: 0;
     padding: 0.6em 1.5em;
+    width: 100%;
     border-color: #959fad;
     color: #959fad;
     background-color: white;
@@ -262,6 +265,7 @@ cms-button {
     font-size: 14px;
     outline: 0;
     padding: 0.6em 1.5em;
+    width: 100%;
     background-color: #2e6f9c;
     color: white;
     font-weight: bold;
@@ -290,6 +294,7 @@ cms-button {
     font-size: 14px;
     outline: 0;
     padding: 0.6em 1.5em;
+    width: 100%;
     background-color: #f6f6f6;
     background-color: transparent; }
     cms-button > button.blended-action > * {
@@ -316,6 +321,7 @@ cms-button {
     font-size: 14px;
     outline: 0;
     padding: 0.6em 1.5em;
+    width: 100%;
     background-color: #f67e60;
     color: #b21313; }
     cms-button > button.destructive-action > * {
@@ -342,6 +348,7 @@ cms-button {
     font-size: 14px;
     outline: 0;
     padding: 0.6em 1.5em;
+    width: 100%;
     background-color: white;
     padding: .6em 1em;
     font-size: 12px;
@@ -482,8 +489,7 @@ cms-flyout-panel {
       margin-right: auto;
       top: -1em; }
 cms-input {
-  display: block;
-  margin-bottom: 2em; }
+  display: block; }
   cms-input > label {
     display: -webkit-box;
     display: -webkit-flex;
@@ -754,9 +760,46 @@ cms-row > ng-transclude {
   -ms-flex-align: start;
   -webkit-align-items: flex-start;
   -moz-align-items: flex-start;
-  align-items: flex-start; }
+  align-items: flex-start;
+  margin-bottom: 25px; }
   cms-row > ng-transclude > :not(:last-child) {
     margin-right: 1em; }
+
+cms-row .cms-row-col-1 {
+  flex-grow: 1; }
+
+cms-row .cms-row-col-2 {
+  flex-grow: 2; }
+
+cms-row .cms-row-col-3 {
+  flex-grow: 3; }
+
+cms-row .cms-row-col-4 {
+  flex-grow: 4; }
+
+cms-row .cms-row-col-5 {
+  flex-grow: 5; }
+
+cms-row .cms-row-col-6 {
+  flex-grow: 6; }
+
+cms-row .cms-row-col-7 {
+  flex-grow: 7; }
+
+cms-row .cms-row-col-8 {
+  flex-grow: 8; }
+
+cms-row .cms-row-col-9 {
+  flex-grow: 9; }
+
+cms-row .cms-row-col-10 {
+  flex-grow: 10; }
+
+cms-row .cms-row-col-11 {
+  flex-grow: 11; }
+
+cms-row .cms-row-col-12 {
+  flex-grow: 12; }
 cms-table {
   width: 100%;
   display: block; }
