@@ -221,14 +221,14 @@
 		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 91,
 		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 92,
 		"./cms-token-auth/cms-token-auth.js": 93,
-		"./cms-tooltip/cms-tooltip.js": 101,
-		"./cms-tooltip/cms-tooltip.scss": 102,
-		"./convert-to-number/convert-to-number.js": 94,
-		"./filters/filters-user-display-name/filters-user-display-name.js": 95,
-		"./sidebar-nav-item/sidebar-nav-item.html": 96,
-		"./sidebar-nav-item/sidebar-nav-item.js": 97,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 98,
-		"./ui-sref-active-if/ui-sref-active-if.js": 100
+		"./cms-tooltip/cms-tooltip.js": 94,
+		"./cms-tooltip/cms-tooltip.scss": 95,
+		"./convert-to-number/convert-to-number.js": 97,
+		"./filters/filters-user-display-name/filters-user-display-name.js": 98,
+		"./sidebar-nav-item/sidebar-nav-item.html": 99,
+		"./sidebar-nav-item/sidebar-nav-item.js": 100,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 101,
+		"./ui-sref-active-if/ui-sref-active-if.js": 103
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -2485,6 +2485,42 @@
 
 	'use strict';
 
+	angular.module('cmsComponents.tooltip', [])
+	  .directive('cmsTooltip', function () {
+	    return {
+	      template: '<span class="cms-tooltip-text">{{ text }}</span>',
+	      restrict: 'E',
+	      scope: {
+	        text: '@cmsTooltipText'
+	      },
+	      link: function (scope, elements) {
+	        elements.siblings('[cms-tooltip-opener]').hover(function (e) {
+	          var $target = angular.element(e.target);
+
+	          var left = $target[0].offsetLeft + $target.width() + 10;
+	          var top = $target[0].offsetTop - $target.height() / 2;
+
+	          elements.css('left', left);
+	          elements.css('top', top);
+	        });
+	      }
+	    }
+	  });
+
+
+/***/ },
+/* 95 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 96 */,
+/* 97 */
+/***/ function(module, exports) {
+
+	'use strict';
+
 	angular.module('cmsComponents')
 	  .directive('convertToNumber', function () {
 	    return {
@@ -2502,7 +2538,7 @@
 
 
 /***/ },
-/* 95 */
+/* 98 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2530,7 +2566,7 @@
 
 
 /***/ },
-/* 96 */
+/* 99 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -2539,7 +2575,7 @@
 	module.exports = path;
 
 /***/ },
-/* 97 */
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2558,14 +2594,14 @@
 
 
 /***/ },
-/* 98 */
+/* 101 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 99 */,
-/* 100 */
+/* 102 */,
+/* 103 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2591,41 +2627,6 @@
 	    };
 	}])
 
-
-/***/ },
-/* 101 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents.tooltip', [])
-	  .directive('cmsTooltip', function () {
-	    return {
-	      template: '<span class="cms-tooltip-text">{{ text }}</span>',
-	      restrict: 'E',
-	      scope: {
-	        text: '@cmsTooltipText'
-	      },
-	      link: function (scope, elements) {
-	        elements.siblings('[cms-tooltip-opener]').hover(function (e) {
-	          var $target = angular.element(e.target);
-
-	          var left = $target[0].offsetLeft + $target.width() + 10;
-	          var top = $target[0].offsetTop - $target.height() / 2;
-
-	          elements.css('left', left);
-	          elements.css('top', top);
-	        });
-	      }
-	    }
-	  });
-
-
-/***/ },
-/* 102 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

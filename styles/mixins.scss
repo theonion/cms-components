@@ -1,6 +1,34 @@
 @import 'sass-toolkit/utils/flexbox';
 @import 'colors';
 
+
+@mixin input-with-icon-container {
+  /* Use to make an input field that looks like it has icons inside of it. */
+
+  display: table;
+  font-weight: normal;
+  width: 100%;
+
+  > .icon {
+    display: table-cell;
+    padding-right: 10px;
+    text-align: center;
+    width: 1em;
+
+    > button {
+      background: none;
+      border: none;
+    }
+  }
+
+  input {
+    border: none;
+    display: table-cell;
+    outline: 0;
+    width: 100%;
+  }
+}
+
 @mixin ease($property: all, $time: 200ms) {
   -webkit-transition: $property $time cubic-bezier(0.250, 0.250, 0.840, 0.325);
   -moz-transition: $property $time cubic-bezier(0.250, 0.250, 0.840, 0.325);

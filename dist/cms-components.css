@@ -532,7 +532,7 @@ cms-input {
     color: #ff0000; }
   cms-input.invalid .cms-input-error {
     color: #ff0000; }
-  cms-input.invalid .cms-input-control input {
+  cms-input.invalid .cms-input-control .form-control {
     border-color: #ff0000; }
   cms-input span.invalid {
     background: white;

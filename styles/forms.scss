@@ -2,10 +2,11 @@
 
 .form-control {
   @include button-color ('border-color', accent-grey-light);
+
   border-radius: 5px;
   font-weight: normal;
-  height:auto;
-  padding:12px;
+  height: auto;
+  padding: 12px;
 }
 
 select.form-control {
