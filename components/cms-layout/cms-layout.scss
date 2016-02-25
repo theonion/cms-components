@@ -98,15 +98,4 @@ cms-layout {
     @include flexbox;
     @include flex-direction(column);
   }
-
-  ng-form {
-    cms-row {
-      & > ng-transclude > * {
-        @include justify-content(space-between);
-        @include flex-grow(1);
-        width: 0px;
-        outline:0;
-      }
-    }
-  }
 }

@@ -4,7 +4,7 @@
     <span
         class="cms-input-label-item cms-input-error"
         ng-repeat="(message, doShow) in inputErrors()"
-        ng-if="doShow">
+        ng-if="doShowErrors() && doShow">
       <i
           class="fa fa-exclamation-triangle"
           cms-tooltip-opener>

@@ -1210,7 +1210,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-input/cms-input.html';
-	var html = "<label>\n  <span class=\"cms-input-label\">\n    <span class=\"cms-input-label-item cms-input-title\">{{ title }}</span>\n    <span\n        class=\"cms-input-label-item cms-input-error\"\n        ng-repeat=\"(message, doShow) in inputErrors()\"\n        ng-if=\"doShow\">\n      <i\n          class=\"fa fa-exclamation-triangle\"\n          cms-tooltip-opener>\n      </i>\n      <cms-tooltip\n          class=\"invalid\"\n          cms-tooltip-text=\"{{ message }}\">\n      </cms-tooltip>\n    </span>\n  </span>\n  <ng-transclude class=\"cms-input-control\"></ng-transclude>\n</label>\n";
+	var html = "<label>\n  <span class=\"cms-input-label\">\n    <span class=\"cms-input-label-item cms-input-title\">{{ title }}</span>\n    <span\n        class=\"cms-input-label-item cms-input-error\"\n        ng-repeat=\"(message, doShow) in inputErrors()\"\n        ng-if=\"doShowErrors() && doShow\">\n      <i\n          class=\"fa fa-exclamation-triangle\"\n          cms-tooltip-opener>\n      </i>\n      <cms-tooltip\n          class=\"invalid\"\n          cms-tooltip-text=\"{{ message }}\">\n      </cms-tooltip>\n    </span>\n  </span>\n  <ng-transclude class=\"cms-input-control\"></ng-transclude>\n</label>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -1229,10 +1229,19 @@
 	        templateUrl: 'components/cms-input/cms-input.html',
 	        restrict: 'E',
 	        scope: {
-	          title: '@',
-	          inputErrors: '&'
+	          title: '@',                         // title for input label
+	          inputErrorsShowOnlyWhen: '&',       // only show errors when this is true, any errors will always show
+	          inputErrors: '&'                    // object of errors where key is the error message and value is a boolean to use to determine if error shows or not
 	        },
-	        transclude: true
+	        transclude: true,
+	        link: function ($scope) {
+	          $scope.doShowErrors = function () {
+	            var doShowAttr = $scope.inputErrorsShowOnlyWhen();
+	            // specifically checking false, so falsy values like undefined don't
+	            //  trigger errors not showing up
+	            return doShowAttr === false ? false : true;
+	          };
+	        }
 	      }
 	    }
 	  ]);
