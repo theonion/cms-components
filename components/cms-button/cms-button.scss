@@ -27,59 +27,61 @@ $glyph-margin: 0.4em;
 cms-button {
   display: inline-block;
 
-  > button.success-action {
-    @include button-core;
-    @include button-color ('background-color', save)
-  }
-
-  > button.friendly-action {
-    @include button-core;
-    @include button-color ('background-color', create-new);
-    font-weight: normal;
-  }
-
-  > button.muted-action {
-    @include button-core;
-    @include button-color ('border-color', accent-grey-medium);
-    @include button-color ('color', accent-grey-medium);
-    background-color: $white;
-    border: 1px solid;
-    font-weight: bold;
-    font-size: 12px;
-  }
-
-  > button.subtle-action {
-    @include button-core;
-    @include button-color ('background-color', notifications);
-    color: $white;
-    font-weight: bold;
-    font-size: 12px;
-  }
-
-  > button.blended-action {
-    @include button-core;
-    @include button-color ('background-color', base);
-    background-color: transparent;
-  }
-
-  > button.destructive-action {
-    @include button-core;
-    @include button-color ('background-color', accent-orange);
-    color: #b21313;
-  }
-
-  > button.reset-action {
-    @include button-core;
-    background-color: white;
-    padding:.6em 1em;
-    font-size:12px;
-    color: $button-blue;
-    border: 1px solid $button-blue;
-  }
-
   &[disabled] > button {
     opacity: 0.5;
     cursor: no-drop;
+  }
+
+  > button {
+    @include button-core;
+
+    &.success-action {
+      @include button-color ('background-color', save)
+    }
+
+    &.friendly-action {
+      @include button-color ('background-color', create-new);
+
+      font-weight: normal;
+    }
+
+    &.muted-action {
+      @include button-color ('border-color', accent-grey-medium);
+      @include button-color ('color', accent-grey-medium);
+
+      background-color: $white;
+      border: 1px solid;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    &.subtle-action {
+      @include button-color ('background-color', notifications);
+
+      color: $white;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    &.blended-action {
+      @include button-color ('background-color', base);
+
+      background-color: transparent;
+    }
+
+    &.destructive-action {
+      @include button-color ('background-color', accent-orange);
+
+      color: #b21313;
+    }
+
+    &.reset-action {
+      background-color: white;
+      padding:.6em 1em;
+      font-size:12px;
+      color: $button-blue;
+      border: 1px solid $button-blue;
+    }
   }
 }
 

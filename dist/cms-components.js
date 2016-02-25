@@ -916,7 +916,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-button/cms-button.html';
-	var html = "<button\n    type=\"{{ buttonType || 'button' }}\"\n    class=\"{{ type || 'friendly' }}-action\">\n  <i\n      ng-if=\"iconIsBefore && !hideGlyph()\"\n      class=\"{{ iconClasses }}\">\n  </i>\n  <ng-transclude></ng-transclude>\n  <i\n      ng-if=\"!iconIsBefore && !hideGlyph()\"\n      class=\"{{ iconClasses }}\">\n  </i>\n</button>\n";
+	var html = "<button\n    type=\"{{ buttonType || 'button' }}\"\n    class=\"{{ type || 'friendly' }}-action\"\n    ng-disabled=\"buttonDisabled()\">\n  <i\n      ng-if=\"iconIsBefore && !hideGlyph()\"\n      class=\"{{ iconClasses }}\">\n  </i>\n  <ng-transclude></ng-transclude>\n  <i\n      ng-if=\"!iconIsBefore && !hideGlyph()\"\n      class=\"{{ iconClasses }}\">\n  </i>\n</button>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -934,7 +934,8 @@
 	      restrict: 'EA',
 	      transclude: true,
 	      scope: {
-	        buttonType: '@buttonType',          // button type to apply to html button
+	        buttonType: '@',                    // button type to apply to html button
+	        buttonDisabled: '&',                // true to set button disabled
 	        type: '@type',                      // type of button styling to apply, defaults to 'friendly'
 	        glyph: '@glyph',                    // glyph to use from glyph library, defaults to 'question-circle'
 	        glyphClass: '@buttonGlyphClass',    // class to use to style glyph, defaults to 'fa'

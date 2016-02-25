@@ -1,6 +1,7 @@
 <button
     type="{{ buttonType || 'button' }}"
-    class="{{ type || 'friendly' }}-action">
+    class="{{ type || 'friendly' }}-action"
+    ng-disabled="buttonDisabled()">
   <i
       ng-if="iconIsBefore && !hideGlyph()"
       class="{{ iconClasses }}">

@@ -170,206 +170,87 @@ betty-editable {
   color: red; }
 cms-button {
   display: inline-block; }
-  cms-button > button.success-action {
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    outline: 0;
-    padding: 0.6em 1.5em;
-    width: 100%;
-    background-color: #21cc9c; }
-    cms-button > button.success-action > * {
-      -webkit-align-self: center;
-      -moz-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center; }
-    [glyphpos="after"] cms-button > button.success-action > i {
-      -webkit-box-ordinal-group: 2;
-      -webkit-order: 1;
-      -moz-order: 1;
-      -ms-flex-order: 1;
-      order: 1;
-      margin-right: 0;
-      margin-left: 0.4em; }
-    cms-button > button.success-action:hover {
-      background-color: #169572; }
-    cms-button > button.success-action:active, cms-button > button.success-action:focus {
-      background-color: #21cc9c; }
-  cms-button > button.friendly-action {
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    outline: 0;
-    padding: 0.6em 1.5em;
-    width: 100%;
-    background-color: #4b9dfc;
-    font-weight: normal; }
-    cms-button > button.friendly-action > * {
-      -webkit-align-self: center;
-      -moz-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center; }
-    [glyphpos="after"] cms-button > button.friendly-action > i {
-      -webkit-box-ordinal-group: 2;
-      -webkit-order: 1;
-      -moz-order: 1;
-      -ms-flex-order: 1;
-      order: 1;
-      margin-right: 0;
-      margin-left: 0.4em; }
-    cms-button > button.friendly-action:hover {
-      background-color: #094c9e; }
-    cms-button > button.friendly-action:active, cms-button > button.friendly-action:focus {
-      background-color: #4b9dfc; }
-  cms-button > button.muted-action {
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    outline: 0;
-    padding: 0.6em 1.5em;
-    width: 100%;
-    border-color: #959fad;
-    color: #959fad;
-    background-color: white;
-    border: 1px solid;
-    font-weight: bold;
-    font-size: 12px; }
-    cms-button > button.muted-action > * {
-      -webkit-align-self: center;
-      -moz-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center; }
-    [glyphpos="after"] cms-button > button.muted-action > i {
-      -webkit-box-ordinal-group: 2;
-      -webkit-order: 1;
-      -moz-order: 1;
-      -ms-flex-order: 1;
-      order: 1;
-      margin-right: 0;
-      margin-left: 0.4em; }
-    cms-button > button.muted-action:hover {
-      border-color: #4c5a6f; }
-    cms-button > button.muted-action:active, cms-button > button.muted-action:focus {
-      border-color: #959fad; }
-    cms-button > button.muted-action:hover {
-      color: #4c5a6f; }
-    cms-button > button.muted-action:active, cms-button > button.muted-action:focus {
-      color: #959fad; }
-  cms-button > button.subtle-action {
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    outline: 0;
-    padding: 0.6em 1.5em;
-    width: 100%;
-    background-color: #2e6f9c;
-    color: white;
-    font-weight: bold;
-    font-size: 12px; }
-    cms-button > button.subtle-action > * {
-      -webkit-align-self: center;
-      -moz-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center; }
-    [glyphpos="after"] cms-button > button.subtle-action > i {
-      -webkit-box-ordinal-group: 2;
-      -webkit-order: 1;
-      -moz-order: 1;
-      -ms-flex-order: 1;
-      order: 1;
-      margin-right: 0;
-      margin-left: 0.4em; }
-    cms-button > button.subtle-action:hover {
-      background-color: #1a4c6e; }
-    cms-button > button.subtle-action:active, cms-button > button.subtle-action:focus {
-      background-color: #2e6f9c; }
-  cms-button > button.blended-action {
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    outline: 0;
-    padding: 0.6em 1.5em;
-    width: 100%;
-    background-color: #f6f6f6;
-    background-color: transparent; }
-    cms-button > button.blended-action > * {
-      -webkit-align-self: center;
-      -moz-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center; }
-    [glyphpos="after"] cms-button > button.blended-action > i {
-      -webkit-box-ordinal-group: 2;
-      -webkit-order: 1;
-      -moz-order: 1;
-      -ms-flex-order: 1;
-      order: 1;
-      margin-right: 0;
-      margin-left: 0.4em; }
-    cms-button > button.blended-action:hover {
-      background-color: #e9e9e9; }
-    cms-button > button.blended-action:active, cms-button > button.blended-action:focus {
-      background-color: white; }
-  cms-button > button.destructive-action {
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    outline: 0;
-    padding: 0.6em 1.5em;
-    width: 100%;
-    background-color: #f67e60;
-    color: #b21313; }
-    cms-button > button.destructive-action > * {
-      -webkit-align-self: center;
-      -moz-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center; }
-    [glyphpos="after"] cms-button > button.destructive-action > i {
-      -webkit-box-ordinal-group: 2;
-      -webkit-order: 1;
-      -moz-order: 1;
-      -ms-flex-order: 1;
-      order: 1;
-      margin-right: 0;
-      margin-left: 0.4em; }
-    cms-button > button.destructive-action:hover {
-      background-color: #ca5337; }
-    cms-button > button.destructive-action:active, cms-button > button.destructive-action:focus {
-      background-color: #f67e60; }
-  cms-button > button.reset-action {
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 14px;
-    outline: 0;
-    padding: 0.6em 1.5em;
-    width: 100%;
-    background-color: white;
-    padding: .6em 1em;
-    font-size: 12px;
-    color: #469bff;
-    border: 1px solid #469bff; }
-    cms-button > button.reset-action > * {
-      -webkit-align-self: center;
-      -moz-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center; }
-    [glyphpos="after"] cms-button > button.reset-action > i {
-      -webkit-box-ordinal-group: 2;
-      -webkit-order: 1;
-      -moz-order: 1;
-      -ms-flex-order: 1;
-      order: 1;
-      margin-right: 0;
-      margin-left: 0.4em; }
   cms-button[disabled] > button {
     opacity: 0.5;
     cursor: no-drop; }
+  cms-button > button {
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    outline: 0;
+    padding: 0.6em 1.5em;
+    width: 100%; }
+    cms-button > button > * {
+      -webkit-align-self: center;
+      -moz-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center; }
+    [glyphpos="after"] cms-button > button > i {
+      -webkit-box-ordinal-group: 2;
+      -webkit-order: 1;
+      -moz-order: 1;
+      -ms-flex-order: 1;
+      order: 1;
+      margin-right: 0;
+      margin-left: 0.4em; }
+    cms-button > button.success-action {
+      background-color: #21cc9c; }
+      cms-button > button.success-action:hover {
+        background-color: #169572; }
+      cms-button > button.success-action:active, cms-button > button.success-action:focus {
+        background-color: #21cc9c; }
+    cms-button > button.friendly-action {
+      background-color: #4b9dfc;
+      font-weight: normal; }
+      cms-button > button.friendly-action:hover {
+        background-color: #094c9e; }
+      cms-button > button.friendly-action:active, cms-button > button.friendly-action:focus {
+        background-color: #4b9dfc; }
+    cms-button > button.muted-action {
+      border-color: #959fad;
+      color: #959fad;
+      background-color: white;
+      border: 1px solid;
+      font-weight: bold;
+      font-size: 12px; }
+      cms-button > button.muted-action:hover {
+        border-color: #4c5a6f; }
+      cms-button > button.muted-action:active, cms-button > button.muted-action:focus {
+        border-color: #959fad; }
+      cms-button > button.muted-action:hover {
+        color: #4c5a6f; }
+      cms-button > button.muted-action:active, cms-button > button.muted-action:focus {
+        color: #959fad; }
+    cms-button > button.subtle-action {
+      background-color: #2e6f9c;
+      color: white;
+      font-weight: bold;
+      font-size: 12px; }
+      cms-button > button.subtle-action:hover {
+        background-color: #1a4c6e; }
+      cms-button > button.subtle-action:active, cms-button > button.subtle-action:focus {
+        background-color: #2e6f9c; }
+    cms-button > button.blended-action {
+      background-color: #f6f6f6;
+      background-color: transparent; }
+      cms-button > button.blended-action:hover {
+        background-color: #e9e9e9; }
+      cms-button > button.blended-action:active, cms-button > button.blended-action:focus {
+        background-color: white; }
+    cms-button > button.destructive-action {
+      background-color: #f67e60;
+      color: #b21313; }
+      cms-button > button.destructive-action:hover {
+        background-color: #ca5337; }
+      cms-button > button.destructive-action:active, cms-button > button.destructive-action:focus {
+        background-color: #f67e60; }
+    cms-button > button.reset-action {
+      background-color: white;
+      padding: .6em 1em;
+      font-size: 12px;
+      color: #469bff;
+      border: 1px solid #469bff; }
 
 .dropdown-menu cms-button > button {
   border-radius: 0;
