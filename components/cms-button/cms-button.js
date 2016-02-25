@@ -8,6 +8,7 @@ angular.module('cmsComponents')
       restrict: 'EA',
       transclude: true,
       scope: {
+        buttonType: '@buttonType',          // button type to apply to html button
         type: '@type',                      // type of button styling to apply, defaults to 'friendly'
         glyph: '@glyph',                    // glyph to use from glyph library, defaults to 'question-circle'
         glyphClass: '@buttonGlyphClass',    // class to use to style glyph, defaults to 'fa'
