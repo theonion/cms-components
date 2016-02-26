@@ -1,0 +1,29 @@
+@import 'colors';
+@import 'mixins';
+
+cms-notifications {
+
+  ul {
+    border: 1px solid #000000;
+    border-radius: 2.5px;
+    list-style: none;
+    margin: 0 0 1em;
+    padding: 10px;
+
+    @mixin notification-type ($type, $palette) {
+      &.cms-notifications-#{$type} {
+        border-color: palette($palette, base);
+        background-color: palette($palette, background);
+        color: palette($palette, base);
+
+        button {
+          @include button-unstyled;
+        }
+      }
+    }
+
+    @include notification-type(errors, error);
+    @include notification-type(warnings, warning);
+    @include notification-type(infos, info);
+  }
+}

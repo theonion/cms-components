@@ -2,6 +2,11 @@
 @import 'colors';
 
 
+@mixin button-unstyled {
+  background: none;
+  border: none;
+}
+
 @mixin input-with-icon-container {
   /* An input field that looks like it has icons inside of it. */
 
@@ -16,8 +21,7 @@
     width: 1em;
 
     > button {
-      background: none;
-      border: none;
+      @include button-unstyled;
     }
   }
 
@@ -100,11 +104,6 @@
    #{$attribute}: $inactive;
   }
 }
-
-@mixin button-unstyled () {
-  background: none;
-  border: none;
-};
 
 @function palette($palette, $tone: 'default') {
     @return map-get(map-get($palettes, $palette), $tone);

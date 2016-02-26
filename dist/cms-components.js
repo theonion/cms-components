@@ -57,6 +57,8 @@
 
 	'use strict';
 
+	angular.module('lodash', []).constant('_', window._);
+
 	var cmsComponents = angular.module('cmsComponents', [
 	  'cmsComponents.auth',
 	  'cmsComponents.input'
@@ -196,38 +198,42 @@
 		"./cms-nav-user/cms-nav-user.html": 59,
 		"./cms-nav-user/cms-nav-user.js": 60,
 		"./cms-nav-user/cms-nav-user.scss": 61,
-		"./cms-partial/cms-partial.html": 63,
-		"./cms-partial/cms-partial.js": 64,
-		"./cms-partial/cms-partial.scss": 65,
-		"./cms-row/cms-row.js": 68,
-		"./cms-row/cms-row.scss": 69,
-		"./cms-table-cell/cms-table-cell.html": 71,
-		"./cms-table-cell/cms-table-cell.js": 72,
-		"./cms-table-cell/cms-table-cell.scss": 73,
-		"./cms-table-column/cms-table-column.html": 75,
-		"./cms-table-column/cms-table-column.js": 76,
-		"./cms-table-column/cms-table-column.scss": 77,
-		"./cms-table/cms-table.html": 79,
-		"./cms-table/cms-table.js": 80,
-		"./cms-table/cms-table.scss": 81,
-		"./cms-token-auth/cms-token-auth-config.js": 83,
-		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 84,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 85,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 86,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 87,
-		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 89,
-		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 90,
-		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 91,
-		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 92,
-		"./cms-token-auth/cms-token-auth.js": 93,
-		"./cms-tooltip/cms-tooltip.js": 94,
-		"./cms-tooltip/cms-tooltip.scss": 95,
-		"./convert-to-number/convert-to-number.js": 97,
-		"./filters/filters-user-display-name/filters-user-display-name.js": 98,
-		"./sidebar-nav-item/sidebar-nav-item.html": 99,
-		"./sidebar-nav-item/sidebar-nav-item.js": 100,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 101,
-		"./ui-sref-active-if/ui-sref-active-if.js": 103
+		"./cms-notifications/cms-notifications-service.js": 63,
+		"./cms-notifications/cms-notifications.html": 64,
+		"./cms-notifications/cms-notifications.js": 65,
+		"./cms-notifications/cms-notifications.scss": 106,
+		"./cms-partial/cms-partial.html": 66,
+		"./cms-partial/cms-partial.js": 67,
+		"./cms-partial/cms-partial.scss": 68,
+		"./cms-row/cms-row.js": 70,
+		"./cms-row/cms-row.scss": 71,
+		"./cms-table-cell/cms-table-cell.html": 73,
+		"./cms-table-cell/cms-table-cell.js": 74,
+		"./cms-table-cell/cms-table-cell.scss": 75,
+		"./cms-table-column/cms-table-column.html": 77,
+		"./cms-table-column/cms-table-column.js": 78,
+		"./cms-table-column/cms-table-column.scss": 79,
+		"./cms-table/cms-table.html": 81,
+		"./cms-table/cms-table.js": 82,
+		"./cms-table/cms-table.scss": 83,
+		"./cms-token-auth/cms-token-auth-config.js": 85,
+		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 86,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 87,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 88,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 89,
+		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 91,
+		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 92,
+		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 93,
+		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 94,
+		"./cms-token-auth/cms-token-auth.js": 95,
+		"./cms-tooltip/cms-tooltip.js": 96,
+		"./cms-tooltip/cms-tooltip.scss": 97,
+		"./convert-to-number/convert-to-number.js": 99,
+		"./filters/filters-user-display-name/filters-user-display-name.js": 100,
+		"./sidebar-nav-item/sidebar-nav-item.html": 101,
+		"./sidebar-nav-item/sidebar-nav-item.js": 102,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 103,
+		"./ui-sref-active-if/ui-sref-active-if.js": 105
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1463,13 +1469,112 @@
 /* 63 */
 /***/ function(module, exports) {
 
+	'use strict';
+
+	angular.module('cmsComponents.notifications.service', [
+	  'lodash'
+	])
+	  .service('NotificationsService', [
+	    '_',
+	    function (_) {
+
+	      var data = {
+	        errors: [],
+	        warnings: [],
+	        infos: []
+	      };
+
+	      var lastId = 0;
+	      var put = function (type, message) {
+	        var typeList = data[type];
+
+	        var nextId = lastId++;;
+	        typeList.push({
+	          id: nextId,
+	          message: message
+	        });
+
+	        return nextId;
+	      };
+
+	      var clear = function (type) {
+	        data[type] = [];
+	      };
+
+	      var remove = function (type, id) {
+	        data[type] = data[type].filter(function (notification) {
+	          return notification.id !== id;
+	        });
+	      };
+
+	      var list = function (type) {
+	        return data[type];
+	      };
+
+	      return {
+	        // errors
+	        addError: put.bind(null, 'errors'),
+	        removeError: remove.bind(null, 'errors'),
+	        listErrors: list.bind(null, 'errors'),
+	        clearErrors: clear.bind(null, 'errors'),
+	        // warnings
+	        addWarning: put.bind(null, 'warnings'),
+	        removeWarning: remove.bind(null, 'warnings'),
+	        listWarnings: list.bind(null, 'warnings'),
+	        clearWarnings: clear.bind(null, 'warnings'),
+	        // infos
+	        addInfo: put.bind(null, 'infos'),
+	        removeInfo: remove.bind(null, 'infos'),
+	        listInfos: list.bind(null, 'infos'),
+	        clearInfos: clear.bind(null, 'infos')
+	      };
+	    }
+	  ]);
+
+
+/***/ },
+/* 64 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-notifications/cms-notifications.html';
+	var html = "<ul\n    class=\"cms-notifications-errors\"\n    ng-if=\"service.listErrors().length > 0\">\n  <li ng-repeat=\"notification in service.listErrors() track by notification.id\">\n    <i class=\"fa fa-exclamation-triangle\"></i>\n    <span>{{ notification.message }}</span>\n    <button\n        type=\"button\"\n        ng-click=\"service.removeError(notification.id)\">\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </li>\n</ul>\n<ul\n    class=\"cms-notifications-warnings\"\n    ng-if=\"service.listWarnings().length > 0\">\n  <li ng-repeat=\"notification in service.listWarnings() track by notification.id\">\n    <i class=\"fa fa-exclamation-circle\"></i>\n    <span>{{ notification.message }}</span>\n    <button\n        type=\"button\"\n        ng-click=\"service.removeWarning(notification.id)\">\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </li>\n</ul>\n<ul\n    class=\"cms-notifications-infos\"\n    ng-if=\"service.listInfos().length > 0\">\n  <li ng-repeat=\"notification in service.listInfos() track by notification.id\">\n    <i class=\"fa fa-info-circle\"></i>\n    <span>{{ notification.message }}</span>\n    <button\n        type=\"button\"\n        ng-click=\"service.removeInfo(notification.id)\">\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </li>\n</ul>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 65 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.notifications', [
+	  'cmsComponents.notifications.service'
+	])
+	  .directive('cmsNotifications', [
+	    'NotificationsService',
+	    function (NotificationsService) {
+	      return {
+	        templateUrl: 'components/cms-notifications/cms-notifications.html',
+	        restrict: 'E',
+	        link: function ($scope) {
+	          $scope.service = NotificationsService;
+	        }
+	      }
+	    }
+	  ]);
+
+
+/***/ },
+/* 66 */
+/***/ function(module, exports) {
+
 	var path = 'components/cms-partial/cms-partial.html';
 	var html = "<span>Calling from cms-partial</span>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 64 */
+/* 67 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1495,15 +1600,14 @@
 
 
 /***/ },
-/* 65 */
+/* 68 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 66 */,
-/* 67 */,
-/* 68 */
+/* 69 */,
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1519,14 +1623,14 @@
 
 
 /***/ },
-/* 69 */
+/* 71 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 70 */,
-/* 71 */
+/* 72 */,
+/* 73 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-cell/cms-table-cell.html';
@@ -1535,7 +1639,7 @@
 	module.exports = path;
 
 /***/ },
-/* 72 */
+/* 74 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1564,14 +1668,14 @@
 
 
 /***/ },
-/* 73 */
+/* 75 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 74 */,
-/* 75 */
+/* 76 */,
+/* 77 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-column/cms-table-column.html';
@@ -1580,7 +1684,7 @@
 	module.exports = path;
 
 /***/ },
-/* 76 */
+/* 78 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1596,14 +1700,14 @@
 
 
 /***/ },
-/* 77 */
+/* 79 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 78 */,
-/* 79 */
+/* 80 */,
+/* 81 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table/cms-table.html';
@@ -1612,7 +1716,7 @@
 	module.exports = path;
 
 /***/ },
-/* 80 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1639,14 +1743,14 @@
 
 
 /***/ },
-/* 81 */
+/* 83 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 82 */,
-/* 83 */
+/* 84 */,
+/* 85 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1894,7 +1998,7 @@
 
 
 /***/ },
-/* 84 */
+/* 86 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1981,7 +2085,7 @@
 
 
 /***/ },
-/* 85 */
+/* 87 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
@@ -1990,7 +2094,7 @@
 	module.exports = path;
 
 /***/ },
-/* 86 */
+/* 88 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2036,14 +2140,14 @@
 
 
 /***/ },
-/* 87 */
+/* 89 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 88 */,
-/* 89 */
+/* 90 */,
+/* 91 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2085,7 +2189,7 @@
 
 
 /***/ },
-/* 90 */
+/* 92 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2109,7 +2213,7 @@
 
 
 /***/ },
-/* 91 */
+/* 93 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2374,7 +2478,7 @@
 
 
 /***/ },
-/* 92 */
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2465,7 +2569,7 @@
 
 
 /***/ },
-/* 93 */
+/* 95 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2481,7 +2585,7 @@
 
 
 /***/ },
-/* 94 */
+/* 96 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2510,14 +2614,14 @@
 
 
 /***/ },
-/* 95 */
+/* 97 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 96 */,
-/* 97 */
+/* 98 */,
+/* 99 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2539,7 +2643,7 @@
 
 
 /***/ },
-/* 98 */
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2567,7 +2671,7 @@
 
 
 /***/ },
-/* 99 */
+/* 101 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -2576,7 +2680,7 @@
 	module.exports = path;
 
 /***/ },
-/* 100 */
+/* 102 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2595,14 +2699,14 @@
 
 
 /***/ },
-/* 101 */
+/* 103 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 102 */,
-/* 103 */
+/* 104 */,
+/* 105 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2628,6 +2732,12 @@
 	    };
 	}])
 
+
+/***/ },
+/* 106 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

@@ -1,0 +1,39 @@
+<ul
+    class="cms-notifications-errors"
+    ng-if="service.listErrors().length > 0">
+  <li ng-repeat="notification in service.listErrors() track by notification.id">
+    <i class="fa fa-exclamation-triangle"></i>
+    <span>{{ notification.message }}</span>
+    <button
+        type="button"
+        ng-click="service.removeError(notification.id)">
+      <i class="fa fa-times"></i>
+    </button>
+  </li>
+</ul>
+<ul
+    class="cms-notifications-warnings"
+    ng-if="service.listWarnings().length > 0">
+  <li ng-repeat="notification in service.listWarnings() track by notification.id">
+    <i class="fa fa-exclamation-circle"></i>
+    <span>{{ notification.message }}</span>
+    <button
+        type="button"
+        ng-click="service.removeWarning(notification.id)">
+      <i class="fa fa-times"></i>
+    </button>
+  </li>
+</ul>
+<ul
+    class="cms-notifications-infos"
+    ng-if="service.listInfos().length > 0">
+  <li ng-repeat="notification in service.listInfos() track by notification.id">
+    <i class="fa fa-info-circle"></i>
+    <span>{{ notification.message }}</span>
+    <button
+        type="button"
+        ng-click="service.removeInfo(notification.id)">
+      <i class="fa fa-times"></i>
+    </button>
+  </li>
+</ul>
