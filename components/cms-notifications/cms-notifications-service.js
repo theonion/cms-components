@@ -14,13 +14,14 @@ angular.module('cmsComponents.notifications.service', [
       };
 
       var lastId = 0;
-      var put = function (type, message) {
+      var put = function (type, message, removalCondition) {
         var typeList = data[type];
 
         var nextId = lastId++;;
         typeList.push({
           id: nextId,
-          message: message
+          message: message,
+          doRemove: removalCondition
         });
 
         return nextId;
@@ -37,6 +38,11 @@ angular.module('cmsComponents.notifications.service', [
       };
 
       var list = function (type) {
+        // clean up anything we should remove
+        data[type] = data[type].filter(function (notification) {
+          return !notification.doRemove();
+        });
+
         return data[type];
       };
 
