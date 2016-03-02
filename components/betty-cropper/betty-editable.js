@@ -99,7 +99,7 @@ angular.module('cmsComponents')
         element.resize(scope.setStyles);
 
         scope.removeImage = function () {
-          scope.image.id = null;
+          scope.image = null;
           scope.callImageChangeCallback();
         };
 
