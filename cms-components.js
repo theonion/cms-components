@@ -1,7 +1,5 @@
 'use strict';
 
-angular.module('lodash', []).constant('_', window._);
-
 var cmsComponents = angular.module('cmsComponents', [
   'cmsComponents.auth',
   'cmsComponents.input'
