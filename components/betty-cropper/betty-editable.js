@@ -5,14 +5,16 @@ angular.module('cmsComponents')
     return {
       templateUrl: 'components/betty-cropper/betty-editable.html',
       restrict: 'E',
+      require: ['^form'],
 
       scope: {
         image: '=',
         placeholderText: '@',
-        ratio: '@',                 // ratio string, AxB, where A is width, B is height
+        ratio: '@',                           // ratio string, AxB, where A is width, B is height
         editable: '=?',
         imageChangeCallback: '=',
-        isDisabled: '='
+        isDisabled: '=',
+        inputName: '@?bettyEditableInputName'  // name of input
       },
 
       controller: ['$scope', function ($scope) {
@@ -43,8 +45,9 @@ angular.module('cmsComponents')
                 alt: null
               };
               $scope.bettyImage = success;
-              $scope.setStyles();
               $scope.callImageChangeCallback(success);
+              $scope.setStyles();
+              $scope.markDirty();
             },
             function (error) {
               console.error(error);
@@ -72,11 +75,19 @@ angular.module('cmsComponents')
         };
       }],
 
-      link: function (scope, element) {
+      link: function (scope, element, attrs, ctrls) {
+
+        var form = ctrls[0];
 
         if (!scope.bettyImage) {
           scope.bettyImage = null;
         }
+
+        scope.markDirty = function () {
+          if (scope.inputName && form[scope.inputName]) {
+            form[scope.inputName].$setDirty();
+          }
+        };
 
         scope.setStyles = function () {
           if (scope.bettyImage) {
@@ -109,6 +120,7 @@ angular.module('cmsComponents')
           scope.bettyImage = null;
           scope.callImageChangeCallback();
           scope.setStyles();
+          scope.markDirty();
         };
 
         scope.editImage = function () {

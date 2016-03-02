@@ -24,6 +24,8 @@ betty-editable {
       bottom: 0;
       left: 10px;
       width: 101%; }
+  betty-editable .betty-editable-value-holder {
+    display: none; }
 
 .image-edit-overlay {
   position: absolute;

@@ -570,7 +570,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/betty-editable.html';
-	var html = "<cms-button\n    type=\"muted\"\n    glyph=\"picture-o\"\n    ng-click=\"upload()\"\n    ng-hide=\"image && image.id\"\n    ng-style=\"imageStyling\">\n  Upload Image\n</cms-button>\n\n<div\n    ng-show=\"image && image.id\"\n    ng-style=\"imageStyling\"\n    class=\"image-edit-container\">\n  <div\n      class=\"image-edit-overlay\"\n      ng-show=\"editable\">\n    <div class=\"remove\">\n      <button\n          type=\"button\"\n          ng-click=\"removeImage();\"\n          class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button\n          type=\"button\"\n          name=\"inline_edit\"\n          ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n";
+	var html = "<cms-button\n    type=\"muted\"\n    glyph=\"picture-o\"\n    ng-click=\"upload()\"\n    ng-hide=\"image && image.id\"\n    ng-style=\"imageStyling\">\n  Upload Image\n</cms-button>\n\n<div\n    ng-show=\"image && image.id\"\n    ng-style=\"imageStyling\"\n    class=\"image-edit-container\">\n  <div\n      class=\"image-edit-overlay\"\n      ng-show=\"editable\">\n    <div class=\"remove\">\n      <button\n          type=\"button\"\n          ng-click=\"removeImage();\"\n          class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button\n          type=\"button\"\n          name=\"inline_edit\"\n          ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n\n<input\n    class=\"betty-editable-value-holder\"\n    type=\"text\"\n    name=\"{{ inputName }}\"\n    ng-model=\"image\">\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -585,14 +585,16 @@
 	    return {
 	      templateUrl: 'components/betty-cropper/betty-editable.html',
 	      restrict: 'E',
+	      require: ['^form'],
 
 	      scope: {
 	        image: '=',
 	        placeholderText: '@',
-	        ratio: '@',                 // ratio string, AxB, where A is width, B is height
+	        ratio: '@',                           // ratio string, AxB, where A is width, B is height
 	        editable: '=?',
 	        imageChangeCallback: '=',
-	        isDisabled: '='
+	        isDisabled: '=',
+	        inputName: '@?bettyEditableInputName'  // name of input
 	      },
 
 	      controller: ['$scope', function ($scope) {
@@ -623,8 +625,9 @@
 	                alt: null
 	              };
 	              $scope.bettyImage = success;
-	              $scope.setStyles();
 	              $scope.callImageChangeCallback(success);
+	              $scope.setStyles();
+	              $scope.markDirty();
 	            },
 	            function (error) {
 	              console.error(error);
@@ -652,11 +655,19 @@
 	        };
 	      }],
 
-	      link: function (scope, element) {
+	      link: function (scope, element, attrs, ctrls) {
+
+	        var form = ctrls[0];
 
 	        if (!scope.bettyImage) {
 	          scope.bettyImage = null;
 	        }
+
+	        scope.markDirty = function () {
+	          if (scope.inputName && form[scope.inputName]) {
+	            form[scope.inputName].$setDirty();
+	          }
+	        };
 
 	        scope.setStyles = function () {
 	          if (scope.bettyImage) {
@@ -689,6 +700,7 @@
 	          scope.bettyImage = null;
 	          scope.callImageChangeCallback();
 	          scope.setStyles();
+	          scope.markDirty();
 	        };
 
 	        scope.editImage = function () {
