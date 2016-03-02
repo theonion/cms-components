@@ -571,7 +571,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/betty-editable.html';
-	var html = "<cms-button\n    type=\"muted\"\n    glyph=\"picture-o\"\n    ng-click=\"upload()\"\n    ng-hide=\"image && image.id\"\n    ng-style=\"imageStyling\">\n  Upload Image\n</cms-button>\n\n<div\n    ng-show=\"image && image.id\"\n    ng-style=\"imageStyling\"\n    class=\"image-edit-container\">\n  <div\n      class=\"image-edit-overlay\"\n      ng-show=\"editable\">\n    <div class=\"remove\">\n      <button\n          type=\"button\"\n          ng-click=\"removeImage();\"\n          class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button\n          type=\"button\"\n          name=\"inline_edit\"\n          ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n\n<input\n    class=\"betty-editable-value-holder\"\n    type=\"text\"\n    name=\"{{ inputName }}\"\n    ng-model=\"image\">\n";
+	var html = "<cms-button\n    type=\"muted\"\n    glyph=\"picture-o\"\n    ng-click=\"upload()\"\n    ng-hide=\"image && image.id\"\n    ng-style=\"imageStyling\">\n  {{ buttonText || 'Upload Image' }}\n</cms-button>\n\n<div\n    ng-show=\"image && image.id\"\n    ng-style=\"imageStyling\"\n    class=\"image-edit-container\">\n  <div\n      class=\"image-edit-overlay\"\n      ng-show=\"editable\">\n    <div class=\"remove\">\n      <button\n          type=\"button\"\n          ng-click=\"removeImage();\"\n          class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button\n          type=\"button\"\n          name=\"inline_edit\"\n          ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n\n<input\n    class=\"betty-editable-value-holder\"\n    type=\"text\"\n    name=\"{{ inputName }}\"\n    ng-model=\"image\">\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -582,136 +582,139 @@
 	'use strict';
 
 	angular.module('cmsComponents')
-	  .directive('bettyEditable', ['$http', 'BettyCropper', 'openImageCropModal', function ($http, BettyCropper, openImageCropModal) {
-	    return {
-	      templateUrl: 'components/betty-cropper/betty-editable.html',
-	      restrict: 'E',
-	      require: ['?^^form'],
+	  .directive('bettyEditable', [
+	    '$http', 'BettyCropper', 'openImageCropModal',
+	    function ($http, BettyCropper, openImageCropModal) {
+	      return {
+	        templateUrl: 'components/betty-cropper/betty-editable.html',
+	        restrict: 'E',
+	        require: ['?^^form'],
 
-	      scope: {
-	        image: '=',
-	        placeholderText: '@',
-	        ratio: '@',                           // ratio string, AxB, where A is width, B is height
-	        editable: '=?',
-	        imageChangeCallback: '=',
-	        isDisabled: '=',
-	        inputName: '@?bettyEditableInputName'  // name of input
-	      },
+	        scope: {
+	          image: '=',
+	          ratio: '@',                             // ratio string, AxB, where A is width, B is height
+	          editable: '=?',
+	          imageChangeCallback: '=',
+	          isDisabled: '=',
+	          buttonText: '@bettyEditableButtonText', // text to display on button
+	          inputName: '@?bettyEditableInputName'   // name of input
+	        },
 
-	      controller: ['$scope', function ($scope) {
-	        $scope.editable = angular.isDefined($scope.editable) ? $scope.editable : true;
+	        controller: ['$scope', function ($scope) {
+	          $scope.editable = angular.isDefined($scope.editable) ? $scope.editable : true;
 
-	        var parsedRatio = $scope.ratio
-	          .split('x')
-	          .map(function (num) {
-	            return parseInt(num, 10) || 1;
-	          });
-	        $scope.parsedRatio = {
-	          width: parsedRatio[0],
-	          height: parsedRatio[1]
-	        };
+	          var parsedRatio = $scope.ratio
+	            .split('x')
+	            .map(function (num) {
+	              return parseInt(num, 10) || 1;
+	            });
+	          $scope.parsedRatio = {
+	            width: parsedRatio[0],
+	            height: parsedRatio[1]
+	          };
 
-	        $scope.callImageChangeCallback = function (param) {
-	          if (_.isFunction($scope.imageChangeCallback)) {
-	            $scope.imageChangeCallback(param);
-	          }
-	        };
-
-	        $scope.upload = function () {
-	          BettyCropper.upload().then(
-	            function (success) {
-	              $scope.image = {
-	                id: success.id,
-	                caption: null,
-	                alt: null
-	              };
-	              $scope.bettyImage = success;
-	              $scope.callImageChangeCallback(success);
-	              $scope.setStyles();
-	              $scope.markDirty();
-	            },
-	            function (error) {
-	              console.error(error);
-	            },
-	            function (progress) {
-	              console.log(progress);
+	          $scope.callImageChangeCallback = function (param) {
+	            if (_.isFunction($scope.imageChangeCallback)) {
+	              $scope.imageChangeCallback(param);
 	            }
-	          );
-	        };
+	          };
 
-	        $scope.edit = function () {
-	          openImageCropModal($scope.image).then(function (image) {
-	            if (!image.id) {
-	              $scope.image = null;
-	            } else {
-	              $scope.image = image;
-	              BettyCropper.get($scope.image.id).then(function (response) {
-	                $scope.bettyImage = response.data;
+	          $scope.upload = function () {
+	            BettyCropper.upload().then(
+	              function (success) {
+	                $scope.image = {
+	                  id: success.id,
+	                  caption: null,
+	                  alt: null
+	                };
+	                $scope.bettyImage = success;
+	                $scope.callImageChangeCallback(success);
 	                $scope.setStyles();
+	                $scope.markDirty();
+	              },
+	              function (error) {
+	                console.error(error);
+	              },
+	              function (progress) {
+	                console.log(progress);
+	              }
+	            );
+	          };
+
+	          $scope.edit = function () {
+	            openImageCropModal($scope.image).then(function (image) {
+	              if (!image.id) {
+	                $scope.image = null;
+	              } else {
+	                $scope.image = image;
+	                BettyCropper.get($scope.image.id).then(function (response) {
+	                  $scope.bettyImage = response.data;
+	                  $scope.setStyles();
+	                });
+	              }
+
+	              $scope.callImageChangeCallback();
+	            });
+	          };
+	        }],
+
+	        link: function (scope, element, attrs, ctrls) {
+
+	          var parentForm = ctrls[0];
+
+	          if (!scope.bettyImage) {
+	            scope.bettyImage = null;
+	          }
+
+	          scope.markDirty = function () {
+	            if (parentForm && scope.inputName && parentForm[scope.inputName]) {
+	              parentForm[scope.inputName].$setDirty();
+	            }
+	          };
+
+	          scope.setStyles = function () {
+	            if (scope.bettyImage) {
+	              scope.imageStyling = scope.bettyImage.getStyles(element.parent().width(), element.parent().height(), scope.ratio);
+	            } else {
+	              scope.imageStyling = {
+	                'position': 'relative',
+	                'width': element.parent().width(),
+	                'height': Math.floor(element.parent().width() * scope.parsedRatio.height / scope.parsedRatio.width) + 'px',
+	              };
+	            }
+	          };
+
+	          scope.$watch('image', function (newImage) {
+	            if (newImage && newImage.id) {
+	              BettyCropper.get(newImage.id).then(function (response) {
+	                scope.bettyImage = response.data;
 	              });
 	            }
-
-	            $scope.callImageChangeCallback();
 	          });
-	        };
-	      }],
 
-	      link: function (scope, element, attrs, ctrls) {
+	          scope.$watch('bettyImage', function () {
+	            scope.setStyles();
+	          }, true);
 
-	        var parentForm = ctrls[0];
+	          element.resize(scope.setStyles);
 
-	        if (!scope.bettyImage) {
-	          scope.bettyImage = null;
+	          scope.removeImage = function () {
+	            scope.image = null;
+	            scope.bettyImage = null;
+	            scope.callImageChangeCallback();
+	            scope.setStyles();
+	            scope.markDirty();
+	          };
+
+	          scope.editImage = function () {
+	            openImageCropModal(scope.image).then(function (success) {});
+	          };
+
+	          scope.setStyles();
 	        }
-
-	        scope.markDirty = function () {
-	          if (parentForm && scope.inputName && parentForm[scope.inputName]) {
-	            parentForm[scope.inputName].$setDirty();
-	          }
-	        };
-
-	        scope.setStyles = function () {
-	          if (scope.bettyImage) {
-	            scope.imageStyling = scope.bettyImage.getStyles(element.parent().width(), element.parent().height(), scope.ratio);
-	          } else {
-	            scope.imageStyling = {
-	              'position': 'relative',
-	              'width': element.parent().width(),
-	              'height': Math.floor(element.parent().width() * scope.parsedRatio.height / scope.parsedRatio.width) + 'px',
-	            };
-	          }
-	        };
-
-	        scope.$watch('image', function (newImage) {
-	          if (newImage && newImage.id) {
-	            BettyCropper.get(newImage.id).then(function (response) {
-	              scope.bettyImage = response.data;
-	            });
-	          }
-	        });
-
-	        scope.$watch('bettyImage', function () {
-	          scope.setStyles();
-	        }, true);
-
-	        element.resize(scope.setStyles);
-
-	        scope.removeImage = function () {
-	          scope.image = null;
-	          scope.bettyImage = null;
-	          scope.callImageChangeCallback();
-	          scope.setStyles();
-	          scope.markDirty();
-	        };
-
-	        scope.editImage = function () {
-	          openImageCropModal(scope.image).then(function (success) {});
-	        };
-
-	        scope.setStyles();
-	      }
-	    };
-	  }]);
+	      };
+	    }
+	  ]);
 
 
 /***/ },
