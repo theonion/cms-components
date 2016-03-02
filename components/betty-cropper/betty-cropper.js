@@ -1,7 +1,11 @@
 'use strict';
 
-(function () {
-  angular.module('BettyCropper', ['restmod', 'ui.bootstrap'])
+!(function () {
+  angular.module('BettyCropper', [
+    'restmod',
+    'ui.bootstrap'
+// TODO : cmsButton dependency should be listed here
+  ])
     .value('DEFAULT_IMAGE_WIDTH', 1200)
     .factory('Selection', SelectionFactory)
     .factory('BettyImage', BettyImageFactory)

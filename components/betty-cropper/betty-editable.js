@@ -5,20 +5,28 @@ angular.module('cmsComponents')
     return {
       templateUrl: 'components/betty-cropper/betty-editable.html',
       restrict: 'E',
-      transclude: true,
 
       scope: {
-        'image': '=',
-        'addStyles': '@',
-        'placeholderText': '@',
-        'ratio': '@',
-        'editable': '=?',
-        'imageChangeCallback': '=',
-        'isDisabled': '='
+        image: '=',
+        placeholderText: '@',
+        ratio: '@',                 // ratio string, AxB, where A is width, B is height
+        editable: '=?',
+        imageChangeCallback: '=',
+        isDisabled: '='
       },
 
       controller: ['$scope', function ($scope) {
         $scope.editable = angular.isDefined($scope.editable) ? $scope.editable : true;
+
+        var parsedRatio = $scope.ratio
+          .split('x')
+          .map(function (num) {
+            return parseInt(num, 10) || 1;
+          });
+        $scope.parsedRatio = {
+          width: parsedRatio[0],
+          height: parsedRatio[1]
+        };
 
         $scope.callImageChangeCallback = function (param) {
           if (_.isFunction($scope.imageChangeCallback)) {
@@ -35,6 +43,7 @@ angular.module('cmsComponents')
                 alt: null
               };
               $scope.bettyImage = success;
+              $scope.setStyles();
               $scope.callImageChangeCallback(success);
             },
             function (error) {
@@ -73,13 +82,10 @@ angular.module('cmsComponents')
           if (scope.bettyImage) {
             scope.imageStyling = scope.bettyImage.getStyles(element.parent().width(), element.parent().height(), scope.ratio);
           } else {
-            var ratioWidth = parseInt(scope.ratio.split('x')[0], 10);
-            var ratioHeight = parseInt(scope.ratio.split('x')[1], 10);
             scope.imageStyling = {
-              'background-color': '#333',
               'position': 'relative',
               'width': element.parent().width(),
-              'height': Math.floor(element.parent().width() * ratioHeight / ratioWidth) + 'px',
+              'height': Math.floor(element.parent().width() * scope.parsedRatio.height / scope.parsedRatio.width) + 'px',
             };
           }
         };
@@ -100,12 +106,16 @@ angular.module('cmsComponents')
 
         scope.removeImage = function () {
           scope.image = null;
+          scope.bettyImage = null;
           scope.callImageChangeCallback();
+          scope.setStyles();
         };
 
         scope.editImage = function () {
           openImageCropModal(scope.image).then(function (success) {});
         };
+
+        scope.setStyles();
       }
     };
   }]);

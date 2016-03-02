@@ -8,7 +8,7 @@ $glyph-margin: 0.4em;
   border: none;
   border-radius: 5px;
   color: white;
-  font-size: 14px;
+  height: 100%;
   outline:0;
   padding: 0.6em 1.5em;
   width: 100%;
@@ -52,7 +52,6 @@ cms-button {
       background-color: $white;
       border: 1px solid;
       font-weight: bold;
-      font-size: 12px;
     }
 
     &.subtle-action {
@@ -60,7 +59,6 @@ cms-button {
 
       color: $white;
       font-weight: bold;
-      font-size: 12px;
     }
 
     &.blended-action {
@@ -77,10 +75,9 @@ cms-button {
 
     &.reset-action {
       background-color: white;
-      padding:.6em 1em;
-      font-size:12px;
-      color: $button-blue;
       border: 1px solid $button-blue;
+      color: $button-blue;
+      padding: 0.6em 1em;
     }
   }
 }

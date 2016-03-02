@@ -1,52 +1,43 @@
 @import 'directive';
 
-betty-editable .image-edit-container {
-  padding: 10px;
-  min-height: 250px;
-  .edit {
-    bottom: auto;
-    top: 10px;
-  }
-  .remove {
-    bottom: auto;
-    top: 10px;
-  }
-  .caption-alt {
-    position: absolute;
-    bottom: 0;
-    left: 10px;
-    width: 101%;
-  }
-}
-
 betty-editable {
-  min-height: 250px;
-  display: block;
-  .betty-editable-add-image {
-    height: 250px;
-    background: white;
-    border: $light-border;
-    border-radius: none;
-  }
-}
+  display: inline-block;
 
-.image-edit-container {
-  position: relative;
-  background-size: 100%;
-  background-repeat: no-repeat;
-
-  img {
-    max-width: 100%;
+  .image-edit-container {
+    background-repeat: no-repeat;
+    background-size: 100%;
     min-height: 250px;
-  }
-  &:hover .image-edit-overlay {
-    display: block;
-  }
-  & + div {
-    margin-top: 10px;
-  }
+    padding: 10px;
+    position: relative;
 
+    img {
+      max-width: 100%;
+      min-height: 250px;
+    }
+    &:hover .image-edit-overlay {
+      display: block;
+    }
+    & + div {
+      margin-top: 10px;
+    }
+
+    .edit {
+      bottom: auto;
+      top: 10px;
+    }
+    .remove {
+      bottom: auto;
+      top: 10px;
+    }
+    .caption-alt {
+      position: absolute;
+      bottom: 0;
+      left: 10px;
+      width: 101%;
+    }
+  }
 }
+
 .image-edit-overlay {
   position: absolute;
   top: 0;
@@ -54,6 +45,7 @@ betty-editable {
   display: none;
 
 }
+
 .buttonStyles {
   border: 1px transparent solid;
   color: #4a4a4a;
@@ -73,6 +65,7 @@ betty-editable {
   padding: 4px 8px;
   height: auto;
 }
+
 .image-edit-overlay {
   position: absolute;
   display: none;
@@ -88,25 +81,28 @@ betty-editable {
     position: absolute;
     right: 10px;
     bottom: 10px;
-    background-color: #930900;
-    border-radius: 4px;
 
-    button:hover {
-      background-color: #c70a00;
+    button {
+      background-color: #930900;
+      border-radius: 4px;
+      color: white;
+
+      &:hover {
+        background-color: #c70a00;
+      }
     }
-
   }
+
   .edit {
     position: absolute;
     left: 10px;
     bottom: 10px;
-    border-radius: 4px;
-    background-color: #333;
-    color: white;
 
     button {
+      background-color: #333;
+      border-radius: 4px;
+      color: white;
       text-transform: uppercase;
-      font-size: 11px;
 
       &:hover {
         background-color: #444;
@@ -123,8 +119,6 @@ betty-editable {
 }
 .image-edit-overlay {
   width: 100%;
-  //height: 100%;
-
 }
 .add-feature-image-container {
   background-color: #EBEBEB;

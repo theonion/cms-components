@@ -1,38 +1,29 @@
-betty-editable .image-edit-container {
-  padding: 10px;
-  min-height: 250px; }
-  betty-editable .image-edit-container .edit {
-    bottom: auto;
-    top: 10px; }
-  betty-editable .image-edit-container .remove {
-    bottom: auto;
-    top: 10px; }
-  betty-editable .image-edit-container .caption-alt {
-    position: absolute;
-    bottom: 0;
-    left: 10px;
-    width: 101%; }
-
 betty-editable {
-  min-height: 250px;
-  display: block; }
-  betty-editable .betty-editable-add-image {
-    height: 250px;
-    background: white;
-    border: 1px solid #e0e1e2;
-    border-radius: none; }
-
-.image-edit-container {
-  position: relative;
-  background-size: 100%;
-  background-repeat: no-repeat; }
-  .image-edit-container img {
-    max-width: 100%;
-    min-height: 250px; }
-  .image-edit-container:hover .image-edit-overlay {
-    display: block; }
-  .image-edit-container + div {
-    margin-top: 10px; }
+  display: inline-block; }
+  betty-editable .image-edit-container {
+    background-repeat: no-repeat;
+    background-size: 100%;
+    min-height: 250px;
+    padding: 10px;
+    position: relative; }
+    betty-editable .image-edit-container img {
+      max-width: 100%;
+      min-height: 250px; }
+    betty-editable .image-edit-container:hover .image-edit-overlay {
+      display: block; }
+    betty-editable .image-edit-container + div {
+      margin-top: 10px; }
+    betty-editable .image-edit-container .edit {
+      bottom: auto;
+      top: 10px; }
+    betty-editable .image-edit-container .remove {
+      bottom: auto;
+      top: 10px; }
+    betty-editable .image-edit-container .caption-alt {
+      position: absolute;
+      bottom: 0;
+      left: 10px;
+      width: 101%; }
 
 .image-edit-overlay {
   position: absolute;
@@ -70,21 +61,22 @@ betty-editable {
   .image-edit-overlay .remove {
     position: absolute;
     right: 10px;
-    bottom: 10px;
-    background-color: #930900;
-    border-radius: 4px; }
-    .image-edit-overlay .remove button:hover {
-      background-color: #c70a00; }
+    bottom: 10px; }
+    .image-edit-overlay .remove button {
+      background-color: #930900;
+      border-radius: 4px;
+      color: white; }
+      .image-edit-overlay .remove button:hover {
+        background-color: #c70a00; }
   .image-edit-overlay .edit {
     position: absolute;
     left: 10px;
-    bottom: 10px;
-    border-radius: 4px;
-    background-color: #333;
-    color: white; }
+    bottom: 10px; }
     .image-edit-overlay .edit button {
-      text-transform: uppercase;
-      font-size: 11px; }
+      background-color: #333;
+      border-radius: 4px;
+      color: white;
+      text-transform: uppercase; }
       .image-edit-overlay .edit button:hover {
         background-color: #444; }
   .image-edit-overlay .edit button,
@@ -177,7 +169,7 @@ cms-button {
     border: none;
     border-radius: 5px;
     color: white;
-    font-size: 14px;
+    height: 100%;
     outline: 0;
     padding: 0.6em 1.5em;
     width: 100%; }
@@ -212,8 +204,7 @@ cms-button {
       color: #959fad;
       background-color: white;
       border: 1px solid;
-      font-weight: bold;
-      font-size: 12px; }
+      font-weight: bold; }
       cms-button > button.muted-action:hover {
         border-color: #4c5a6f; }
       cms-button > button.muted-action:active, cms-button > button.muted-action:focus {
@@ -225,8 +216,7 @@ cms-button {
     cms-button > button.subtle-action {
       background-color: #2e6f9c;
       color: white;
-      font-weight: bold;
-      font-size: 12px; }
+      font-weight: bold; }
       cms-button > button.subtle-action:hover {
         background-color: #1a4c6e; }
       cms-button > button.subtle-action:active, cms-button > button.subtle-action:focus {
@@ -247,10 +237,9 @@ cms-button {
         background-color: #f67e60; }
     cms-button > button.reset-action {
       background-color: white;
-      padding: .6em 1em;
-      font-size: 12px;
+      border: 1px solid #469bff;
       color: #469bff;
-      border: 1px solid #469bff; }
+      padding: 0.6em 1em; }
 
 .dropdown-menu cms-button > button {
   border-radius: 0;

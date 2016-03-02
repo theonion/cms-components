@@ -1,13 +1,11 @@
-<button
-    class="betty-editable-add-image add-feature-image btn col-md-12"
-    type="button"
-    ng-click="upload();"
+<cms-button
+    type="muted"
+    glyph="picture-o"
+    ng-click="upload()"
     ng-hide="image && image.id"
-    ng-class="addStyles"
-    ng-disabled="isDisabled">
-  <i class="fa fa-picture-o fa-3x"></i>
-  <div>Upload Image</div>
-</button>
+    ng-style="imageStyling">
+  Upload Image
+</cms-button>
 
 <div
     ng-show="image && image.id"

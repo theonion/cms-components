@@ -57,8 +57,6 @@
 
 	'use strict';
 
-	angular.module('lodash', []).constant('_', window._);
-
 	var cmsComponents = angular.module('cmsComponents', [
 	  'cmsComponents.auth',
 	  'cmsComponents.input'
@@ -255,8 +253,12 @@
 
 	'use strict';
 
-	(function () {
-	  angular.module('BettyCropper', ['restmod', 'ui.bootstrap'])
+	!(function () {
+	  angular.module('BettyCropper', [
+	    'restmod',
+	    'ui.bootstrap'
+	// TODO : cmsButton dependency should be listed here
+	  ])
 	    .value('DEFAULT_IMAGE_WIDTH', 1200)
 	    .factory('Selection', SelectionFactory)
 	    .factory('BettyImage', BettyImageFactory)
@@ -568,7 +570,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/betty-editable.html';
-	var html = "<button\n    class=\"betty-editable-add-image add-feature-image btn col-md-12\"\n    type=\"button\"\n    ng-click=\"upload();\"\n    ng-hide=\"image && image.id\"\n    ng-class=\"addStyles\"\n    ng-disabled=\"isDisabled\">\n  <i class=\"fa fa-picture-o fa-3x\"></i>\n  <div>Upload Image</div>\n</button>\n\n<div\n    ng-show=\"image && image.id\"\n    ng-style=\"imageStyling\"\n    class=\"image-edit-container\">\n  <div\n      class=\"image-edit-overlay\"\n      ng-show=\"editable\">\n    <div class=\"remove\">\n      <button\n          type=\"button\"\n          ng-click=\"removeImage();\"\n          class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button\n          type=\"button\"\n          name=\"inline_edit\"\n          ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n";
+	var html = "<cms-button\n    type=\"muted\"\n    glyph=\"picture-o\"\n    ng-click=\"upload()\"\n    ng-hide=\"image && image.id\"\n    ng-style=\"imageStyling\">\n  Upload Image\n</cms-button>\n\n<div\n    ng-show=\"image && image.id\"\n    ng-style=\"imageStyling\"\n    class=\"image-edit-container\">\n  <div\n      class=\"image-edit-overlay\"\n      ng-show=\"editable\">\n    <div class=\"remove\">\n      <button\n          type=\"button\"\n          ng-click=\"removeImage();\"\n          class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button\n          type=\"button\"\n          name=\"inline_edit\"\n          ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -583,20 +585,28 @@
 	    return {
 	      templateUrl: 'components/betty-cropper/betty-editable.html',
 	      restrict: 'E',
-	      transclude: true,
 
 	      scope: {
-	        'image': '=',
-	        'addStyles': '@',
-	        'placeholderText': '@',
-	        'ratio': '@',
-	        'editable': '=?',
-	        'imageChangeCallback': '=',
-	        'isDisabled': '='
+	        image: '=',
+	        placeholderText: '@',
+	        ratio: '@',                 // ratio string, AxB, where A is width, B is height
+	        editable: '=?',
+	        imageChangeCallback: '=',
+	        isDisabled: '='
 	      },
 
 	      controller: ['$scope', function ($scope) {
 	        $scope.editable = angular.isDefined($scope.editable) ? $scope.editable : true;
+
+	        var parsedRatio = $scope.ratio
+	          .split('x')
+	          .map(function (num) {
+	            return parseInt(num, 10) || 1;
+	          });
+	        $scope.parsedRatio = {
+	          width: parsedRatio[0],
+	          height: parsedRatio[1]
+	        };
 
 	        $scope.callImageChangeCallback = function (param) {
 	          if (_.isFunction($scope.imageChangeCallback)) {
@@ -613,6 +623,7 @@
 	                alt: null
 	              };
 	              $scope.bettyImage = success;
+	              $scope.setStyles();
 	              $scope.callImageChangeCallback(success);
 	            },
 	            function (error) {
@@ -651,13 +662,10 @@
 	          if (scope.bettyImage) {
 	            scope.imageStyling = scope.bettyImage.getStyles(element.parent().width(), element.parent().height(), scope.ratio);
 	          } else {
-	            var ratioWidth = parseInt(scope.ratio.split('x')[0], 10);
-	            var ratioHeight = parseInt(scope.ratio.split('x')[1], 10);
 	            scope.imageStyling = {
-	              'background-color': '#333',
 	              'position': 'relative',
 	              'width': element.parent().width(),
-	              'height': Math.floor(element.parent().width() * ratioHeight / ratioWidth) + 'px',
+	              'height': Math.floor(element.parent().width() * scope.parsedRatio.height / scope.parsedRatio.width) + 'px',
 	            };
 	          }
 	        };
@@ -677,13 +685,17 @@
 	        element.resize(scope.setStyles);
 
 	        scope.removeImage = function () {
-	          scope.image.id = null;
+	          scope.image = null;
+	          scope.bettyImage = null;
 	          scope.callImageChangeCallback();
+	          scope.setStyles();
 	        };
 
 	        scope.editImage = function () {
 	          openImageCropModal(scope.image).then(function (success) {});
 	        };
+
+	        scope.setStyles();
 	      }
 	    };
 	  }]);
