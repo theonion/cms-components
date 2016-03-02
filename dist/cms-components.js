@@ -226,6 +226,7 @@
 		"./cms-token-auth/cms-token-auth.js": 95,
 		"./cms-tooltip/cms-tooltip.js": 96,
 		"./cms-tooltip/cms-tooltip.scss": 97,
+		"./cms-unsaved-changes-guard/cms-unsaved-changes-guard.js": 108,
 		"./convert-to-number/convert-to-number.js": 99,
 		"./filters/filters-user-display-name/filters-user-display-name.js": 100,
 		"./sidebar-nav-item/sidebar-nav-item.html": 101,
@@ -2768,6 +2769,46 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 107 */,
+/* 108 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.unsavedChangesGuard', [])
+	  .directive('cmsUnsavedChangesGuard', [
+	    function () {
+	      return {
+	        require: ['form'],
+	        restrict: 'A',
+	        link: function ($scope, elements, attrs, ctrls) {
+	          var parentForm = ctrls[0];
+
+	          var checkDirty = function () {
+	            if (parentForm.$dirty) {
+	              return 'You have unsaved changes! Are you sure you want to continue?';
+	            }
+	          };
+
+	          window.addEventListener('beforeunload', checkDirty);
+
+	          $scope.$on('$destroy', function () {
+	            window.removeEventListener('beforeunload', checkDirty);
+	          });
+
+	          $scope.$on('$stateChangeStart', function (e) {
+	            var check = checkDirty();
+	            if (!e.defaultPrevented && check && !confirm(check)) {
+	              e.preventDefault();
+	            }
+	          });
+	        }
+	      }
+	    }
+	  ]);
+
 
 /***/ }
 /******/ ]);
