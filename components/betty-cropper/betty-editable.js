@@ -5,7 +5,7 @@ angular.module('cmsComponents')
     return {
       templateUrl: 'components/betty-cropper/betty-editable.html',
       restrict: 'E',
-      require: ['^form'],
+      require: ['?^^form'],
 
       scope: {
         image: '=',
@@ -77,15 +77,15 @@ angular.module('cmsComponents')
 
       link: function (scope, element, attrs, ctrls) {
 
-        var form = ctrls[0];
+        var parentForm = ctrls[0];
 
         if (!scope.bettyImage) {
           scope.bettyImage = null;
         }
 
         scope.markDirty = function () {
-          if (scope.inputName && form[scope.inputName]) {
-            form[scope.inputName].$setDirty();
+          if (parentForm && scope.inputName && parentForm[scope.inputName]) {
+            parentForm[scope.inputName].$setDirty();
           }
         };
 
