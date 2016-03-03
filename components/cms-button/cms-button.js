@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('cmsComponents.button', [])
+angular.module('cmsComponents.button', [
+  'cmsComponents.templates'
+])
   .directive('cmsButton', function () {
 
     return {
