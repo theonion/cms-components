@@ -14,6 +14,7 @@ CMS.
   ```
 
   Available attributes for this directive:
+
   | Attribute | Usage | Defaults |
   | --------- | ----- | -------- |
   | `button-type` | Type to apply to button, corresponds directly to html button attribute `type`. | `button` |
