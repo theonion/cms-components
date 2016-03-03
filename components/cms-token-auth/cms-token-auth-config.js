@@ -6,8 +6,6 @@ angular.module('cmsComponents.auth.config', [
   .provider('TokenAuthConfig', [
     '_',
     function TokenAuthConfigProvider (_) {
-      // page to route to after a successful login
-      var afterLoginPath = '/';
       // endpoint for token auth
       var apiEndpointAuth = '/api/token/auth';
       // endpoint for token refresh
@@ -33,15 +31,6 @@ angular.module('cmsComponents.auth.config', [
       var tokenKey = 'authToken';
       // handlers to fire when unauthentication occurs (logout)
       var unauthHandlers = [];
-
-      this.setAfterLoginPath = function (value) {
-        if (_.isString(value)) {
-          afterLoginPath = value;
-        } else {
-          throw new TypeError('TokenAuthConfig.afterLoginPath must be a string!');
-        }
-        return this;
-      };
 
       this.setApiEndpointAuth = function (value) {
         if (_.isString(value)) {
@@ -167,7 +156,6 @@ angular.module('cmsComponents.auth.config', [
 
       this.$get = function () {
         return {
-          getAfterLoginPath: _.constant(afterLoginPath),
           getApiEndpointAuth: _.constant(apiHost + apiEndpointAuth),
           getApiEndpointRefresh: _.constant(apiHost + apiEndpointRefresh),
           getApiEndpointCurrentUser: _.constant(apiHost + apiEndpointCurrentUser),
