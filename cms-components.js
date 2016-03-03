@@ -2,6 +2,10 @@
 
 var cmsComponents = angular.module('cmsComponents', [
   'cmsComponents.auth',
+
+// TODO : these components should be moved out of here at some point and
+//  included only where they are needed
+  'cmsComponents.button',
   'cmsComponents.input'
 ]);
 
