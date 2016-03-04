@@ -854,25 +854,16 @@ cms-token-auth-login-form {
         display: inline-block;
         line-height: 19px;
         margin-left: 7px; }
-[cms-tooltip-opener]:hover + cms-tooltip {
-  opacity: 1; }
-
-cms-tooltip {
-  -webkit-transition: opacity 0.3s cubic-bezier(0.25, 0.25, 0.84, 0.325);
-  -moz-transition: opacity 0.3s cubic-bezier(0.25, 0.25, 0.84, 0.325);
-  -ms-transition: opacity 0.3s cubic-bezier(0.25, 0.25, 0.84, 0.325);
-  -o-transition: opacity 0.3s cubic-bezier(0.25, 0.25, 0.84, 0.325);
-  transition: opacity 0.3s cubic-bezier(0.25, 0.25, 0.84, 0.325);
-  opacity: 0;
+.cms-tooltip-container {
+  display: none;
   margin-left: 5px;
   pointer-events: none;
   position: absolute;
   width: auto;
   z-index: 1000; }
-  cms-tooltip:before {
+  .cms-tooltip-container:before {
     border-style: solid;
     border-width: 5px 10px 5px 5px;
-    border-color: transparent #a94442 transparent transparent;
     bottom: 4px;
     content: " ";
     height: 0;
@@ -880,12 +871,14 @@ cms-tooltip {
     position: absolute;
     top: 8px;
     width: 0; }
-  cms-tooltip > .cms-tooltip-text {
+  .cms-tooltip-container > .cms-tooltip-text {
     border-radius: 2.5px;
     display: block;
     height: auto;
     padding: 0.2em 0.5em; }
-  cms-tooltip.invalid .cms-tooltip-text {
+  .cms-tooltip-container.invalid:before {
+    border-color: transparent #a94442 transparent transparent; }
+  .cms-tooltip-container.invalid > .cms-tooltip-text {
     background-color: #a94442;
     color: white; }
 sidebar-nav-item > a {

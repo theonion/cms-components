@@ -3,16 +3,13 @@
     <span class="cms-input-label-item cms-input-title">{{ title }}</span>
     <span
         class="cms-input-label-item cms-input-error"
-        ng-repeat="(message, doShow) in inputErrors()"
+        ng-repeat="(message, doShow) in errors()"
         ng-if="doShowErrors() && doShow">
-      <i
-          class="fa fa-exclamation-triangle"
-          cms-tooltip-opener>
-      </i>
-      <cms-tooltip
-          class="invalid"
-          cms-tooltip-text="{{ message }}">
-      </cms-tooltip>
+        <i
+            class="fa fa-exclamation-triangle"
+            cms-tooltip="{{ message }}"
+            cms-tooltip-classes="invalid">
+        </i>
     </span>
   </span>
   <ng-transclude class="cms-input-control"></ng-transclude>
