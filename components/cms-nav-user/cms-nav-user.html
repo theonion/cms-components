@@ -1,23 +1,25 @@
-<div
-    uib-dropdown
-    dropdown-append-to-body>
-  <button
-      class="cms-nav-user-menu-opener"
-      uib-dropdown-toggle>
-    <span>Hi,</span>
-    <span class="cms-nav-user-name">{{ user | userDisplay }}</span>
-    <i class="fa fa-angle-down"></i>
-  </button>
-  <ul
-      uib-dropdown-menu
-      role="menu"
-      aria-labelledby="btn-append-to-body"
-      class="dropdown-menu nav-menu-dropdown-menu">
-    <li>
-      <a ui-sref="logout">
-        <i class="fa fa-power-off"></i>
-        <span>Log Out</span>
-      </a>
-    </li>
-  </ul>
-</div>
+<cms-login-required-wrapper>
+  <div
+      uib-dropdown
+      dropdown-append-to-body>
+    <button
+        class="cms-nav-user-menu-opener"
+        uib-dropdown-toggle>
+      <span>Hi,</span>
+      <span class="cms-nav-user-name">{{ user | userDisplay }}</span>
+      <i class="fa fa-angle-down"></i>
+    </button>
+    <ul
+        uib-dropdown-menu
+        role="menu"
+        aria-labelledby="btn-append-to-body"
+        class="dropdown-menu nav-menu-dropdown-menu">
+      <li>
+        <a ui-sref="logout">
+          <i class="fa fa-power-off"></i>
+          <span>Log Out</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</cms-login-required-wrapper>
