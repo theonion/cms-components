@@ -1,11 +1,8 @@
 'use strict';
 
-angular.module('cmsComponents.notifications.service', [
-  'lodash'
-])
+angular.module('cmsComponents.notifications.service', [])
   .service('NotificationsService', [
-    '_',
-    function (_) {
+    function () {
 
       var data = {
         errors: [],
@@ -40,7 +37,7 @@ angular.module('cmsComponents.notifications.service', [
       var list = function (type) {
         // clean up anything we should remove
         data[type] = data[type].filter(function (notification) {
-          return !notification.doRemove();
+          return typeof notification.doRemove !== 'function' || !notification.doRemove();
         });
 
         return data[type];

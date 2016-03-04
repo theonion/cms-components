@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('cmsComponents.notifications', [
-  'cmsComponents.notifications.service'
+  'cmsComponents.notifications.service',
+  'cmsComponents.templates'
 ])
   .directive('cmsNotifications', [
     'NotificationsService',
