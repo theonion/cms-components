@@ -3,20 +3,38 @@
 angular.module('cmsComponents.tooltip', [])
   .directive('cmsTooltip', function () {
     return {
-      template: '<span class="cms-tooltip-text">{{ text }}</span>',
-      restrict: 'E',
+      restrict: 'A',
       scope: {
-        text: '@cmsTooltipText'
+        text: '@cmsTooltip',
+        classes: '@cmsTooltipClasses'
       },
       link: function (scope, elements) {
-        elements.siblings('[cms-tooltip-opener]').hover(function (e) {
+
+        var tooltipEle = angular.element(
+          '<div class="cms-tooltip-container ' + scope.classes + '">' +
+            '<span class="cms-tooltip-text">' + scope.text + '</span>' +
+          '</div>'
+        );
+        angular.element(document.body).append(tooltipEle);
+
+        elements.on('mouseenter', function (e) {
           var $target = angular.element(e.target);
 
-          var left = $target[0].offsetLeft + $target.width() + 10;
-          var top = $target[0].offsetTop - $target.height() / 2;
+          var offset = $target.offset();
+          var left = offset.left + $target.width() + 10;
+          var top = offset.top - $target.height() / 2;
 
-          elements.css('left', left);
-          elements.css('top', top);
+          tooltipEle.css('display', 'block');
+          tooltipEle.css('left', left);
+          tooltipEle.css('top', top);
+        });
+
+        elements.on('mouseleave', function () {
+          tooltipEle.css('display', 'none');
+        });
+
+        scope.$on('$destroy', function () {
+          tooltipEle.remove();
         });
       }
     }

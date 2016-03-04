@@ -1,14 +1,9 @@
 @import 'colors';
 @import 'mixins';
 
-[cms-tooltip-opener]:hover + cms-tooltip {
-  opacity: 1;
-}
+.cms-tooltip-container {
 
-cms-tooltip {
-  @include ease(opacity, 0.3s);
-
-  opacity: 0;
+  display: none;
   margin-left: 5px;
   pointer-events: none;
   position: absolute;
@@ -16,9 +11,9 @@ cms-tooltip {
   z-index: 1000;
 
   &:before {
+    // triangle tip of tooltip
     border-style: solid;
     border-width: 5px 10px 5px 5px;
-    border-color: transparent palette(error, base) transparent transparent;
     bottom: 4px;
     content: " ";
     height: 0;
@@ -38,7 +33,11 @@ cms-tooltip {
 
   &.invalid {
 
-    .cms-tooltip-text {
+    &:before {
+      border-color: transparent palette(error, base) transparent transparent;
+    }
+
+    > .cms-tooltip-text {
       background-color: palette(error, base);
       color: palette(white, base);
     }
