@@ -20,50 +20,47 @@ betty-editable {
       bottom: auto;
       top: 10px; }
     betty-editable .image-edit-container .caption-alt {
-      position: absolute;
       bottom: 0;
+      position: absolute;
       left: 10px;
       width: 101%; }
   betty-editable .betty-editable-value-holder {
     display: none; }
 
 .image-edit-overlay {
-  position: absolute;
-  top: 0;
+  display: none;
   left: 0;
-  display: none; }
+  position: absolute;
+  top: 0; }
 
 .buttonStyles, .image-edit-overlay button {
-  border: 1px transparent solid;
-  color: #4a4a4a;
   background-clip: padding-box;
   background-color: transparent;
+  border: 1px transparent solid;
   border-radius: 2px;
-  text-align: center;
-  display: inline-block;
-  line-height: 25px;
+  color: #4a4a4a;
   cursor: pointer;
-  border-radius: 3px;
-  width: auto;
-  display: block;
+  display: inline-block;
   font-size: 14px;
-  width: 100%;
-  text-align: left;
+  height: auto;
+  line-height: 25px;
   padding: 4px 8px;
-  height: auto; }
+  text-align: center;
+  text-align: left;
+  width: 100%; }
 
 .image-edit-overlay {
-  position: absolute;
-  display: none;
   background-color: rgba(200, 200, 200, 0.5);
+  display: none;
+  position: absolute;
   z-index: 100; }
   .image-edit-overlay button {
     display: inline-block;
     width: auto; }
   .image-edit-overlay .remove {
+    bottom: 10px;
     position: absolute;
-    right: 10px;
-    bottom: 10px; }
+    right: 10px; }
     .image-edit-overlay .remove button {
       background-color: #930900;
       border-radius: 4px;
@@ -71,9 +68,9 @@ betty-editable {
       .image-edit-overlay .remove button:hover {
         background-color: #c70a00; }
   .image-edit-overlay .edit {
-    position: absolute;
+    bottom: 10px;
     left: 10px;
-    bottom: 10px; }
+    position: absolute; }
     .image-edit-overlay .edit button {
       background-color: #333;
       border-radius: 4px;
@@ -92,14 +89,14 @@ betty-editable {
 .add-feature-image-container {
   background-color: #EBEBEB;
   border: 1px solid #e3e3e3;
-  position: relative;
-  border-radius: 4px; }
+  border-radius: 4px;
+  position: relative; }
 
 .add-feature-image {
-  color: #b3b3b3;
   background-color: #ebebeb;
-  height: 32px;
   border: 0;
+  color: #b3b3b3;
+  height: 32px;
   text-align: center; }
   .add-feature-image:hover {
     color: #4a4a4a; }
@@ -118,25 +115,25 @@ betty-editable {
   padding-left: 0; }
   .image-cropper-modal .modal-body .thumb-list li {
     display: inline-block;
+    height: 180px;
     margin: 0 3px;
     position: relative;
-    height: 180px;
     width: 180px; }
     .image-cropper-modal .modal-body .thumb-list li .cropped-thumb-container {
-      height: 180px;
-      width: 180px;
       background-color: #dedede;
-      cursor: pointer; }
+      cursor: pointer;
+      height: 180px;
+      width: 180px; }
       .image-cropper-modal .modal-body .thumb-list li .cropped-thumb-container:hover {
         background-color: #777; }
       .image-cropper-modal .modal-body .thumb-list li .cropped-thumb-container .cropped-thumb {
+        bottom: 0;
+        left: 0;
+        margin: 0 auto;
         overflow: hidden;
         position: absolute;
-        top: 0;
-        left: 0;
         right: 0;
-        bottom: 0;
-        margin: 0 auto; }
+        top: 0; }
 
 .image-cropper-modal .modal-body .ratio-paginator span.fa {
   cursor: pointer;
@@ -159,9 +156,9 @@ betty-editable {
   content: "\F1DB"; }
 
 .image-cropper-modal .modal-footer .btn.btn-link i {
-  margin-right: 3px;
+  color: red;
   font-size: 16px;
-  color: red; }
+  margin-right: 3px; }
 cms-button {
   display: inline-block; }
   cms-button[disabled] > button {
@@ -186,8 +183,8 @@ cms-button {
       -moz-order: 1;
       -ms-flex-order: 1;
       order: 1;
-      margin-right: 0;
-      margin-left: 0.4em; }
+      margin-left: 0.4em;
+      margin-right: 0; }
     cms-button > button.success-action {
       background-color: #21cc9c; }
       cms-button > button.success-action:hover {
@@ -281,15 +278,15 @@ cms-content-list {
       font-size: 12px;
       margin-top: .2em; }
 cms-filter-set {
-  padding: 1em 2em;
   border-radius: 7em;
+  padding: 1em 2em;
   background: white;
   display: inline-block;
   border: 1px solid #e0e1e2;
   padding: .75em .4em; }
   cms-filter-set cms-filter-item {
-    padding: 1em 2em;
     border-radius: 7em;
+    padding: 1em 2em;
     padding: 0.5em 1.5em;
     cursor: pointer;
     color: #d2d2d2; }
@@ -391,8 +388,8 @@ cms-input {
       margin-right: 0.5em; }
     cms-input > label .cms-input-title {
       font-weight: 700;
-      text-transform: uppercase;
-      font-weight: normal; }
+      font-weight: normal;
+      text-transform: uppercase; }
     cms-input > label .input-group-addon {
       outline: 0; }
     cms-input > label .input-group-btn .btn {
@@ -611,22 +608,22 @@ cms-notifications ul {
   margin: 0 0 1em;
   padding: 10px; }
   cms-notifications ul.cms-notifications-errors {
-    border-color: #a94442;
     background-color: #f2dede;
+    border-color: #a94442;
     color: #a94442; }
     cms-notifications ul.cms-notifications-errors button {
       background: none;
       border: none; }
   cms-notifications ul.cms-notifications-warnings {
-    border-color: #8a6d3b;
     background-color: #fcf8e3;
+    border-color: #8a6d3b;
     color: #8a6d3b; }
     cms-notifications ul.cms-notifications-warnings button {
       background: none;
       border: none; }
   cms-notifications ul.cms-notifications-infos {
-    border-color: #31708f;
     background-color: #d9edf7;
+    border-color: #31708f;
     color: #31708f; }
     cms-notifications ul.cms-notifications-infos button {
       background: none;

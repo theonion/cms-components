@@ -980,7 +980,7 @@
 	        glyph: '@glyph',                    // glyph to use from glyph library, defaults to 'question-circle'
 	        glyphClass: '@buttonGlyphClass',    // class to use to style glyph, defaults to 'fa'
 	        glyphPrefix: '@buttonGlyphPrefix',  // prefix for glyph icon, defaults to 'fa'
-	        glyphSize: '@buttonGlyphSize',      // class to use for glyph size
+	        glyphSize: '@glyphsize',            // class to use for glyph size
 	        glyphPos: '@glyphpos',              // position of glyph, 'before' or 'after', defaults to 'before'
 	        hideGlyph: '&noglyph',              // truthy to hide glyph
 	      },
@@ -1251,7 +1251,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-input/cms-input.html';
-	var html = "<label>\n  <span class=\"cms-input-label\">\n    <span class=\"cms-input-label-item cms-input-title\">{{ title }}</span>\n    <span\n        class=\"cms-input-label-item cms-input-error\"\n        ng-repeat=\"(message, doShow) in inputErrors()\"\n        ng-if=\"doShowErrors() && doShow\">\n        <i\n            class=\"fa fa-exclamation-triangle\"\n            cms-tooltip=\"{{ message }}\"\n            cms-tooltip-classes=\"invalid\">\n        </i>\n    </span>\n  </span>\n  <ng-transclude class=\"cms-input-control\"></ng-transclude>\n</label>\n";
+	var html = "<label>\n  <span class=\"cms-input-label\">\n    <span class=\"cms-input-label-item cms-input-title\">{{ title }}</span>\n    <span\n        class=\"cms-input-label-item cms-input-error\"\n        ng-repeat=\"(message, doShow) in errors()\"\n        ng-if=\"doShowErrors() && doShow\">\n        <i\n            class=\"fa fa-exclamation-triangle\"\n            cms-tooltip=\"{{ message }}\"\n            cms-tooltip-classes=\"invalid\">\n        </i>\n    </span>\n  </span>\n  <ng-transclude class=\"cms-input-control\"></ng-transclude>\n</label>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -1271,14 +1271,15 @@
 	        templateUrl: 'components/cms-input/cms-input.html',
 	        restrict: 'E',
 	        scope: {
-	          title: '@',                         // title for input label
-	          inputErrorsShowOnlyWhen: '&',       // only show errors when this is true, by default errors will always show
-	          inputErrors: '&'                   // object of errors where key is the error message and value is a boolean to use to determine if error shows or not
+	          title: '@',                             // title for input label
+	          showErrors: '&cmsInputErrorsShowWhen',  // only show errors when this is true, by default errors will always show
+	          errors: '&cmsInputErrors'               // object of errors where key is the error message and value is a boolean to use to determine if error shows or not
 	        },
 	        transclude: true,
 	        link: function ($scope) {
+
 	          $scope.doShowErrors = function () {
-	            var doShowAttr = $scope.inputErrorsShowOnlyWhen();
+	            var doShowAttr = $scope.showErrors();
 	            // specifically checking false, so falsy values like undefined don't
 	            //  trigger errors not showing up
 	            return doShowAttr === false ? false : true;
@@ -1450,7 +1451,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-nav-user/cms-nav-user.html';
-	var html = "<div\n    uib-dropdown\n    dropdown-append-to-body>\n  <button\n      class=\"cms-nav-user-menu-opener\"\n      uib-dropdown-toggle>\n    <span>Hi,</span>\n    <span class=\"cms-nav-user-name\">{{ user | userDisplay }}</span>\n    <i class=\"fa fa-angle-down\"></i>\n  </button>\n  <ul\n      uib-dropdown-menu\n      role=\"menu\"\n      aria-labelledby=\"btn-append-to-body\"\n      class=\"dropdown-menu nav-menu-dropdown-menu\">\n    <li>\n      <a ui-sref=\"logout\">\n        <i class=\"fa fa-power-off\"></i>\n        <span>Log Out</span>\n      </a>\n    </li>\n  </ul>\n</div>\n";
+	var html = "<cms-login-required-wrapper>\n  <div\n      uib-dropdown\n      dropdown-append-to-body>\n    <button\n        class=\"cms-nav-user-menu-opener\"\n        uib-dropdown-toggle>\n      <span>Hi,</span>\n      <span class=\"cms-nav-user-name\">{{ user | userDisplay }}</span>\n      <i class=\"fa fa-angle-down\"></i>\n    </button>\n    <ul\n        uib-dropdown-menu\n        role=\"menu\"\n        aria-labelledby=\"btn-append-to-body\"\n        class=\"dropdown-menu nav-menu-dropdown-menu\">\n      <li>\n        <a ui-sref=\"logout\">\n          <i class=\"fa fa-power-off\"></i>\n          <span>Log Out</span>\n        </a>\n      </li>\n    </ul>\n  </div>\n</cms-login-required-wrapper>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -1462,35 +1463,27 @@
 
 	angular.module('cmsComponents.navUser', [
 	  'cmsComponents.auth.user',
-	  'cmsComponents.filters.userDisplay'
+	  'cmsComponents.auth.loginRequiredWrapper',
+	  'cmsComponents.filters.userDisplay',
+	  'cmsComponents.templates'
 	])
-	  .directive('cmsNavUser', function () {
-	    return {
-	      templateUrl: 'components/cms-nav-user/cms-nav-user.html',
-	      restrict: 'E',
-	      controller: [
-	        '$rootScope', '$scope', 'CurrentUser',
-	        function ($rootScope, $scope, CurrentUser) {
-
-	          var onLogin = function (user) {
-	            $scope.user = user;
-	          };
-
-	          var onLogout = function () {
-	            $scope.user = null;
-	          };
-
-	          CurrentUser.addLoginHandler(onLogin);
-	          CurrentUser.addLogoutHandler(onLogout);
-
-	          $scope.$on('$destroy', function () {
-	            CurrentUser.removeLoginHandler(onLogin);
-	            CurrentUser.removeLogoutHandler(onLogout);
-	          });
-	        }
-	      ]
+	  .directive('cmsNavUser', [
+	    function () {
+	      return {
+	        templateUrl: 'components/cms-nav-user/cms-nav-user.html',
+	        restrict: 'E',
+	        controller: [
+	          '$scope', 'CurrentUser',
+	          function ($scope, CurrentUser) {
+	            CurrentUser.$get()
+	              .then(function (user) {
+	                $scope.user = user;
+	              });
+	          }
+	        ]
+	      }
 	    }
-	  });
+	  ]);
 
 
 /***/ },
@@ -1506,12 +1499,9 @@
 
 	'use strict';
 
-	angular.module('cmsComponents.notifications.service', [
-	  'lodash'
-	])
+	angular.module('cmsComponents.notifications.service', [])
 	  .service('NotificationsService', [
-	    '_',
-	    function (_) {
+	    function () {
 
 	      var data = {
 	        errors: [],
@@ -1546,7 +1536,7 @@
 	      var list = function (type) {
 	        // clean up anything we should remove
 	        data[type] = data[type].filter(function (notification) {
-	          return !notification.doRemove();
+	          return typeof notification.doRemove !== 'function' || !notification.doRemove();
 	        });
 
 	        return data[type];
@@ -1589,7 +1579,8 @@
 	'use strict';
 
 	angular.module('cmsComponents.notifications', [
-	  'cmsComponents.notifications.service'
+	  'cmsComponents.notifications.service',
+	  'cmsComponents.templates'
 	])
 	  .directive('cmsNotifications', [
 	    'NotificationsService',
@@ -2641,7 +2632,7 @@
 	            '<span class="cms-tooltip-text">' + scope.text + '</span>' +
 	          '</div>'
 	        );
-	        angular.element('body').append(tooltipEle);
+	        angular.element(document.body).append(tooltipEle);
 
 	        elements.on('mouseenter', function (e) {
 	          var $target = angular.element(e.target);
