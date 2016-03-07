@@ -25,8 +25,8 @@ cms-input {
     .cms-input-title {
       @include text-bold;
 
-      text-transform: uppercase;
       font-weight: normal;
+      text-transform: uppercase;
     }
 
     .input-group-addon {

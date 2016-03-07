@@ -12,8 +12,8 @@ cms-notifications {
 
     @mixin notification-type ($type, $palette) {
       &.cms-notifications-#{$type} {
-        border-color: palette($palette, base);
         background-color: palette($palette, background);
+        border-color: palette($palette, base);
         color: palette($palette, base);
 
         button {

@@ -19,8 +19,9 @@ $glyph-margin: 0.4em;
 
   [glyphpos="after"] & > i {
     @include order(1);
-    margin-right: 0;
+
     margin-left: $glyph-margin;
+    margin-right: 0;
   }
 }
 
