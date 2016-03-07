@@ -16,7 +16,7 @@ angular.module('cmsComponents.button', [
         glyph: '@glyph',                    // glyph to use from glyph library, defaults to 'question-circle'
         glyphClass: '@buttonGlyphClass',    // class to use to style glyph, defaults to 'fa'
         glyphPrefix: '@buttonGlyphPrefix',  // prefix for glyph icon, defaults to 'fa'
-        glyphSize: '@buttonGlyphSize',      // class to use for glyph size
+        glyphSize: '@glyphsize',            // class to use for glyph size
         glyphPos: '@glyphpos',              // position of glyph, 'before' or 'after', defaults to 'before'
         hideGlyph: '&noglyph',              // truthy to hide glyph
       },

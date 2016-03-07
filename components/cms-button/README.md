@@ -23,6 +23,6 @@ CMS.
   | `glyph` | Glyph to use from chosen glyph library. | `question-circle` |
   | `button-glyph-class` | Class to use to style glyph. The default is `fa` which will style glyphs according to font-awesome. | `fa` |
   | `button-glyph-prefix` | Prefix to use for glyph icon. The default is `fa` which will prefix `glyph` to look up glpyhs in font-awesome, such as `fa-question-circle`. | `fa` |
-  | `button-glyph-size` | A class to use for glyph size. | `''` |
+  | `glyphsize` | A class to use for glyph size. | `''` |
   | `glyph-pos` | Position of glyph relative to text, one of `before` or `after`. | `before` |
   | `no-glyph` | Interpreted string that returns truthy when glyph should be hidden. | N/A |

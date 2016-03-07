@@ -143,7 +143,7 @@ describe('Directive: cms-button', function () {
     it('should provide a way to give glyph size', function () {
       var glyphSize = 'ccc-3x';
 
-      html.attr('button-glyph-size', glyphSize);
+      html.attr('glyphsize', glyphSize);
       digestedScope();
 
       expect(html.find('i').hasClass(glyphSize)).to.be.true;
