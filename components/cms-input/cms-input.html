@@ -1,8 +1,16 @@
 <label>
-  <span class="cms-input-title">
-    {{title}}
+  <span class="cms-input-label">
+    <span class="cms-input-label-item cms-input-title">{{ title }}</span>
+    <span
+        class="cms-input-label-item cms-input-error"
+        ng-repeat="(message, doShow) in errors()"
+        ng-if="doShowErrors() && doShow">
+        <i
+            class="fa fa-exclamation-triangle"
+            cms-tooltip="{{ message }}"
+            cms-tooltip-classes="invalid">
+        </i>
+    </span>
   </span>
-  <span class="cms-input-control">
-    <ng-transclude></ng-transclude>
-  </span>
+  <ng-transclude class="cms-input-control"></ng-transclude>
 </label>

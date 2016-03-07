@@ -19,9 +19,7 @@ $button-blue-dk: $mdk-blue;
 
 $blue-grey: rgb(149, 159, 173);
 
-
 $color-base-grey: rgb(246, 246, 246);
-
 
 $palettes: (
   base: (
@@ -59,6 +57,18 @@ $palettes: (
     hover: #26364c,
     active: #4c5a6f,
     disabled: #c9cdd4
+  ),
+  error: (
+    base: #a94442,
+    background: #f2dede
+  ),
+  warning: (
+    base: #8a6d3b,
+    background: #fcf8e3
+  ),
+  info: (
+    base: #31708f,
+    background: #d9edf7
   ),
   save: (
     base: #21cc9c,

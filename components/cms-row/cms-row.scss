@@ -1,17 +1,28 @@
 @import 'sass-toolkit/utils/flexbox';
-@import 'colors';
 
 cms-row {
   & > ng-transclude {
     @include flexbox;
     @include justify-content(space-between);
     @include align-items(flex-start);
-    //> * {
-    //  @include flex-grow(1);
-    //  width: 0px;
-    //}
+
+    margin-bottom: 25px;
+
     > :not(:last-child) {
       margin-right: 1em;
+    }
+
+    > * {
+      @include flex-grow(1);
+
+      outline: 0;
+      width: 0px;
+    }
+  }
+
+  @for $i from 1 through 12 {
+    .cms-row-col-#{$i} {
+      @include flex-grow($i);
     }
   }
 }

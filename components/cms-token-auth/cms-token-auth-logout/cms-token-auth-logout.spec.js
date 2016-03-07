@@ -12,11 +12,9 @@ describe('Directive: CmsTokenAuthLogout', function () {
     inject(function (_TokenAuthService_, $compile, $rootScope) {
       TokenAuthService = _TokenAuthService_;
 
-      digestedScope = function () {
-        var $directiveScope = $rootScope.$new();
-        var element = $compile('<cms-token-auth-logout>')($directiveScope);
-        $directiveScope.$digest();
-      };
+      var html = '<cms-token-auth-logout>';
+
+      digestedScope = window.testHelper.directiveBuilder($compile, $rootScope, html);
     });
   });
 

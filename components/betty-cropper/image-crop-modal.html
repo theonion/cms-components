@@ -47,12 +47,12 @@
   </div>
   <div class="modal-footer">
     <div ng-hide="cropMode">
-      <button class="btn btn-success" ng-click="closeModal();">Done</button>
+      <button type="button" class="btn btn-success" ng-click="closeModal();">Done</button>
     </div>
     <div ng-show="cropMode">
-      <button class="btn btn-link" ng-click="saveAndQuit()" ng-hide="finished">Save and Finish</button>
-      <button class="btn btn-success" ng-click="saveAndNext()" ng-hide="finished">Save & Continue</button>
-      <button class="btn btn-success" ng-click="saveAndQuit()" ng-show="finished">Save & Finish</button>
+      <button type="button" class="btn btn-link" ng-click="saveAndQuit()" ng-hide="finished">Save and Finish</button>
+      <button type="button" class="btn btn-success" ng-click="saveAndNext()" ng-hide="finished">Save & Continue</button>
+      <button type="button" class="btn btn-success" ng-click="saveAndQuit()" ng-show="finished">Save & Finish</button>
     </div>
   </div>
 </div>

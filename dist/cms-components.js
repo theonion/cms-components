@@ -58,7 +58,12 @@
 	'use strict';
 
 	var cmsComponents = angular.module('cmsComponents', [
-	  'cmsComponents.auth'
+	  'cmsComponents.auth',
+
+	// TODO : these components should be moved out of here at some point and
+	//  included only where they are needed
+	  'cmsComponents.button',
+	  'cmsComponents.input'
 	]);
 
 	cmsComponents.provider('$render', function () {
@@ -71,12 +76,14 @@
 	    renderToRoot: function toRoot(options) {
 	      options.views = {
 	        'cmsLayoutViewport@': {
+	          template: options.template,
 	          templateUrl: options.templateUrl,
 	          controller: options.controller,
 	          templateProvider: options.templateProvider
 	        }
 	      };
 
+	      delete options.template;
 	      delete options.templateUrl;
 	      delete options.controller;
 	      delete options.templateProvider;
@@ -193,37 +200,43 @@
 		"./cms-nav-user/cms-nav-user.html": 59,
 		"./cms-nav-user/cms-nav-user.js": 60,
 		"./cms-nav-user/cms-nav-user.scss": 61,
-		"./cms-partial/cms-partial.html": 63,
-		"./cms-partial/cms-partial.js": 64,
-		"./cms-partial/cms-partial.scss": 65,
-		"./cms-row/cms-row.html": 67,
-		"./cms-row/cms-row.js": 68,
-		"./cms-row/cms-row.scss": 69,
-		"./cms-table-cell/cms-table-cell.html": 71,
-		"./cms-table-cell/cms-table-cell.js": 72,
-		"./cms-table-cell/cms-table-cell.scss": 73,
-		"./cms-table-column/cms-table-column.html": 75,
-		"./cms-table-column/cms-table-column.js": 76,
-		"./cms-table-column/cms-table-column.scss": 77,
-		"./cms-table/cms-table.html": 79,
-		"./cms-table/cms-table.js": 80,
-		"./cms-table/cms-table.scss": 81,
-		"./cms-token-auth/cms-token-auth-config.js": 83,
-		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 84,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 85,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 86,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 87,
-		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 89,
-		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 90,
-		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 91,
-		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 92,
-		"./cms-token-auth/cms-token-auth.js": 93,
-		"./convert-to-number/convert-to-number.js": 94,
-		"./filters/filters-user-display-name/filters-user-display-name.js": 95,
-		"./sidebar-nav-item/sidebar-nav-item.html": 96,
-		"./sidebar-nav-item/sidebar-nav-item.js": 97,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 98,
-		"./ui-sref-active-if/ui-sref-active-if.js": 100
+		"./cms-notifications/cms-notifications-service.js": 63,
+		"./cms-notifications/cms-notifications.html": 64,
+		"./cms-notifications/cms-notifications.js": 65,
+		"./cms-notifications/cms-notifications.scss": 66,
+		"./cms-partial/cms-partial.html": 68,
+		"./cms-partial/cms-partial.js": 69,
+		"./cms-partial/cms-partial.scss": 70,
+		"./cms-row/cms-row.js": 72,
+		"./cms-row/cms-row.scss": 73,
+		"./cms-table-cell/cms-table-cell.html": 75,
+		"./cms-table-cell/cms-table-cell.js": 76,
+		"./cms-table-cell/cms-table-cell.scss": 77,
+		"./cms-table-column/cms-table-column.html": 79,
+		"./cms-table-column/cms-table-column.js": 80,
+		"./cms-table-column/cms-table-column.scss": 81,
+		"./cms-table/cms-table.html": 83,
+		"./cms-table/cms-table.js": 84,
+		"./cms-table/cms-table.scss": 85,
+		"./cms-token-auth/cms-token-auth-config.js": 87,
+		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 88,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 89,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 90,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 91,
+		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 93,
+		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 94,
+		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 95,
+		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 96,
+		"./cms-token-auth/cms-token-auth.js": 97,
+		"./cms-tooltip/cms-tooltip.js": 98,
+		"./cms-tooltip/cms-tooltip.scss": 99,
+		"./cms-unsaved-changes-guard/cms-unsaved-changes-guard.js": 101,
+		"./convert-to-number/convert-to-number.js": 102,
+		"./filters/filters-user-display-name/filters-user-display-name.js": 103,
+		"./sidebar-nav-item/sidebar-nav-item.html": 104,
+		"./sidebar-nav-item/sidebar-nav-item.js": 105,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 106,
+		"./ui-sref-active-if/ui-sref-active-if.js": 108
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -245,8 +258,12 @@
 
 	'use strict';
 
-	(function () {
-	  angular.module('BettyCropper', ['restmod', 'ui.bootstrap'])
+	!(function () {
+	  angular.module('BettyCropper', [
+	    'restmod',
+	    'ui.bootstrap'
+	// TODO : cmsButton dependency should be listed here
+	  ])
 	    .value('DEFAULT_IMAGE_WIDTH', 1200)
 	    .factory('Selection', SelectionFactory)
 	    .factory('BettyImage', BettyImageFactory)
@@ -558,7 +575,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/betty-editable.html';
-	var html = "<button class=\"betty-editable-add-image add-feature-image btn col-md-12\"\n        ng-click=\"upload();\"\n        ng-hide=\"image && image.id\"\n        ng-class=\"addStyles\"\n        ng-disabled=\"isDisabled\">\n  <i class=\"fa fa-picture-o fa-3x\"></i>\n  <div>Upload Image</div>\n</button>\n\n<div ng-show=\"image && image.id\"\n     ng-style=\"imageStyling\"\n     class=\"image-edit-container\">\n  <div class=\"image-edit-overlay\"\n       ng-show=\"editable\">\n    <div class=\"remove\">\n      <button ng-click=\"removeImage();\"\n              class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button name=\"inline_edit\"\n              ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n";
+	var html = "<cms-button\n    type=\"muted\"\n    glyph=\"picture-o\"\n    ng-click=\"upload()\"\n    ng-hide=\"image && image.id\"\n    ng-style=\"imageStyling\">\n  {{ buttonText || 'Upload Image' }}\n</cms-button>\n\n<div\n    ng-show=\"image && image.id\"\n    ng-style=\"imageStyling\"\n    class=\"image-edit-container\">\n  <div\n      class=\"image-edit-overlay\"\n      ng-show=\"editable\">\n    <div class=\"remove\">\n      <button\n          type=\"button\"\n          ng-click=\"removeImage();\"\n          class=\"fa fa-trash-o\"></button>\n    </div>\n    <div class=\"edit\">\n      <button\n          type=\"button\"\n          name=\"inline_edit\"\n          ng-click=\"edit();\">\n        EDIT\n      </button>\n    </div>\n  </div>\n</div>\n\n<input\n    class=\"betty-editable-value-holder\"\n    type=\"text\"\n    name=\"{{ inputName }}\"\n    ng-model=\"image\">\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -569,114 +586,139 @@
 	'use strict';
 
 	angular.module('cmsComponents')
-	  .directive('bettyEditable', ['$http', 'BettyCropper', 'openImageCropModal', function ($http, BettyCropper, openImageCropModal) {
-	    return {
-	      templateUrl: 'components/betty-cropper/betty-editable.html',
-	      restrict: 'E',
-	      transclude: true,
+	  .directive('bettyEditable', [
+	    '$http', 'BettyCropper', 'openImageCropModal',
+	    function ($http, BettyCropper, openImageCropModal) {
+	      return {
+	        templateUrl: 'components/betty-cropper/betty-editable.html',
+	        restrict: 'E',
+	        require: ['?^^form'],
 
-	      scope: {
-	        'image': '=',
-	        'addStyles': '@',
-	        'placeholderText': '@',
-	        'ratio': '@',
-	        'editable': '=?',
-	        'imageChangeCallback': '=',
-	        'isDisabled': '='
-	      },
+	        scope: {
+	          image: '=',
+	          ratio: '@',                             // ratio string, AxB, where A is width, B is height
+	          editable: '=?',
+	          imageChangeCallback: '=',
+	          isDisabled: '=',
+	          buttonText: '@bettyEditableButtonText', // text to display on button
+	          inputName: '@?bettyEditableInputName'   // name of input
+	        },
 
-	      controller: ['$scope', function ($scope) {
-	        $scope.editable = angular.isDefined($scope.editable) ? $scope.editable : true;
+	        controller: ['$scope', function ($scope) {
+	          $scope.editable = angular.isDefined($scope.editable) ? $scope.editable : true;
 
-	        $scope.callImageChangeCallback = function (param) {
-	          if (_.isFunction($scope.imageChangeCallback)) {
-	            $scope.imageChangeCallback(param);
-	          }
-	        };
+	          var parsedRatio = $scope.ratio
+	            .split('x')
+	            .map(function (num) {
+	              return parseInt(num, 10) || 1;
+	            });
+	          $scope.parsedRatio = {
+	            width: parsedRatio[0],
+	            height: parsedRatio[1]
+	          };
 
-	        $scope.upload = function () {
-	          BettyCropper.upload().then(
-	            function (success) {
-	              $scope.image = {
-	                id: success.id,
-	                caption: null,
-	                alt: null
-	              };
-	              $scope.bettyImage = success;
-	              $scope.callImageChangeCallback(success);
-	            },
-	            function (error) {
-	              console.error(error);
-	            },
-	            function (progress) {
-	              console.log(progress);
+	          $scope.callImageChangeCallback = function (param) {
+	            if (_.isFunction($scope.imageChangeCallback)) {
+	              $scope.imageChangeCallback(param);
 	            }
-	          );
-	        };
+	          };
 
-	        $scope.edit = function () {
-	          openImageCropModal($scope.image).then(function (image) {
-	            if (!image.id) {
-	              $scope.image = null;
-	            } else {
-	              $scope.image = image;
-	              BettyCropper.get($scope.image.id).then(function (response) {
-	                $scope.bettyImage = response.data;
+	          $scope.upload = function () {
+	            BettyCropper.upload().then(
+	              function (success) {
+	                $scope.image = {
+	                  id: success.id,
+	                  caption: null,
+	                  alt: null
+	                };
+	                $scope.bettyImage = success;
+	                $scope.callImageChangeCallback(success);
 	                $scope.setStyles();
+	                $scope.markDirty();
+	              },
+	              function (error) {
+	                console.error(error);
+	              },
+	              function (progress) {
+	                console.log(progress);
+	              }
+	            );
+	          };
+
+	          $scope.edit = function () {
+	            openImageCropModal($scope.image).then(function (image) {
+	              if (!image.id) {
+	                $scope.image = null;
+	              } else {
+	                $scope.image = image;
+	                BettyCropper.get($scope.image.id).then(function (response) {
+	                  $scope.bettyImage = response.data;
+	                  $scope.setStyles();
+	                });
+	              }
+
+	              $scope.callImageChangeCallback();
+	            });
+	          };
+	        }],
+
+	        link: function (scope, element, attrs, ctrls) {
+
+	          var parentForm = ctrls[0];
+
+	          if (!scope.bettyImage) {
+	            scope.bettyImage = null;
+	          }
+
+	          scope.markDirty = function () {
+	            if (parentForm && scope.inputName && parentForm[scope.inputName]) {
+	              parentForm[scope.inputName].$setDirty();
+	            }
+	          };
+
+	          scope.setStyles = function () {
+	            if (scope.bettyImage) {
+	              scope.imageStyling = scope.bettyImage.getStyles(element.parent().width(), element.parent().height(), scope.ratio);
+	            } else {
+	              scope.imageStyling = {
+	                'position': 'relative',
+	                'width': element.parent().width(),
+	                'height': Math.floor(element.parent().width() * scope.parsedRatio.height / scope.parsedRatio.width) + 'px',
+	              };
+	            }
+	          };
+
+	          scope.$watch('image', function (newImage) {
+	            if (newImage && newImage.id) {
+	              BettyCropper.get(newImage.id).then(function (response) {
+	                scope.bettyImage = response.data;
 	              });
 	            }
-
-	            $scope.callImageChangeCallback();
 	          });
-	        };
-	      }],
 
-	      link: function (scope, element) {
+	          scope.$watch('bettyImage', function () {
+	            scope.setStyles();
+	          }, true);
 
-	        if (!scope.bettyImage) {
-	          scope.bettyImage = null;
-	        }
+	          element.resize(scope.setStyles);
 
-	        scope.setStyles = function () {
-	          if (scope.bettyImage) {
-	            scope.imageStyling = scope.bettyImage.getStyles(element.parent().width(), element.parent().height(), scope.ratio);
-	          } else {
-	            var ratioWidth = parseInt(scope.ratio.split('x')[0], 10);
-	            var ratioHeight = parseInt(scope.ratio.split('x')[1], 10);
-	            scope.imageStyling = {
-	              'background-color': '#333',
-	              'position': 'relative',
-	              'width': element.parent().width(),
-	              'height': Math.floor(element.parent().width() * ratioHeight / ratioWidth) + 'px',
-	            };
-	          }
-	        };
+	          scope.removeImage = function () {
+	            scope.image = null;
+	            scope.bettyImage = null;
+	            scope.callImageChangeCallback();
+	            scope.setStyles();
+	            scope.markDirty();
+	          };
 
-	        scope.$watch('image', function (newImage) {
-	          if (newImage && newImage.id) {
-	            BettyCropper.get(newImage.id).then(function (response) {
-	              scope.bettyImage = response.data;
-	            });
-	          }
-	        });
+	          scope.editImage = function () {
+	            openImageCropModal(scope.image).then(function (success) {});
+	          };
 
-	        scope.$watch('bettyImage', function () {
 	          scope.setStyles();
-	        }, true);
-
-	        element.resize(scope.setStyles);
-
-	        scope.removeImage = function () {
-	          scope.image.id = null;
-	          scope.callImageChangeCallback();
-	        };
-
-	        scope.editImage = function () {
-	          openImageCropModal(scope.image).then(function (success) {});
-	        };
-	      }
-	    };
-	  }]);
+	        }
+	      };
+	    }
+	  ]);
 
 
 /***/ },
@@ -708,7 +750,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/betty-cropper/image-crop-modal.html';
-	var html = "<div class=\"image-cropper-modal\" tabindex=\"1\">\n  <div class=\"modal-header\">\n    <button type=\"button\" class=\"close\" ng-click=\"$dismiss();\" aria-hidden=\"true\">&times;</button>\n    <h4 class=\"modal-title\" ng-hide=\"cropMode\">Edit Image Options</h4>\n    <h4 class=\"modal-title\" ng-show=\"cropMode\">Crop Image</h4>\n  </div>\n  <div class=\"modal-body\">\n    <div ng-hide=\"cropMode\">\n\n      <h5>Set Image Crops</h5>\n      <ul class=\"thumb-list\">\n        <li ng-repeat=\"ratio in ratios\">\n          <div class=\"cropped-thumb-container\" ng-style=\"thumb_container_styles[ratio]\" ng-click=\"selectCrop(ratio)\">\n            <div ng-style=\"thumb_styles[ratio]\" class=\"cropped-thumb\">\n            </div>\n          </div>\n          <span class=\"fa\" ng-class=\"isCropDone(ratio)\"><strong>{{ ratio }}</strong></span>\n        </li>\n      </ul>\n      <div ng-show=\"imageData.hasOwnProperty('caption')\" class=\"caption-container\">\n        <hr>\n        <div class=\"row\">\n          <div class=\"form-group col-md-6\">\n            <label class=\"control-label small\">Caption / Photo Credit</label>\n            <input type=\"text\" class=\"form-control\" placeholder=\"Brief explanation of image\" ng-model=\"imageData.caption\" />\n          </div>\n          <div class=\"form-group col-md-6\">\n            <label class=\"control-label small\">Alt Text</label>\n            <input type=\"text\" class=\"form-control\" placeholder=\"Describe image's contents\" ng-model=\"imageData.alt\" />\n          </div>\n        </div>\n      </div>\n    </div>\n    <div ng-show=\"cropMode\">\n      <div class=\"crop-image-container\">\n        <img ng-src=\"{{ image_url }}\" width=\"{{ scaleData.width }}\" height=\"{{ scaleData.height }}\" />\n      </div>\n      <div class=\"ratio-paginator\">\n        <span\n          ng-repeat=\"ratio in ratios\"\n          ng-class=\"image.selections[ratio].source\"\n          class=\"fa\"\n          ng-click=\"selectCrop(ratio)\">{{ ratio }}</span>\n\n      </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <div ng-hide=\"cropMode\">\n      <button class=\"btn btn-success\" ng-click=\"closeModal();\">Done</button>\n    </div>\n    <div ng-show=\"cropMode\">\n      <button class=\"btn btn-link\" ng-click=\"saveAndQuit()\" ng-hide=\"finished\">Save and Finish</button>\n      <button class=\"btn btn-success\" ng-click=\"saveAndNext()\" ng-hide=\"finished\">Save & Continue</button>\n      <button class=\"btn btn-success\" ng-click=\"saveAndQuit()\" ng-show=\"finished\">Save & Finish</button>\n    </div>\n  </div>\n</div>\n";
+	var html = "<div class=\"image-cropper-modal\" tabindex=\"1\">\n  <div class=\"modal-header\">\n    <button type=\"button\" class=\"close\" ng-click=\"$dismiss();\" aria-hidden=\"true\">&times;</button>\n    <h4 class=\"modal-title\" ng-hide=\"cropMode\">Edit Image Options</h4>\n    <h4 class=\"modal-title\" ng-show=\"cropMode\">Crop Image</h4>\n  </div>\n  <div class=\"modal-body\">\n    <div ng-hide=\"cropMode\">\n\n      <h5>Set Image Crops</h5>\n      <ul class=\"thumb-list\">\n        <li ng-repeat=\"ratio in ratios\">\n          <div class=\"cropped-thumb-container\" ng-style=\"thumb_container_styles[ratio]\" ng-click=\"selectCrop(ratio)\">\n            <div ng-style=\"thumb_styles[ratio]\" class=\"cropped-thumb\">\n            </div>\n          </div>\n          <span class=\"fa\" ng-class=\"isCropDone(ratio)\"><strong>{{ ratio }}</strong></span>\n        </li>\n      </ul>\n      <div ng-show=\"imageData.hasOwnProperty('caption')\" class=\"caption-container\">\n        <hr>\n        <div class=\"row\">\n          <div class=\"form-group col-md-6\">\n            <label class=\"control-label small\">Caption / Photo Credit</label>\n            <input type=\"text\" class=\"form-control\" placeholder=\"Brief explanation of image\" ng-model=\"imageData.caption\" />\n          </div>\n          <div class=\"form-group col-md-6\">\n            <label class=\"control-label small\">Alt Text</label>\n            <input type=\"text\" class=\"form-control\" placeholder=\"Describe image's contents\" ng-model=\"imageData.alt\" />\n          </div>\n        </div>\n      </div>\n    </div>\n    <div ng-show=\"cropMode\">\n      <div class=\"crop-image-container\">\n        <img ng-src=\"{{ image_url }}\" width=\"{{ scaleData.width }}\" height=\"{{ scaleData.height }}\" />\n      </div>\n      <div class=\"ratio-paginator\">\n        <span\n          ng-repeat=\"ratio in ratios\"\n          ng-class=\"image.selections[ratio].source\"\n          class=\"fa\"\n          ng-click=\"selectCrop(ratio)\">{{ ratio }}</span>\n\n      </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <div ng-hide=\"cropMode\">\n      <button type=\"button\" class=\"btn btn-success\" ng-click=\"closeModal();\">Done</button>\n    </div>\n    <div ng-show=\"cropMode\">\n      <button type=\"button\" class=\"btn btn-link\" ng-click=\"saveAndQuit()\" ng-hide=\"finished\">Save and Finish</button>\n      <button type=\"button\" class=\"btn btn-success\" ng-click=\"saveAndNext()\" ng-hide=\"finished\">Save & Continue</button>\n      <button type=\"button\" class=\"btn btn-success\" ng-click=\"saveAndQuit()\" ng-show=\"finished\">Save & Finish</button>\n    </div>\n  </div>\n</div>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -912,7 +954,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-button/cms-button.html';
-	var html = "<button class=\"{{type}}-action\">\n  <i ng-hide=\"noglyph\" class=\"fa fa-{{glyph}}\"></i>\n  <ng-transclude></ng-transclude>\n</button>\n";
+	var html = "<button\n    type=\"{{ buttonType || 'button' }}\"\n    class=\"{{ type || 'friendly' }}-action\"\n    ng-disabled=\"buttonDisabled()\">\n  <i\n      ng-if=\"iconIsBefore && !hideGlyph()\"\n      class=\"{{ iconClasses }}\">\n  </i>\n  <ng-transclude></ng-transclude>\n  <i\n      ng-if=\"!iconIsBefore && !hideGlyph()\"\n      class=\"{{ iconClasses }}\">\n  </i>\n</button>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -922,7 +964,9 @@
 
 	'use strict';
 
-	angular.module('cmsComponents')
+	angular.module('cmsComponents.button', [
+	  'cmsComponents.templates'
+	])
 	  .directive('cmsButton', function () {
 
 	    return {
@@ -930,20 +974,23 @@
 	      restrict: 'EA',
 	      transclude: true,
 	      scope: {
-	        glyph: '@',
-	        type: '@',
-	        glyphsize: '@',
-	        glyphpos: '@',
-	        noglyph: '@'
+	        buttonType: '@',                    // button type to apply to html button
+	        buttonDisabled: '&',                // true to set button disabled
+	        type: '@type',                      // type of button styling to apply, defaults to 'friendly'
+	        glyph: '@glyph',                    // glyph to use from glyph library, defaults to 'question-circle'
+	        glyphClass: '@buttonGlyphClass',    // class to use to style glyph, defaults to 'fa'
+	        glyphPrefix: '@buttonGlyphPrefix',  // prefix for glyph icon, defaults to 'fa'
+	        glyphSize: '@buttonGlyphSize',      // class to use for glyph size
+	        glyphPos: '@glyphpos',              // position of glyph, 'before' or 'after', defaults to 'before'
+	        hideGlyph: '&noglyph',              // truthy to hide glyph
 	      },
-	      link: function ($scope, element, attrs) {
-	        attrs.type  || (attrs.type = 'friendly');
-	        attrs.glyph || (attrs.glyph = 'question-circle');
-	        attrs.glyphsize || (attrs.glyphsize = 'lg');
-	        attrs.glyphpos || (attrs.glyphpos = 'before');
-	        if (attrs.noglyph !== undefined) {
-	          attrs.noglyph = 'noglyph';
-	        }
+	      link: function ($scope, elements, attrs) {
+	        $scope.iconClasses =
+	            ($scope.glyphClass || 'fa') + ' ' +
+	            ($scope.glyphPrefix || 'fa') + '-' +
+	            ($scope.glyph || 'question-circle') + ' ' +
+	            ($scope.glyphSize || '');
+	        $scope.iconIsBefore = $scope.glyphPos !== 'after';
 	      }
 	    }
 	  });
@@ -1204,7 +1251,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-input/cms-input.html';
-	var html = "<label>\n  <span class=\"cms-input-title\">\n    {{title}}\n  </span>\n  <span class=\"cms-input-control\">\n    <ng-transclude></ng-transclude>\n  </span>\n</label>\n";
+	var html = "<label>\n  <span class=\"cms-input-label\">\n    <span class=\"cms-input-label-item cms-input-title\">{{ title }}</span>\n    <span\n        class=\"cms-input-label-item cms-input-error\"\n        ng-repeat=\"(message, doShow) in inputErrors()\"\n        ng-if=\"doShowErrors() && doShow\">\n        <i\n            class=\"fa fa-exclamation-triangle\"\n            cms-tooltip=\"{{ message }}\"\n            cms-tooltip-classes=\"invalid\">\n        </i>\n    </span>\n  </span>\n  <ng-transclude class=\"cms-input-control\"></ng-transclude>\n</label>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -1214,19 +1261,32 @@
 
 	'use strict';
 
-	angular.module('cmsComponents')
-	  .directive('cmsInput', function () {
-	    return {
-	      templateUrl: 'components/cms-input/cms-input.html',
-	      restrict: 'E',
-	      scope: {
-	        title: '@'
-	      },
-	      transclude: true,
-	      controller: ['$scope', '$controller', function ($scope, $controller) {
-	      }]
+	angular.module('cmsComponents.input', [
+	  'cmsComponents.tooltip',
+	  'cmsComponents.templates'
+	])
+	  .directive('cmsInput', [
+	    function () {
+	      return {
+	        templateUrl: 'components/cms-input/cms-input.html',
+	        restrict: 'E',
+	        scope: {
+	          title: '@',                         // title for input label
+	          inputErrorsShowOnlyWhen: '&',       // only show errors when this is true, by default errors will always show
+	          inputErrors: '&'                   // object of errors where key is the error message and value is a boolean to use to determine if error shows or not
+	        },
+	        transclude: true,
+	        link: function ($scope) {
+	          $scope.doShowErrors = function () {
+	            var doShowAttr = $scope.inputErrorsShowOnlyWhen();
+	            // specifically checking false, so falsy values like undefined don't
+	            //  trigger errors not showing up
+	            return doShowAttr === false ? false : true;
+	          };
+	        }
+	      }
 	    }
-	  });
+	  ]);
 
 
 /***/ },
@@ -1444,13 +1504,125 @@
 /* 63 */
 /***/ function(module, exports) {
 
+	'use strict';
+
+	angular.module('cmsComponents.notifications.service', [
+	  'lodash'
+	])
+	  .service('NotificationsService', [
+	    '_',
+	    function (_) {
+
+	      var data = {
+	        errors: [],
+	        warnings: [],
+	        infos: []
+	      };
+
+	      var lastId = 0;
+	      var put = function (type, message, removalCondition) {
+	        var typeList = data[type];
+
+	        var nextId = lastId++;;
+	        typeList.push({
+	          id: nextId,
+	          message: message,
+	          doRemove: removalCondition
+	        });
+
+	        return nextId;
+	      };
+
+	      var clear = function (type) {
+	        data[type] = [];
+	      };
+
+	      var remove = function (type, id) {
+	        data[type] = data[type].filter(function (notification) {
+	          return notification.id !== id;
+	        });
+	      };
+
+	      var list = function (type) {
+	        // clean up anything we should remove
+	        data[type] = data[type].filter(function (notification) {
+	          return !notification.doRemove();
+	        });
+
+	        return data[type];
+	      };
+
+	      return {
+	        // errors
+	        addError: put.bind(null, 'errors'),
+	        removeError: remove.bind(null, 'errors'),
+	        listErrors: list.bind(null, 'errors'),
+	        clearErrors: clear.bind(null, 'errors'),
+	        // warnings
+	        addWarning: put.bind(null, 'warnings'),
+	        removeWarning: remove.bind(null, 'warnings'),
+	        listWarnings: list.bind(null, 'warnings'),
+	        clearWarnings: clear.bind(null, 'warnings'),
+	        // infos
+	        addInfo: put.bind(null, 'infos'),
+	        removeInfo: remove.bind(null, 'infos'),
+	        listInfos: list.bind(null, 'infos'),
+	        clearInfos: clear.bind(null, 'infos')
+	      };
+	    }
+	  ]);
+
+
+/***/ },
+/* 64 */
+/***/ function(module, exports) {
+
+	var path = 'components/cms-notifications/cms-notifications.html';
+	var html = "<ul\n    class=\"cms-notifications-errors\"\n    ng-if=\"service.listErrors().length > 0\">\n  <li ng-repeat=\"notification in service.listErrors() track by notification.id\">\n    <i class=\"fa fa-exclamation-triangle\"></i>\n    <span>{{ notification.message }}</span>\n    <button\n        type=\"button\"\n        ng-click=\"service.removeError(notification.id)\">\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </li>\n</ul>\n<ul\n    class=\"cms-notifications-warnings\"\n    ng-if=\"service.listWarnings().length > 0\">\n  <li ng-repeat=\"notification in service.listWarnings() track by notification.id\">\n    <i class=\"fa fa-exclamation-circle\"></i>\n    <span>{{ notification.message }}</span>\n    <button\n        type=\"button\"\n        ng-click=\"service.removeWarning(notification.id)\">\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </li>\n</ul>\n<ul\n    class=\"cms-notifications-infos\"\n    ng-if=\"service.listInfos().length > 0\">\n  <li ng-repeat=\"notification in service.listInfos() track by notification.id\">\n    <i class=\"fa fa-info-circle\"></i>\n    <span>{{ notification.message }}</span>\n    <button\n        type=\"button\"\n        ng-click=\"service.removeInfo(notification.id)\">\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </li>\n</ul>\n";
+	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
+	module.exports = path;
+
+/***/ },
+/* 65 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.notifications', [
+	  'cmsComponents.notifications.service'
+	])
+	  .directive('cmsNotifications', [
+	    'NotificationsService',
+	    function (NotificationsService) {
+	      return {
+	        templateUrl: 'components/cms-notifications/cms-notifications.html',
+	        restrict: 'E',
+	        link: function ($scope) {
+	          $scope.service = NotificationsService;
+	        }
+	      }
+	    }
+	  ]);
+
+
+/***/ },
+/* 66 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 67 */,
+/* 68 */
+/***/ function(module, exports) {
+
 	var path = 'components/cms-partial/cms-partial.html';
 	var html = "<span>Calling from cms-partial</span>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 64 */
+/* 69 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1476,23 +1648,14 @@
 
 
 /***/ },
-/* 65 */
+/* 70 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 66 */,
-/* 67 */
-/***/ function(module, exports) {
-
-	var path = 'components/cms-row/cms-row.html';
-	var html = "<span>Calling from cms-row</span>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
-
-/***/ },
-/* 68 */
+/* 71 */,
+/* 72 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1500,7 +1663,6 @@
 	angular.module('cmsComponents')
 	  .directive('cmsRow', function () {
 	    return {
-	      //templateUrl: 'components/cms-row/cms-row.html',
 	      template: '<ng-transclude></ng-transclude>',
 	      restrict: 'E',
 	      transclude: true
@@ -1509,14 +1671,14 @@
 
 
 /***/ },
-/* 69 */
+/* 73 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 70 */,
-/* 71 */
+/* 74 */,
+/* 75 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-cell/cms-table-cell.html';
@@ -1525,7 +1687,7 @@
 	module.exports = path;
 
 /***/ },
-/* 72 */
+/* 76 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1554,14 +1716,14 @@
 
 
 /***/ },
-/* 73 */
+/* 77 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 74 */,
-/* 75 */
+/* 78 */,
+/* 79 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table-column/cms-table-column.html';
@@ -1570,7 +1732,7 @@
 	module.exports = path;
 
 /***/ },
-/* 76 */
+/* 80 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1586,14 +1748,14 @@
 
 
 /***/ },
-/* 77 */
+/* 81 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 78 */,
-/* 79 */
+/* 82 */,
+/* 83 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-table/cms-table.html';
@@ -1602,7 +1764,7 @@
 	module.exports = path;
 
 /***/ },
-/* 80 */
+/* 84 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1629,14 +1791,14 @@
 
 
 /***/ },
-/* 81 */
+/* 85 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 82 */,
-/* 83 */
+/* 86 */,
+/* 87 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1647,8 +1809,6 @@
 	  .provider('TokenAuthConfig', [
 	    '_',
 	    function TokenAuthConfigProvider (_) {
-	      // page to route to after a successful login
-	      var afterLoginPath = '/';
 	      // endpoint for token auth
 	      var apiEndpointAuth = '/api/token/auth';
 	      // endpoint for token refresh
@@ -1674,15 +1834,6 @@
 	      var tokenKey = 'authToken';
 	      // handlers to fire when unauthentication occurs (logout)
 	      var unauthHandlers = [];
-
-	      this.setAfterLoginPath = function (value) {
-	        if (_.isString(value)) {
-	          afterLoginPath = value;
-	        } else {
-	          throw new TypeError('TokenAuthConfig.afterLoginPath must be a string!');
-	        }
-	        return this;
-	      };
 
 	      this.setApiEndpointAuth = function (value) {
 	        if (_.isString(value)) {
@@ -1808,7 +1959,6 @@
 
 	      this.$get = function () {
 	        return {
-	          getAfterLoginPath: _.constant(afterLoginPath),
 	          getApiEndpointAuth: _.constant(apiHost + apiEndpointAuth),
 	          getApiEndpointRefresh: _.constant(apiHost + apiEndpointRefresh),
 	          getApiEndpointCurrentUser: _.constant(apiHost + apiEndpointCurrentUser),
@@ -1884,7 +2034,7 @@
 
 
 /***/ },
-/* 84 */
+/* 88 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1971,7 +2121,7 @@
 
 
 /***/ },
-/* 85 */
+/* 89 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
@@ -1980,7 +2130,7 @@
 	module.exports = path;
 
 /***/ },
-/* 86 */
+/* 90 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2026,14 +2176,14 @@
 
 
 /***/ },
-/* 87 */
+/* 91 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 88 */,
-/* 89 */
+/* 92 */,
+/* 93 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2075,7 +2225,7 @@
 
 
 /***/ },
-/* 90 */
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2099,7 +2249,7 @@
 
 
 /***/ },
-/* 91 */
+/* 95 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2364,7 +2514,7 @@
 
 
 /***/ },
-/* 92 */
+/* 96 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2455,7 +2605,7 @@
 
 
 /***/ },
-/* 93 */
+/* 97 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2471,7 +2621,100 @@
 
 
 /***/ },
-/* 94 */
+/* 98 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.tooltip', [])
+	  .directive('cmsTooltip', function () {
+	    return {
+	      restrict: 'A',
+	      scope: {
+	        text: '@cmsTooltip',
+	        classes: '@cmsTooltipClasses'
+	      },
+	      link: function (scope, elements) {
+
+	        var tooltipEle = angular.element(
+	          '<div class="cms-tooltip-container ' + scope.classes + '">' +
+	            '<span class="cms-tooltip-text">' + scope.text + '</span>' +
+	          '</div>'
+	        );
+	        angular.element('body').append(tooltipEle);
+
+	        elements.on('mouseenter', function (e) {
+	          var $target = angular.element(e.target);
+
+	          var offset = $target.offset();
+	          var left = offset.left + $target.width() + 10;
+	          var top = offset.top - $target.height() / 2;
+
+	          tooltipEle.css('display', 'block');
+	          tooltipEle.css('left', left);
+	          tooltipEle.css('top', top);
+	        });
+
+	        elements.on('mouseleave', function () {
+	          tooltipEle.css('display', 'none');
+	        });
+
+	        scope.$on('$destroy', function () {
+	          tooltipEle.remove();
+	        });
+	      }
+	    }
+	  });
+
+
+/***/ },
+/* 99 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 100 */,
+/* 101 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	angular.module('cmsComponents.unsavedChangesGuard', [])
+	  .directive('cmsUnsavedChangesGuard', [
+	    function () {
+	      return {
+	        require: ['form'],
+	        restrict: 'A',
+	        link: function ($scope, elements, attrs, ctrls) {
+	          var parentForm = ctrls[0];
+
+	          var checkDirty = function () {
+	            if (parentForm.$dirty) {
+	              return 'You have unsaved changes! Are you sure you want to continue?';
+	            }
+	          };
+
+	          window.addEventListener('beforeunload', checkDirty);
+
+	          $scope.$on('$destroy', function () {
+	            window.removeEventListener('beforeunload', checkDirty);
+	          });
+
+	          $scope.$on('$stateChangeStart', function (e) {
+	            var check = checkDirty();
+	            if (!e.defaultPrevented && check && !confirm(check)) {
+	              e.preventDefault();
+	            }
+	          });
+	        }
+	      }
+	    }
+	  ]);
+
+
+/***/ },
+/* 102 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2493,7 +2736,7 @@
 
 
 /***/ },
-/* 95 */
+/* 103 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2521,7 +2764,7 @@
 
 
 /***/ },
-/* 96 */
+/* 104 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -2530,7 +2773,7 @@
 	module.exports = path;
 
 /***/ },
-/* 97 */
+/* 105 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2549,14 +2792,14 @@
 
 
 /***/ },
-/* 98 */
+/* 106 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 99 */,
-/* 100 */
+/* 107 */,
+/* 108 */
 /***/ function(module, exports) {
 
 	'use strict';

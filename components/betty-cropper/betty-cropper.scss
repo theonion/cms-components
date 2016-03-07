@@ -1,112 +1,110 @@
 @import 'directive';
 
-betty-editable .image-edit-container {
-  padding: 10px;
-  min-height: 250px;
-  .edit {
-    bottom: auto;
-    top: 10px;
-  }
-  .remove {
-    bottom: auto;
-    top: 10px;
-  }
-  .caption-alt {
-    position: absolute;
-    bottom: 0;
-    left: 10px;
-    width: 101%;
-  }
-}
-
 betty-editable {
-  min-height: 250px;
-  display: block;
-  .betty-editable-add-image {
-    height: 250px;
-    background: white;
-    border: $light-border;
-    border-radius: none;
-  }
-}
+  display: inline-block;
 
-.image-edit-container {
-  position: relative;
-  background-size: 100%;
-  background-repeat: no-repeat;
-
-  img {
-    max-width: 100%;
+  .image-edit-container {
+    background-repeat: no-repeat;
+    background-size: 100%;
     min-height: 250px;
-  }
-  &:hover .image-edit-overlay {
-    display: block;
-  }
-  & + div {
-    margin-top: 10px;
+    padding: 10px;
+    position: relative;
+
+    img {
+      max-width: 100%;
+      min-height: 250px;
+    }
+    &:hover .image-edit-overlay {
+      display: block;
+    }
+    & + div {
+      margin-top: 10px;
+    }
+
+    .edit {
+      bottom: auto;
+      top: 10px;
+    }
+    .remove {
+      bottom: auto;
+      top: 10px;
+    }
+    .caption-alt {
+      bottom: 0;
+      position: absolute;
+      left: 10px;
+      width: 101%;
+    }
   }
 
+  .betty-editable-value-holder {
+    display: none;
+  }
 }
+
 .image-edit-overlay {
+  display: none;
+  left: 0;
   position: absolute;
   top: 0;
-  left: 0;
-  display: none;
 
 }
+
 .buttonStyles {
-  border: 1px transparent solid;
-  color: #4a4a4a;
   background-clip: padding-box;
   background-color: transparent;
+  border: 1px transparent solid;
   border-radius: 2px;
-  text-align: center;
-  display: inline-block;
-  line-height: 25px;
+  color: #4a4a4a;
   cursor: pointer;
-  border-radius: 3px;
-  width: auto;
-  display: block;
+  display: inline-block;
   font-size: 14px;
-  width: 100%;
-  text-align: left;
-  padding: 4px 8px;
   height: auto;
+  line-height: 25px;
+  padding: 4px 8px;
+  text-align: center;
+  text-align: left;
+  width: 100%;
 }
+
 .image-edit-overlay {
-  position: absolute;
-  display: none;
   background-color: rgba(200,200,200,.5);
+  display: none;
+  position: absolute;
   z-index: 100;
 
   button {
     @extend .buttonStyles;
+
     display: inline-block;
     width: auto;
   }
   .remove {
+    bottom: 10px;
     position: absolute;
     right: 10px;
-    bottom: 10px;
-    background-color: #930900;
-    border-radius: 4px;
-
-    button:hover {
-      background-color: #c70a00;
-    }
-
-  }
-  .edit {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    border-radius: 4px;
-    background-color: #333;
-    color: white;
 
     button {
+      background-color: #930900;
+      border-radius: 4px;
+      color: white;
+
+      &:hover {
+        background-color: #c70a00;
+      }
+    }
+  }
+
+  .edit {
+    bottom: 10px;
+    left: 10px;
+    position: absolute;
+
+    button {
+      background-color: #333;
+      border-radius: 4px;
+      color: white;
       text-transform: uppercase;
-      font-size: 11px;
 
       &:hover {
         background-color: #444;
@@ -123,21 +121,18 @@ betty-editable {
 }
 .image-edit-overlay {
   width: 100%;
-  //height: 100%;
-
 }
 .add-feature-image-container {
   background-color: #EBEBEB;
   border: 1px solid #e3e3e3;
-  position: relative;
   border-radius: 4px;
+  position: relative;
 }
 .add-feature-image {
-  color: #b3b3b3;
   background-color: #ebebeb;
-  height: 32px;
-  // padding: 0 50px;
   border: 0;
+  color: #b3b3b3;
+  height: 32px;
   text-align: center;
 
   &:hover {
@@ -165,28 +160,29 @@ betty-editable {
 
       li {
         display: inline-block;
+        height: 180px;
         margin: 0 3px;
         position: relative;
-
-        height: 180px;
         width: 180px;
 
         .cropped-thumb-container {
-          height: 180px;
-          width: 180px;
           background-color: #dedede;
           cursor: pointer;
+          height: 180px;
+          width: 180px;
+
           &:hover {
             background-color: #777;
           }
+
           .cropped-thumb {
+            bottom: 0;
+            left: 0;
+            margin: 0 auto;
             overflow: hidden;
             position: absolute;
-            top: 0;
-            left: 0;
             right: 0;
-            bottom: 0;
-            margin: 0 auto;
+            top: 0;
           }
         }
       }
@@ -197,6 +193,7 @@ betty-editable {
       margin-top: 10px;
       margin-right: 8px;
       padding: 8px;
+
       &:hover {
         background-color: #d9edf7;
       }
@@ -220,9 +217,9 @@ betty-editable {
   .modal-footer {
     .btn.btn-link {
       i {
-        margin-right: 3px;
-        font-size: 16px;
         color: red;
+        font-size: 16px;
+        margin-right: 3px;
       }
     }
   }

@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('cmsComponents')
+angular.module('cmsComponents.button', [
+  'cmsComponents.templates'
+])
   .directive('cmsButton', function () {
 
     return {
@@ -8,20 +10,23 @@ angular.module('cmsComponents')
       restrict: 'EA',
       transclude: true,
       scope: {
-        glyph: '@',
-        type: '@',
-        glyphsize: '@',
-        glyphpos: '@',
-        noglyph: '@'
+        buttonType: '@',                    // button type to apply to html button
+        buttonDisabled: '&',                // true to set button disabled
+        type: '@type',                      // type of button styling to apply, defaults to 'friendly'
+        glyph: '@glyph',                    // glyph to use from glyph library, defaults to 'question-circle'
+        glyphClass: '@buttonGlyphClass',    // class to use to style glyph, defaults to 'fa'
+        glyphPrefix: '@buttonGlyphPrefix',  // prefix for glyph icon, defaults to 'fa'
+        glyphSize: '@glyphsize',            // class to use for glyph size
+        glyphPos: '@glyphpos',              // position of glyph, 'before' or 'after', defaults to 'before'
+        hideGlyph: '&noglyph',              // truthy to hide glyph
       },
-      link: function ($scope, element, attrs) {
-        attrs.type  || (attrs.type = 'friendly');
-        attrs.glyph || (attrs.glyph = 'question-circle');
-        attrs.glyphsize || (attrs.glyphsize = 'lg');
-        attrs.glyphpos || (attrs.glyphpos = 'before');
-        if (attrs.noglyph !== undefined) {
-          attrs.noglyph = 'noglyph';
-        }
+      link: function ($scope, elements, attrs) {
+        $scope.iconClasses =
+            ($scope.glyphClass || 'fa') + ' ' +
+            ($scope.glyphPrefix || 'fa') + '-' +
+            ($scope.glyph || 'question-circle') + ' ' +
+            ($scope.glyphSize || '');
+        $scope.iconIsBefore = $scope.glyphPos !== 'after';
       }
     }
   });

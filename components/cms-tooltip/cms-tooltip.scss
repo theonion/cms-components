@@ -1,0 +1,45 @@
+@import 'colors';
+@import 'mixins';
+
+.cms-tooltip-container {
+
+  display: none;
+  margin-left: 5px;
+  pointer-events: none;
+  position: absolute;
+  width: auto;
+  z-index: 1000;
+
+  &:before {
+    // triangle tip of tooltip
+    border-style: solid;
+    border-width: 5px 10px 5px 5px;
+    bottom: 4px;
+    content: " ";
+    height: 0;
+    left: -15px;
+    position: absolute;
+    top: 8px;
+    width: 0;
+  }
+
+  > .cms-tooltip-text {
+
+    border-radius: 2.5px;
+    display: block;
+    height: auto;
+    padding: 0.2em 0.5em;
+  }
+
+  &.invalid {
+
+    &:before {
+      border-color: transparent palette(error, base) transparent transparent;
+    }
+
+    > .cms-tooltip-text {
+      background-color: palette(error, base);
+      color: palette(white, base);
+    }
+  }
+}

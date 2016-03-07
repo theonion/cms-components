@@ -1,7 +1,12 @@
 'use strict';
 
 var cmsComponents = angular.module('cmsComponents', [
-  'cmsComponents.auth'
+  'cmsComponents.auth',
+
+// TODO : these components should be moved out of here at some point and
+//  included only where they are needed
+  'cmsComponents.button',
+  'cmsComponents.input'
 ]);
 
 cmsComponents.provider('$render', function () {
@@ -14,12 +19,14 @@ cmsComponents.provider('$render', function () {
     renderToRoot: function toRoot(options) {
       options.views = {
         'cmsLayoutViewport@': {
+          template: options.template,
           templateUrl: options.templateUrl,
           controller: options.controller,
           templateProvider: options.templateProvider
         }
       };
 
+      delete options.template;
       delete options.templateUrl;
       delete options.controller;
       delete options.templateProvider;

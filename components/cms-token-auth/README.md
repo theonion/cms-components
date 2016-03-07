@@ -53,7 +53,6 @@ A login component that interacts with [django-rest-framework-jwt](https://github
 
   | Method    | Usage    | Defaults    |
   | --------- | -------- | ----------- |
-  | `setAfterLoginPath` | Page to route to after a successful login. | `'/'` |
   | `setApiEndpointAuth` | Endpoint for token `auth`. | `'/api/token/auth'` |
   | `setApiEndpointReferesh` | Endpoint for token `refresh`. | `'/api/token/refresh` |
   | `setApiEndpointVerify` | Endpoint for token `verify`. | `'/api/token/verify'` |

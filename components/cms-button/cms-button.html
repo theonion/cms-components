@@ -1,4 +1,14 @@
-<button class="{{type}}-action">
-  <i ng-hide="noglyph" class="fa fa-{{glyph}}"></i>
+<button
+    type="{{ buttonType || 'button' }}"
+    class="{{ type || 'friendly' }}-action"
+    ng-disabled="buttonDisabled()">
+  <i
+      ng-if="iconIsBefore && !hideGlyph()"
+      class="{{ iconClasses }}">
+  </i>
   <ng-transclude></ng-transclude>
+  <i
+      ng-if="!iconIsBefore && !hideGlyph()"
+      class="{{ iconClasses }}">
+  </i>
 </button>
