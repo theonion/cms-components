@@ -2,18 +2,27 @@
 
 <!-- markdown-toc -->
 
-- [0.5.0](#050)
+- [0.6.0](#060)
+  * [New](#new)
+    + [Image Upload](#image-upload)
+    + [Button](#button)
+    + [Input](#input)
+  * [Updated](#updated)
+    + [Image Upload](#image-upload-1)
+    + [Button](#button-1)
   * [Breaking](#breaking)
+- [0.5.0](#050)
+  * [Breaking](#breaking-1)
 - [0.4.2](#042)
   * [Fixed](#fixed)
-  * [Breaking](#breaking-1)
+  * [Breaking](#breaking-2)
 - [0.4.1](#041)
   * [Added](#added)
-  * [Updated](#updated)
-- [0.4.0](#040)
-  * [New](#new)
   * [Updated](#updated-1)
-  * [Breaking](#breaking-2)
+- [0.4.0](#040)
+  * [New](#new-1)
+  * [Updated](#updated-2)
+  * [Breaking](#breaking-3)
     + [Token Auth](#token-auth)
     + [Other Components](#other-components)
     + [Styling](#styling)
@@ -21,6 +30,55 @@
 <!-- markdown-toc-stop -->
 
 <sub>**Note**: update table of contents with `./scripts/update-changelog-toc`.</sub>
+
+## 0.6.0
+
+Updates to components touched by `tunic-cms` `campaign-edit-form` in https://github.com/theonion/tunic-cms/pull/9.
+
+### New
+1. `cms-components` `$render.renderToRoot` now takes an `template` parameter that is the template string to use to render the given route.
+1. Added `cms-notifications` directive that can be used to display notifications registered with `NotificationsService`.
+1. Added `cms-tooltip` directive that can be applied as an attribute to an element that should open up a tooltip.
+1. Added `cms-unsaved-changes-guard` directive that can be applied as an attribute on a form to intercept navigation when the form's `$dirty` property is `true` property.
+1. `error`, `warning`, and `info` color palettes added to `colors.scss`.
+1. `input-with-icon-container` added to `mixins.scss` for styling an input that looks like it has icons inside of it.
+1. `button-unstyled` added to `mixins.scss` for removing all styling from a button element.
+
+#### Image Upload
+1. If nested within an angular `form` will set the `form` to dirty when any image changes occur.
+1. Added `betty-editable-button-text` attribute which allows customization of text displayed on main button.
+1. Added `betty-editable-input-name` attribute which opens up the angular form interface for this form component.
+
+#### Button
+1. Added `button-type` attribute which maps directly to `type` attribute on rendered button.
+1. Added `button-disabled` attribute which will disable the button when truthy.
+1. Added `button-glyph-class` attribute which specifies the class to use to style the rendered button.
+1. Added `button-glyph-prefix` attribute which specifies the prefix to use for glyph.
+
+#### Input
+1. Added `cms-input-errors-show-when` attribute to turn all errors on/off for input.
+1. Added `cms-input-errors` attribute that can be used to provide a map of error messages and when they should render.
+1. Use `invalid` class on input to style it as invalid.
+
+
+### Updated
+1. `cms-nav-user` directive is now responsible for showing/hiding itself based on whether or not given user is logged in.
+1. `cms-row` `cms-row-col-*` classes added for determining how many columns a given `cms-row` should take up in their flex container.
+
+#### Image Upload
+1. Buttons are now `type="button"` to prevent issues with form submission.
+1. Crop changes update image display within the component.
+1. `image-crop-modal` buttons are now `type="button"` to prevent issues with form submission.
+
+#### Button
+1. `glyphpos` can be set to `after` to render icon after component's transclusion.
+1. `type` attribute defaults to `friendly`.
+
+
+### Breaking
+1. Removed `cms-layout` `cms-row` transclusion styling that was causing layout headaches.
+1. Removed unused `TokenAuthConfig` `setAfterLoginPath` and `getAfterLoginPath`.
+
 
 ## 0.5.0
 
