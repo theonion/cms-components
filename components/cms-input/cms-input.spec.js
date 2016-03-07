@@ -15,12 +15,7 @@ describe('Directive: cms-input', function () {
 
       html = angular.element('<cms-input></cms-input>');
 
-      digestedScope = function () {
-        var $directiveScope = $rootScope.$new();
-        var element = $compile(html)($directiveScope);
-        $directiveScope.$digest();
-        return element.scope();
-      };
+      digestedScope = window.testHelper.directiveBuilder($compile, $rootScope, html);
     });
   });
 

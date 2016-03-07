@@ -13,12 +13,7 @@ describe('Directive: cms-button', function () {
 
       html = angular.element('<cms-button></cms-button>');
 
-      digestedScope = function () {
-        var $directiveScope = $rootScope.$new();
-        var element = $compile(html)($directiveScope);
-        $directiveScope.$digest();
-        return element.scope();
-      };
+      digestedScope = window.testHelper.directiveBuilder($compile, $rootScope, html);
     });
   });
 
