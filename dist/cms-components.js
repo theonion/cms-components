@@ -2152,7 +2152,13 @@
 	              if(!_.isEmpty($scope.username) && !_.isEmpty($scope.password)) {
 	                TokenAuthService.login($scope.username, $scope.password)
 	                  .catch(function (error) {
-	                    $scope.loginErrorFromServer = error.data.non_field_errors[0];
+	                    var message;
+	                    if (error.status === 500) {
+	                      message = 'An error occurred on the server. Try again later or contact tech below.';
+	                    } else {
+	                      message = error.data.non_field_errors[0];
+	                    }
+	                    $scope.loginErrorFromServer = message;
 	                  });
 	              }
 	            };

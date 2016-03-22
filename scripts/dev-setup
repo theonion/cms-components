@@ -2,5 +2,4 @@
 # Prepare your environment for development by installing dependencies and running
 #   an initial build.
 
-npm install && bower install
-./node_modules/.bin/webpack
+npm install && ./node_modules/.bin/bower install && ./node_modules/.bin/webpack

@@ -27,6 +27,11 @@ module.exports = function (config) {
     ],
     preprocessors: preprocessors,
     browsers: ['PhantomJS'],
+    client: {
+      mocha: {
+        reporter: 'html'
+      }
+    },
     webpack: {
       module: {
         loaders: [{

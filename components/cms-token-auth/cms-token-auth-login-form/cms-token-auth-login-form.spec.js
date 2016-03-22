@@ -86,4 +86,13 @@ describe('Directive: CmsTokenAuthLoginForm', function () {
 
     expect(TokenAuthService.login.notCalled).to.be.true;
   });
+
+  it('should print out an error when status is 500', function() {
+    $scope.username = 'abc';
+    $scope.password = '123';
+    TokenAuthService.login = sinon.stub().returns($q.reject({ status: 500 }));
+    $scope.submitLogin();
+    $scope.$digest();
+    expect($scope.loginErrorFromServer).to.equal('An error occured on the server. Try again later or contact tech below.');
+  });
 });
