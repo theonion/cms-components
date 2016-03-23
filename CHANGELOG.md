@@ -2,12 +2,14 @@
 
 <!-- markdown-toc -->
 
+- [0.6.1](#061)
+  * [Updated](#updated)
 - [0.6.0](#060)
   * [New](#new)
     + [Image Upload](#image-upload)
     + [Button](#button)
     + [Input](#input)
-  * [Updated](#updated)
+  * [Updated](#updated-1)
     + [Image Upload](#image-upload-1)
     + [Button](#button-1)
   * [Breaking](#breaking)
@@ -18,10 +20,10 @@
   * [Breaking](#breaking-2)
 - [0.4.1](#041)
   * [Added](#added)
-  * [Updated](#updated-1)
+  * [Updated](#updated-2)
 - [0.4.0](#040)
   * [New](#new-1)
-  * [Updated](#updated-2)
+  * [Updated](#updated-3)
   * [Breaking](#breaking-3)
     + [Token Auth](#token-auth)
     + [Other Components](#other-components)
@@ -30,6 +32,12 @@
 <!-- markdown-toc-stop -->
 
 <sub>**Note**: update table of contents with `./scripts/update-changelog-toc`.</sub>
+
+## 0.6.1
+
+### Updated
+1. Add an error message for 500 server errors, which were getting lost.
+
 
 ## 0.6.0
 
