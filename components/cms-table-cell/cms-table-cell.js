@@ -1,23 +1,24 @@
 'use strict';
 
+/**
+ * Renders item data based on column spec.
+ */
 angular.module('cmsComponents')
-  .directive('cmsTableCell', function ($compile) {
-    return {
-      templateUrl: 'components/cms-table-cell/cms-table-cell.html',
-      restrict: 'A',
-      scope: {
-        column: '=',
-        item: '=',
-        text: '='
-      },
-      compile: function (element, attributes) {
-        return {
-          pre: function ($scope, $element, $attributes) {
-            // first child is ng-transclude, we don't want that here
-            $element.append($scope.column.children[0].innerHTML);
-            $compile($element.contents())($scope);
-          }
-        };
+  .directive('cmsTableCell', [
+    '$compile',
+    function ($compile) {
+      return {
+        restrict: 'A',
+        require: '^cmsTable',
+        scope: {
+          column: '=',    // column spec associated with this cell
+          item: '='       // item spec assicated with this cell
+        },
+        link: function (scope, elements) {
+          scope.column.buildHtml(scope).then(function (html) {
+            elements.html(html);
+          });
+        }
       }
     }
-  });
+  ]);
