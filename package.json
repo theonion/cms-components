@@ -1,6 +1,6 @@
 {
   "name": "cms-components",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "parking cms components from onionstudios-cms",
   "main": "index.js",
   "scripts": {

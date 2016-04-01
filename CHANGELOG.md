@@ -2,6 +2,9 @@
 
 <!-- markdown-toc -->
 
+- [0.7.0](#070)
+  * [Fixed](#fixed)
+  * [Breaking](#breaking)
 - [0.6.1](#061)
   * [Updated](#updated)
 - [0.6.0](#060)
@@ -12,19 +15,19 @@
   * [Updated](#updated-1)
     + [Image Upload](#image-upload-1)
     + [Button](#button-1)
-  * [Breaking](#breaking)
-- [0.5.0](#050)
   * [Breaking](#breaking-1)
-- [0.4.2](#042)
-  * [Fixed](#fixed)
+- [0.5.0](#050)
   * [Breaking](#breaking-2)
+- [0.4.2](#042)
+  * [Fixed](#fixed-1)
+  * [Breaking](#breaking-3)
 - [0.4.1](#041)
   * [Added](#added)
   * [Updated](#updated-2)
 - [0.4.0](#040)
   * [New](#new-1)
   * [Updated](#updated-3)
-  * [Breaking](#breaking-3)
+  * [Breaking](#breaking-4)
     + [Token Auth](#token-auth)
     + [Other Components](#other-components)
     + [Styling](#styling)
@@ -32,6 +35,15 @@
 <!-- markdown-toc-stop -->
 
 <sub>**Note**: update table of contents with `./scripts/update-changelog-toc`.</sub>
+
+## 0.7.0
+
+### Fixed
+1. `cms-token-auth-login-form` now displays an error message if backend returns an empty response.
+
+### Breaking
+1. `cms-table*` components refactored to no longer operate on DOM nodes directly.
+
 
 ## 0.6.1
 
