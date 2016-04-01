@@ -1,22 +1,34 @@
 <ng-transclude></ng-transclude>
 <div class="cms-table-table">
   <div class="cms-table-row cms-table-header">
-    <div class="cms-table-cell" ng-repeat="column in columns"
-         type="{{column.attributes.type.value}}">
-      <a ng-click="$parent.$parent.orderTable(column.attributes.sort.value)">
-        {{column.attributes.title.value}}
-        <i class="fa"
-           ng-class="{'fa-chevron-down': $parent.$parent.listOrdering === '-'+column.attributes.sort.value, 'fa-chevron-up': $parent.$parent.listOrdering === column.attributes.sort.value}"></i>
+    <div
+        ng-repeat="column in columns"
+        class="cms-table-cell cms-table-cell-size-{{ column.size }}"
+        type="{{ column.type }}">
+      <a ng-click="$parent.$parent.orderTable(column.sort)">
+        <span>{{ column.title }}</span>
+        <i
+            class="fa"
+            ng-class="{
+              'fa-chevron-down': $parent.$parent.listOrdering === '-' + column.sort,
+              'fa-chevron-up': $parent.$parent.listOrdering === column.sort
+            }">
+        </i>
       </a>
     </div>
   </div>
 
-  <div class="cms-table-row"
-       dir-paginate="item in collection | itemsPerPage: 20"
-       total-items="{{collection.$totalCount}}"
-       current-page="$parent.$parent.listPage">
-    <div class="cms-table-cell" cms-table-cell item="item" column="column" ng-repeat="column in columns"
-         type="{{column.attributes.type.value}}">
+  <div
+      class="cms-table-row"
+      dir-paginate="item in collection | itemsPerPage: 20"
+      total-items="{{ collection.$totalCount }}"
+      current-page="$parent.$parent.listPage">
+    <div
+        ng-repeat="column in columns"
+        cms-table-cell
+        class="cms-table-cell cms-table-cell-size-{{ column.size }}"
+        item="item"
+        column="column">
     </div>
   </div>
 

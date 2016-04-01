@@ -209,34 +209,32 @@
 		"./cms-partial/cms-partial.scss": 70,
 		"./cms-row/cms-row.js": 72,
 		"./cms-row/cms-row.scss": 73,
-		"./cms-table-cell/cms-table-cell.html": 75,
-		"./cms-table-cell/cms-table-cell.js": 76,
-		"./cms-table-cell/cms-table-cell.scss": 77,
-		"./cms-table-column/cms-table-column.html": 79,
-		"./cms-table-column/cms-table-column.js": 80,
-		"./cms-table-column/cms-table-column.scss": 81,
-		"./cms-table/cms-table.html": 83,
-		"./cms-table/cms-table.js": 84,
-		"./cms-table/cms-table.scss": 85,
-		"./cms-token-auth/cms-token-auth-config.js": 87,
-		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 88,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 89,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 90,
-		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 91,
-		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 93,
-		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 94,
-		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 95,
-		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 96,
-		"./cms-token-auth/cms-token-auth.js": 97,
-		"./cms-tooltip/cms-tooltip.js": 98,
-		"./cms-tooltip/cms-tooltip.scss": 99,
-		"./cms-unsaved-changes-guard/cms-unsaved-changes-guard.js": 101,
-		"./convert-to-number/convert-to-number.js": 102,
-		"./filters/filters-user-display-name/filters-user-display-name.js": 103,
-		"./sidebar-nav-item/sidebar-nav-item.html": 104,
-		"./sidebar-nav-item/sidebar-nav-item.js": 105,
-		"./sidebar-nav-item/sidebar-nav-item.scss": 106,
-		"./ui-sref-active-if/ui-sref-active-if.js": 108
+		"./cms-table-cell/cms-table-cell.js": 75,
+		"./cms-table-cell/cms-table-cell.scss": 76,
+		"./cms-table-column/cms-table-column.js": 78,
+		"./cms-table-column/cms-table-column.scss": 79,
+		"./cms-table/cms-table.html": 81,
+		"./cms-table/cms-table.js": 82,
+		"./cms-table/cms-table.scss": 83,
+		"./cms-token-auth/cms-token-auth-config.js": 85,
+		"./cms-token-auth/cms-token-auth-interceptor/cms-token-auth-interceptor.js": 86,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html": 87,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.js": 88,
+		"./cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.scss": 89,
+		"./cms-token-auth/cms-token-auth-login-required-wrapper/cms-token-auth-login-required-wrapper.js": 91,
+		"./cms-token-auth/cms-token-auth-logout/cms-token-auth-logout.js": 92,
+		"./cms-token-auth/cms-token-auth-service/cms-token-auth-service.js": 93,
+		"./cms-token-auth/cms-token-auth-user/cms-token-auth-user.js": 94,
+		"./cms-token-auth/cms-token-auth.js": 95,
+		"./cms-tooltip/cms-tooltip.js": 96,
+		"./cms-tooltip/cms-tooltip.scss": 97,
+		"./cms-unsaved-changes-guard/cms-unsaved-changes-guard.js": 99,
+		"./convert-to-number/convert-to-number.js": 100,
+		"./filters/filters-user-display-name/filters-user-display-name.js": 101,
+		"./sidebar-nav-item/sidebar-nav-item.html": 102,
+		"./sidebar-nav-item/sidebar-nav-item.js": 103,
+		"./sidebar-nav-item/sidebar-nav-item.scss": 104,
+		"./ui-sref-active-if/ui-sref-active-if.js": 106
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1672,124 +1670,158 @@
 /* 75 */
 /***/ function(module, exports) {
 
-	var path = 'components/cms-table-cell/cms-table-cell.html';
-	var html = "";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
+	'use strict';
+
+	/**
+	 * Renders item data based on column spec.
+	 */
+	angular.module('cmsComponents')
+	  .directive('cmsTableCell', [
+	    '$compile',
+	    function ($compile) {
+	      return {
+	        restrict: 'A',
+	        require: '^cmsTable',
+	        scope: {
+	          column: '=',    // column spec associated with this cell
+	          item: '='       // item spec assicated with this cell
+	        },
+	        link: function (scope, elements) {
+	          scope.column.buildHtml(scope).then(function (html) {
+	            elements.html(html);
+	          });
+	        }
+	      }
+	    }
+	  ]);
+
 
 /***/ },
 /* 76 */
 /***/ function(module, exports) {
 
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('cmsTableCell', function ($compile) {
-	    return {
-	      templateUrl: 'components/cms-table-cell/cms-table-cell.html',
-	      restrict: 'A',
-	      scope: {
-	        column: '=',
-	        item: '=',
-	        text: '='
-	      },
-	      compile: function (element, attributes) {
-	        return {
-	          pre: function ($scope, $element, $attributes) {
-	            // first child is ng-transclude, we don't want that here
-	            $element.append($scope.column.children[0].innerHTML);
-	            $compile($element.contents())($scope);
-	          }
-	        };
-	      }
-	    }
-	  });
-
-
-/***/ },
-/* 77 */
-/***/ function(module, exports) {
-
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 78 */,
+/* 77 */,
+/* 78 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * Specifies layout and rendering of a given column for a cms-table. Defines how
+	 *  cms-table-cell elements will render.
+	 */
+	angular.module('cmsComponents')
+	  .directive('cmsTableColumn', [
+	    '$compile', '$interpolate', '$parse', '$q', '$templateRequest',
+	    function ($compile, $interpolate, $parse, $q, $templateRequest) {
+
+	      return {
+	        restrict: 'E',
+	        require: '^cmsTable',
+	        scope: {
+	          title: '@',           // title of column
+	          sort: '@',            // name of field that this sorts
+	          size: '&',            // size of column relative to other columns
+	          // will use only one of the following cell-* attrs to render contents
+	          cellTemplate: '@',    // template to use for cell rendering, for use with simple, non-html templates
+	          cellTemplateUrl: '@'  // url to template to use for cell rendering, for use with complex templates with html
+	        },
+	        link: function (scope, element, attrs, cmsTable) {
+	          var defer = $q.defer();
+	          var getTemplate = defer.promise;
+
+	          cmsTable.addColumn({
+	            title: scope.title,
+	            sort: scope.sort,
+	            size: scope.size() || 1,
+	            buildHtml: function (scope) {
+	              return getTemplate.then(function (compiler) {
+	                return compiler(scope);
+	              });
+	            }
+	          });
+
+	          if (scope.cellTemplateUrl) {
+	            $templateRequest(scope.cellTemplateUrl)
+	              .then(function (template) {
+	                defer.resolve(function (scope) {
+	                  // seems weird and unnecessary, why doesn't $compile fill in
+	                  //  {{ interpolateSections }}?
+	                  return $compile($interpolate(template)(scope))(scope);
+	                });
+	              })
+	              .catch(defer.reject);
+	          } else if (scope.cellTemplate) {
+	            defer.resolve($parse(scope.cellTemplate));
+	          }
+	        }
+	      }
+	    }
+	  ]);
+
+
+/***/ },
 /* 79 */
 /***/ function(module, exports) {
 
-	var path = 'components/cms-table-column/cms-table-column.html';
-	var html = "<ng-transclude></ng-transclude>\n";
-	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
-	module.exports = path;
+	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 80 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	angular.module('cmsComponents')
-	  .directive('cmsTableColumn', function () {
-	    return {
-	      templateUrl: 'components/cms-table-column/cms-table-column.html',
-	      restrict: 'E',
-	      transclude: true
-	    }
-	  });
-
-
-/***/ },
+/* 80 */,
 /* 81 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 82 */,
-/* 83 */
-/***/ function(module, exports) {
-
 	var path = 'components/cms-table/cms-table.html';
-	var html = "<ng-transclude></ng-transclude>\n<div class=\"cms-table-table\">\n  <div class=\"cms-table-row cms-table-header\">\n    <div class=\"cms-table-cell\" ng-repeat=\"column in columns\"\n         type=\"{{column.attributes.type.value}}\">\n      <a ng-click=\"$parent.$parent.orderTable(column.attributes.sort.value)\">\n        {{column.attributes.title.value}}\n        <i class=\"fa\"\n           ng-class=\"{'fa-chevron-down': $parent.$parent.listOrdering === '-'+column.attributes.sort.value, 'fa-chevron-up': $parent.$parent.listOrdering === column.attributes.sort.value}\"></i>\n      </a>\n    </div>\n  </div>\n\n  <div class=\"cms-table-row\"\n       dir-paginate=\"item in collection | itemsPerPage: 20\"\n       total-items=\"{{collection.$totalCount}}\"\n       current-page=\"$parent.$parent.listPage\">\n    <div class=\"cms-table-cell\" cms-table-cell item=\"item\" column=\"column\" ng-repeat=\"column in columns\"\n         type=\"{{column.attributes.type.value}}\">\n    </div>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-show=\"collection.$status == 'pending'\">\n    <p> Loading items from server... </p>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-hide=\"collection.length\">\n    <p> No items to show in this list. </p>\n  </div>\n</div>\n\n<div class=\"cms-table-pagination\">\n  <dir-pagination-controls on-page-change=\"$parent.$parent.paginate(newPageNumber)\"></dir-pagination-controls>\n</div>\n";
+	var html = "<ng-transclude></ng-transclude>\n<div class=\"cms-table-table\">\n  <div class=\"cms-table-row cms-table-header\">\n    <div\n        ng-repeat=\"column in columns\"\n        class=\"cms-table-cell cms-table-cell-size-{{ column.size }}\"\n        type=\"{{ column.type }}\">\n      <a ng-click=\"$parent.$parent.orderTable(column.sort)\">\n        <span>{{ column.title }}</span>\n        <i\n            class=\"fa\"\n            ng-class=\"{\n              'fa-chevron-down': $parent.$parent.listOrdering === '-' + column.sort,\n              'fa-chevron-up': $parent.$parent.listOrdering === column.sort\n            }\">\n        </i>\n      </a>\n    </div>\n  </div>\n\n  <div\n      class=\"cms-table-row\"\n      dir-paginate=\"item in collection | itemsPerPage: 20\"\n      total-items=\"{{ collection.$totalCount }}\"\n      current-page=\"$parent.$parent.listPage\">\n    <div\n        ng-repeat=\"column in columns\"\n        cms-table-cell\n        class=\"cms-table-cell cms-table-cell-size-{{ column.size }}\"\n        item=\"item\"\n        column=\"column\">\n    </div>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-show=\"collection.$status == 'pending'\">\n    <p> Loading items from server... </p>\n  </div>\n\n  <div class=\"cms-table-blank-slate\" ng-hide=\"collection.length\">\n    <p> No items to show in this list. </p>\n  </div>\n</div>\n\n<div class=\"cms-table-pagination\">\n  <dir-pagination-controls on-page-change=\"$parent.$parent.paginate(newPageNumber)\"></dir-pagination-controls>\n</div>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
 /***/ },
-/* 84 */
+/* 82 */
 /***/ function(module, exports) {
 
 	'use strict';
 
 	angular.module('cmsComponents')
-	  .directive('cmsTable', function () {
-	    return {
-	      templateUrl: 'components/cms-table/cms-table.html',
-	      restrict: 'E',
-	      transclude: true,
-	      scope: {
-	        collection: '='
-	      },
-	      link: function ($scope, $element, $attrs) {
-	        $element.find('cms-table-column').each(function (index, column) {
-	          $scope.columns.push($(column).clone()[0]);
-	        });
-	      },
-	      controller: function ($scope) {
-	        $scope.columns = [];
+	  .directive('cmsTable', [
+	    function () {
+	      return {
+	        templateUrl: 'components/cms-table/cms-table.html',
+	        restrict: 'E',
+	        transclude: true,
+	        scope: {
+	          collection: '='
+	        },
+	        controller: [
+	          '$scope',
+	          function ($scope) {
+
+	            $scope.columns = [];
+
+	            return {
+	              addColumn: function (column) {
+	                $scope.columns.push(column);
+	              }
+	            };
+	          }
+	        ]
 	      }
 	    }
-	  });
+	  ]);
 
 
 /***/ },
-/* 85 */
+/* 83 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 86 */,
-/* 87 */
+/* 84 */,
+/* 85 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2025,7 +2057,7 @@
 
 
 /***/ },
-/* 88 */
+/* 86 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2112,7 +2144,7 @@
 
 
 /***/ },
-/* 89 */
+/* 87 */
 /***/ function(module, exports) {
 
 	var path = 'components/cms-token-auth/cms-token-auth-login-form/cms-token-auth-login-form.html';
@@ -2121,7 +2153,7 @@
 	module.exports = path;
 
 /***/ },
-/* 90 */
+/* 88 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2173,14 +2205,14 @@
 
 
 /***/ },
-/* 91 */
+/* 89 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 92 */,
-/* 93 */
+/* 90 */,
+/* 91 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2222,7 +2254,7 @@
 
 
 /***/ },
-/* 94 */
+/* 92 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2246,7 +2278,7 @@
 
 
 /***/ },
-/* 95 */
+/* 93 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2511,7 +2543,7 @@
 
 
 /***/ },
-/* 96 */
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2602,7 +2634,7 @@
 
 
 /***/ },
-/* 97 */
+/* 95 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2618,7 +2650,7 @@
 
 
 /***/ },
-/* 98 */
+/* 96 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2665,14 +2697,14 @@
 
 
 /***/ },
-/* 99 */
+/* 97 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 100 */,
-/* 101 */
+/* 98 */,
+/* 99 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2711,7 +2743,7 @@
 
 
 /***/ },
-/* 102 */
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2733,7 +2765,7 @@
 
 
 /***/ },
-/* 103 */
+/* 101 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2761,7 +2793,7 @@
 
 
 /***/ },
-/* 104 */
+/* 102 */
 /***/ function(module, exports) {
 
 	var path = 'components/sidebar-nav-item/sidebar-nav-item.html';
@@ -2770,7 +2802,7 @@
 	module.exports = path;
 
 /***/ },
-/* 105 */
+/* 103 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2789,14 +2821,14 @@
 
 
 /***/ },
-/* 106 */
+/* 104 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 107 */,
-/* 108 */
+/* 105 */,
+/* 106 */
 /***/ function(module, exports) {
 
 	'use strict';
