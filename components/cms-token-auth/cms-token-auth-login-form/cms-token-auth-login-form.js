@@ -29,6 +29,8 @@ angular.module('cmsComponents.auth.loginForm', [
                     var message;
                     if (error.status === 500) {
                       message = 'An error occurred on the server. Try again later or contact tech below.';
+                    } else if (_.isUndefined(error.data)) {
+                      message = 'No response from server.';
                     } else {
                       message = error.data.non_field_errors[0];
                     }
