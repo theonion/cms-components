@@ -1449,7 +1449,7 @@
 /***/ function(module, exports) {
 
 	var path = 'components/cms-nav-user/cms-nav-user.html';
-	var html = "<cms-login-required-wrapper>\n  <div\n      uib-dropdown\n      dropdown-append-to-body>\n    <button\n        class=\"cms-nav-user-menu-opener\"\n        uib-dropdown-toggle>\n      <span>Hi,</span>\n      <span class=\"cms-nav-user-name\">{{ user | userDisplay }}</span>\n      <i class=\"fa fa-angle-down\"></i>\n    </button>\n    <ul\n        uib-dropdown-menu\n        role=\"menu\"\n        aria-labelledby=\"btn-append-to-body\"\n        class=\"dropdown-menu nav-menu-dropdown-menu\">\n      <li>\n        <a ui-sref=\"logout\">\n          <i class=\"fa fa-power-off\"></i>\n          <span>Log Out</span>\n        </a>\n      </li>\n    </ul>\n  </div>\n</cms-login-required-wrapper>\n";
+	var html = "<cms-login-required-wrapper>\n  <div\n      uib-dropdown\n      dropdown-append-to-body>\n    <button\n        class=\"cms-nav-user-menu-opener\"\n        uib-dropdown-toggle>\n      <span>Hi,</span>\n      <span class=\"cms-nav-user-name\">{{ user | userDisplay }}</span>\n      <i class=\"fa fa-angle-down\"></i>\n    </button>\n    <ul\n        uib-dropdown-menu\n        role=\"menu\"\n        aria-labelledby=\"btn-append-to-body\"\n        class=\"dropdown-menu dropdown-menu-right nav-menu-dropdown-menu\">\n      <li>\n        <a ui-sref=\"logout\">\n          <i class=\"fa fa-power-off\"></i>\n          <span>Log Out</span>\n        </a>\n      </li>\n    </ul>\n  </div>\n</cms-login-required-wrapper>\n";
 	window.angular.module('cmsComponents.templates').run(['$templateCache', function(c) { c.put(path, html) }]);
 	module.exports = path;
 
@@ -2187,6 +2187,8 @@
 	                    var message;
 	                    if (error.status === 500) {
 	                      message = 'An error occurred on the server. Try again later or contact tech below.';
+	                    } else if (_.isUndefined(error.data)) {
+	                      message = 'No response from server.';
 	                    } else {
 	                      message = error.data.non_field_errors[0];
 	                    }
