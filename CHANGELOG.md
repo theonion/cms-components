@@ -2,8 +2,10 @@
 
 <!-- markdown-toc -->
 
-- [0.7.0](#070)
+- [0.8.0](#080)
   * [Fixed](#fixed)
+- [0.7.0](#070)
+  * [Fixed](#fixed-1)
   * [Breaking](#breaking)
 - [0.6.1](#061)
   * [Updated](#updated)
@@ -19,7 +21,7 @@
 - [0.5.0](#050)
   * [Breaking](#breaking-2)
 - [0.4.2](#042)
-  * [Fixed](#fixed-1)
+  * [Fixed](#fixed-2)
   * [Breaking](#breaking-3)
 - [0.4.1](#041)
   * [Added](#added)
@@ -35,6 +37,11 @@
 <!-- markdown-toc-stop -->
 
 <sub>**Note**: update table of contents with `./scripts/update-changelog-toc`.</sub>
+
+## 0.8.0
+
+### Fixed
+1. `cms-nav-user` logout button repositioned inside screen.
 
 ## 0.7.0
 
